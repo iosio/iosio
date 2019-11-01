@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/create-x-app-scripts",
-	"version": "0.5.35",
+	"version": "0.5.36",
 	"description": "dev and build scripts for create-x-app",
 	"publishConfig": {
 		"access": "public"
@@ -27,7 +27,7 @@
 		"@babel/plugin-transform-react-jsx": "^7.3.0",
 		"@babel/plugin-transform-template-literals": "^7.4.4",
 		"@babel/preset-env": "^7.6.3",
-		"@iosio/babel-plugin-jcss": "^0.5.35",
+		"@iosio/babel-plugin-jcss": "^0.5.36",
 		"@open-wc/building-utils": "^2.7.0",
 		"babel-plugin-bundled-import-meta": "^0.3.1",
 		"babel-plugin-transform-inline-environment-variables": "^0.4.3",

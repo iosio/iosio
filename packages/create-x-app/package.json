@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/create-x-app",
-	"version": "0.5.35",
+	"version": "0.5.36",
 	"description": "cli for generating, developing and building web apps",
 	"main": "src/index.js",
 	"bin": "bin/create-x-app",
@@ -29,7 +29,7 @@
 		"@babel/plugin-syntax-import-meta": "^7.2.0",
 		"@babel/plugin-transform-react-jsx": "^7.3.0",
 		"@babel/preset-env": "^7.6.3",
-		"@iosio/babel-plugin-jcss": "^0.5.35",
+		"@iosio/babel-plugin-jcss": "^0.5.36",
 		"@open-wc/building-utils": "^2.7.0",
 		"arg": "^4.1.0",
 		"babel-plugin-bundled-import-meta": "^0.3.1",
