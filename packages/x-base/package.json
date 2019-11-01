@@ -1,0 +1,23 @@
+{
+	"name": "@iosio/x-base",
+	"version": "0.5.35",
+	"description": "x base component",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"files": [
+		"src",
+		"lib"
+	],
+	"keywords": [],
+	"dependencies": {
+		"@iosio/util": "^0.5.35"
+	},
+	"devDependencies": {
+		"@iosio/xact": "^0.5.35",
+		"preact": "^10.0.0-rc.3"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"name": "@iosio/routing",
+	"version": "0.5.35",
+	"description": "super slim history routing",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"files": [
+		"src",
+		"lib"
+	],
+	"keywords": [],
+	"dependencies": {
+		"@iosio/obi": "^0.5.35",
+		"@iosio/util": "^0.5.35"
+	}
+}

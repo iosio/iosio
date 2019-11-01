@@ -1,0 +1,16 @@
+{
+	"name": "@iosio/lorem",
+	"version": "0.5.35",
+	"description": "import lorem ipsum dummy text into js",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"files": [
+		"src",
+		"lib"
+	],
+	"keywords": []
+}

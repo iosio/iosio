@@ -1,0 +1,26 @@
+{
+	"name": "@iosio/xact",
+	"version": "0.5.35",
+	"description": "modified and reduced version of preact without class components. great for simply rendering jsx inside web components (including shadowRoots)",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"files": [
+		"src",
+		"lib"
+	],
+	"keywords": [
+		"vdom",
+		"jsx",
+		"vdom for web components",
+		"web-components",
+		"virtual dom",
+		"custom-elements"
+	],
+	"dependencies": {
+		"@iosio/util": "^0.5.35"
+	}
+}
