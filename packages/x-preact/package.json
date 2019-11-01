@@ -1,6 +1,6 @@
 {
   "name": "@iosio/x-preact",
-  "version": "0.5.36",
+  "version": "0.5.37",
   "description": "Build web components with preact",
   "main": "lib/index.js",
   "module": "src/index.js",
@@ -25,11 +25,11 @@
     "preact": "^10.0.1"
   },
   "dependencies": {
-    "@iosio/x-base": "^0.5.36",
-    "@iosio/xact": "^0.5.36"
+    "@iosio/x-base": "^0.5.37",
+    "@iosio/xact": "^0.5.37"
   },
   "devDependencies": {
-    "@iosio/todos": "^0.5.36",
+    "@iosio/todos": "^0.5.37",
     "preact": "^10.0.1"
   }
 }
