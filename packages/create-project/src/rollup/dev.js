@@ -10,17 +10,17 @@ import indexHTML from "rollup-plugin-index-html";
 import babel from "rollup-plugin-babel";
 import url from "rollup-plugin-url";
 import {babelPlugins} from "./babelPlugins";
+import commonjs from 'rollup-plugin-commonjs';
 
 //------------
 import {createLazyPages} from "./lazyPages";
-import {exec} from "child_process";
 
 import {setup} from "./setup";
 
-const ex = (cmd) => new Promise((resolve) => exec(cmd, resolve));
+import rimraf from 'rimraf';
 
 
-const dev = ({ input, html, outputDir, browsers, cssBrowsers, host, port, open}) => {
+const dev = ({input, html, outputDir, browsers, cssBrowsers, host, port, open}) => {
 
 
     process.env.NODE_ENV = 'development';
@@ -45,11 +45,12 @@ const dev = ({ input, html, outputDir, browsers, cssBrowsers, host, port, open})
             //     }
             // }),
             resolve({
-                // module: true,
-                // jsnext: true,
+                mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-
+            commonjs({
+                include: /\/node_modules\//,
+            }),
             indexHTML({indexHTML: html}),
             babel({
                 extensions: DEFAULT_EXTENSIONS,
@@ -75,7 +76,7 @@ const dev = ({ input, html, outputDir, browsers, cssBrowsers, host, port, open})
                 verbose: false,
                 host,
                 port,
-                open
+                open: !!open
             }),
             livereload({watch: outputDir, verbose: false})
         ]
@@ -83,20 +84,23 @@ const dev = ({ input, html, outputDir, browsers, cssBrowsers, host, port, open})
 
 
     return new Promise((resolve, reject) => {
-        return ex(`rimraf ${outputDir}`)
-            .then(createLazyPages)
-            .then(() => {
-                console.log(`Serving at: http://${host}:${port}`);
-                return watch(config).on('event', e => {
 
-                    if (e.code === 'FATAL') {
-                        return reject(e.error);
-                    } else if (e.code === 'ERROR') {
-                        console.log(e.error);
-                    }
-                })
-            })
-            .catch(reject)
+        rimraf(outputDir, {}, () => {
+            createLazyPages()
+                .then(() => {
+                    console.log(`Serving at: http://${host}:${port}`);
+                    return watch(config).on('event', e => {
+
+                        if (e.code === 'FATAL') {
+                            return reject(e.error);
+                        } else if (e.code === 'ERROR') {
+                            console.log(e.error);
+                        }
+                    })
+                }).catch(reject)
+
+        });
+
     });
 
 

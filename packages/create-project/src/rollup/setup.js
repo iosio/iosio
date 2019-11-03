@@ -1,11 +1,31 @@
 import path from "path";
 
+import fs from 'fs';
+
+
 export const setup = (rollup) => {
 
 
     const ROOT = process.cwd();
 
-    let {cxa_config} = require(path.join(ROOT, 'package.json'));
+    let cxa_config;
+
+    let possibleJsConfig = path.join(ROOT, 'cxa.config.js');
+    let possibleJSONConfig = path.join(ROOT, 'cxa.config.json');
+
+    if(fs.existsSync(possibleJsConfig)){
+
+        cxa_config = require(possibleJsConfig);
+
+    }else if(fs.existsSync(possibleJSONConfig)){
+
+        cxa_config = require(possibleJSONConfig)
+
+    }else{
+
+        cxa_config = require(path.join(ROOT, 'package.json')).cxa_config;
+
+    }
 
 
     let c = cxa_config || {};
@@ -30,7 +50,8 @@ export const setup = (rollup) => {
         multiBuild: c.multiBuild,
         port: c.port || 3000,
         host: c.host || 'localhost',
-        open: c.open
+        open: c.open,
+        includeExternalDeps: c.includeExternalDeps
     };
 
 

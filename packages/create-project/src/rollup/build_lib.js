@@ -6,51 +6,39 @@ import {terser} from "rollup-plugin-terser";
 import filesize from "rollup-plugin-filesize";
 
 import {babelPlugins} from "./babelPlugins";
-import {exec} from "child_process";
 import path from "path";
 import indexHTML from "rollup-plugin-index-html";
 
 import {createLazyPages} from "./lazyPages";
 import {setup} from "./setup";
+import rimraf from "rimraf";
+import commonjs from "rollup-plugin-commonjs";
 
-const ex = (cmd) => new Promise((resolve) => exec(cmd, resolve));
 
+const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}) => {
-
+const build_lib = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps}) => {
 
 
     process.env.NODE_ENV = 'production';
     console.log('Creating production build...');
 
-    const config = (legacy) =>({
+    const config = {
         input,
         treeshake: true,
-        // external,
+        external: includeExternalDeps ? undefined : excludeExternalDeps,
         output: {
-            dir: path.join(outputDir, legacy ? '/legacy' : ''),
-            format: legacy ? 'system' : 'esm',
-            dynamicImportFunction: !legacy && 'importShim',
+            dir: outputDir,
+            format: 'esm',
             chunkFileNames: "[hash].js",
-            sourcemap: false,
         },
         plugins: [
-            indexHTML({
-                indexHTML: html,
-                legacy,
-                multiBuild,
-                polyfills: {
-                    dynamicImport: true,
-                    coreJs: true,
-                    regeneratorRuntime: true,
-                    webcomponents: true,
-                    systemJs: true,
-                    fetch: true,
-                    intersectionObserver: true,
-                },
-            }),
             resolve({
+                mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
+            }),
+            commonjs({
+                include: /\/node_modules\//,
             }),
             babel({
                 extensions: DEFAULT_EXTENSIONS,
@@ -60,7 +48,7 @@ const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}
                     [
                         '@babel/preset-env',
                         {
-                            targets: legacy ? ['ie 11'] : browsers,
+                            targets: browsers,
                             useBuiltIns: false,
                             modules: false,
                         },
@@ -70,7 +58,7 @@ const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}
             }),
             url({
                 limit: 0,
-                fileName: (legacy ? '../' : '') + "[dirname][name][extname]",
+                fileName: "[dirname][name][extname]",
             }),
             terser({
                 output: {comments: false},
@@ -83,19 +71,14 @@ const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}
             }),
             filesize()
         ]
-    });
+    };
 
 
     return new Promise((resolve, reject) => {
-
-        return ex(`rimraf ${outputDir}`)
-            .then(createLazyPages)
-            .then(() => {
-                console.log('bundling source code ' + (multiBuild ? 'with multiBuild' : ''));
-                resolve([multiBuild && config(true), config()].filter(Boolean))
-            })
-            .catch(reject);
+        rimraf(outputDir, {}, () => {
+            resolve(config);
+        }).catch(reject)
     })
 };
 
-export default setup(build);
+export default setup(build_lib);

@@ -42,6 +42,66 @@ export const ScrollLocker = (_stopScroll, _xscroll, _yscroll, _w = w) => ({
     letGo: () => (_stopScroll = false)
 });
 
+/*------------------ BROWSER -------------------------- */
+
+export const is_ie_or_old_edge = () =>
+    navigator.userAgent.indexOf("MSIE") !== -1 || !!w.StyleMedia || !!d.documentMode === true;
+
+export const isChrome = () => {
+    let isChromium = window.chrome,
+        winNav = window.navigator,
+        vendorName = winNav.vendor,
+        isOpera = typeof window.opr !== "undefined",
+        isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+        isIOSChrome = winNav.userAgent.match("CriOS");
+
+    return isIOSChrome || isChromium !== null &&
+        typeof isChromium !== "undefined" &&
+        vendorName === "Google Inc." &&
+        isOpera === false &&
+        isIEedge === false;
+};
+
+
+/*------------------ CHECKS -------------------------- */
+
+
+export const objectIsEmpty = obj => Object.keys(obj || {}).length === 0;
+
+export const arrayIncludesItemFromArray = (arr1, arr2) => {
+    let len1 = arr1.length, len2 = arr2.length;
+    if (!len1 && !len2 || len1 && !len2 || !len1 && len2) return false;
+    for (let i = len1; i--;) if (arr2.includes(arr1[i])) return true;
+    return false;
+};
+
+/*------------------ SORTING / FILTERS -------------------------- */
+
+export const sortOrderOfObjArr = (arr, objProp, descend) => {
+    let nameA, nameB;
+    return arr.sort((a, b) => {
+        if (typeOf(a[objProp]) === 'string') {
+            nameA = a[objProp].toLowerCase();
+        } else {
+            nameA = a[objProp];
+        }
+
+        if (typeOf(a[objProp]) === 'string') {
+            nameB = b[objProp].toLowerCase();
+        } else {
+            nameB = b[objProp];
+        }
+
+        if (nameA < nameB) {
+            return descend ? 1 : -1;
+        }
+        if (nameA > nameB) {
+            return descend ? -1 : 1;
+        }
+        return 0;
+    });
+};
+
 
 /*------------------ STYLES -------------------------- */
 
@@ -77,13 +137,16 @@ export const CSSTextToObj = cssText => {
 };
 
 
-/*------------------ MISC -------------------------- */
-
-
-export const extend = (obj, props) => {
-    for (let i in props) obj[i] = props[i];
-    return obj
+export const hexToRgbA = (hex) => {
+    let c = [...hex.substring(1)];
+    if (c.length === 3) c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    c = `0x${c.join('')}`;
+    return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')}, 0.1)`;
 };
+
+
+/*------------------ STATE MGMT AND EVENTS -------------------------- */
+
 
 export const propsChanged = (a, b) => {
     a = a || {};
@@ -93,24 +156,6 @@ export const propsChanged = (a, b) => {
     return false
 };
 
-export const objectIsEmpty = obj => Object.keys(obj || {}).length === 0;
-
-export const arrayIncludesItemFromArray = (arr1, arr2) => {
-    let len1 = arr1.length, len2 = arr2.length;
-    if (!len1 && !len2 || len1 && !len2 || !len1 && len2) return false;
-    for (let i = len1; i--;) if (arr2.includes(arr1[i])) return true;
-    return false;
-};
-
-
-// const handler = {
-//     set(target, key, value) {
-//         console.log(`Setting value ${key} as ${value}`)
-//         target[key] = value;
-//     },
-// };
-
-// const proxyObj = new Proxy({hello: '123'}, handler);
 
 export const Subie = () => {
     let subs = [],
@@ -193,12 +238,39 @@ export const Events = () => {
     }
 };
 
-/*
-   destroyEvent: (event) => {
-        removeListener(w, event, handlers[event].listener);
-        delete handlers[event];
-    }
-*/
+
+// const handler = {
+//     set(target, key, value) {
+//         console.log(`Setting value ${key} as ${value}`)
+//         target[key] = value;
+//     },
+// };
+
+// const proxyObj = new Proxy({hello: '123'}, handler);
+
+
+/*------------------ RANDO -------------------------- */
+
+
+export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+export const getRandomOneOf = (arr) => arr[getRandomInt(0, arr.length - 1)];
+
+
+/*------------------ MISC -------------------------- */
+
+
+const Q = (count = 0, queue = {}) => ({
+    nq: cb => queue[`${count++}`] = cb,
+    kill: queue = {},
+    invoke: Object.keys(queue).forEach(q => (queue[q](), delete queue[q]))
+});
+
+
+export const extend = (obj, props) => {
+    for (let i in props) obj[i] = props[i];
+    return obj
+};
 
 
 export function debounce(func, wait, immediate) {
@@ -216,62 +288,7 @@ export function debounce(func, wait, immediate) {
     };
 }
 
-export const is_ie_or_old_edge = () =>
-    navigator.userAgent.indexOf("MSIE") !== -1 || !!w.StyleMedia || !!d.documentMode === true;
-
-
-export const isChrome = () => {
-    let isChromium = window.chrome,
-        winNav = window.navigator,
-        vendorName = winNav.vendor,
-        isOpera = typeof window.opr !== "undefined",
-        isIEedge = winNav.userAgent.indexOf("Edge") > -1,
-        isIOSChrome = winNav.userAgent.match("CriOS");
-
-    return isIOSChrome || isChromium !== null &&
-        typeof isChromium !== "undefined" &&
-        vendorName === "Google Inc." &&
-        isOpera === false &&
-        isIEedge === false;
-}
-
 
 export const def = (obj, prop, handlers) => Object.defineProperty(obj, prop, handlers);
 
 
-export const hexToRgbA = (hex) => {
-    let c = [...hex.substring(1)];
-    if (c.length === 3) c = [c[0], c[0], c[1], c[1], c[2], c[2]];
-    c = `0x${c.join('')}`;
-    return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')}, 0.1)`;
-};
-
-
-export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
-
-export const getRandomOneOf = (arr) => arr[getRandomInt(0, arr.length - 1)];
-
-export const sortOrderOfObjArr = (arr, objProp, descend) => {
-    let nameA, nameB;
-    return arr.sort((a, b) => {
-        if (typeOf(a[objProp]) === 'string') {
-            nameA = a[objProp].toLowerCase();
-        } else {
-            nameA = a[objProp];
-        }
-
-        if (typeOf(a[objProp]) === 'string') {
-            nameB = b[objProp].toLowerCase();
-        } else {
-            nameB = b[objProp];
-        }
-
-        if (nameA < nameB) {
-            return descend ? 1 : -1;
-        }
-        if (nameA > nameB) {
-            return descend ? -1 : 1;
-        }
-        return 0;
-    });
-};
