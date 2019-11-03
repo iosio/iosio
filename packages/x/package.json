@@ -1,6 +1,6 @@
 {
   "name": "@iosio/x",
-  "version": "0.5.37",
+  "version": "0.5.38",
   "description": "Build web components using vdom and jsx",
   "main": "lib/index.js",
   "module": "src/index.js",
@@ -22,10 +22,10 @@
     "virtual-dom"
   ],
   "dependencies": {
-    "@iosio/x-base": "^0.5.37",
-    "@iosio/xact": "^0.5.37"
+    "@iosio/x-base": "^0.5.38",
+    "@iosio/xact": "^0.5.38"
   },
   "devDependencies": {
-    "@iosio/todos": "^0.5.37"
+    "@iosio/todos": "^0.5.38"
   }
 }
