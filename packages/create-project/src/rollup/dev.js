@@ -20,7 +20,7 @@ import {setup} from "./setup";
 import rimraf from 'rimraf';
 
 
-const dev = ({input, html, outputDir, browsers, cssBrowsers, host, port, open}) => {
+const dev = ({input, html, outputDir: devOutputDir, browsers, cssBrowsers, host, port, open}) => {
 
 
     process.env.NODE_ENV = 'development';
@@ -32,7 +32,7 @@ const dev = ({input, html, outputDir, browsers, cssBrowsers, host, port, open}) 
         treeshake: true,
         input,
         output: {
-            dir: outputDir,
+            dir: devOutputDir,
             format: 'esm',
             sourcemap: false,
             chunkFileNames: "[name][hash].js"
@@ -71,21 +71,21 @@ const dev = ({input, html, outputDir, browsers, cssBrowsers, host, port, open}) 
             url({limit: 0, fileName: "[dirname][name][extname]"}),
 
             serve({
-                contentBase: outputDir,
+                contentBase: devOutputDir,
                 historyApiFallback: true,
                 verbose: false,
                 host,
                 port,
                 open: !!open
             }),
-            livereload({watch: outputDir, verbose: false})
+            livereload({watch: devOutputDir, verbose: false})
         ]
     };
 
 
     return new Promise((resolve, reject) => {
 
-        rimraf(outputDir, {}, () => {
+        rimraf(devOutputDir, {}, () => {
             createLazyPages()
                 .then(() => {
                     console.log(`Serving at: http://${host}:${port}`);

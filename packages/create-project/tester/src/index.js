@@ -62,4 +62,3 @@ export const App = x('x-app', ({Host, CSS}) => (
 ), {shadow: true});
 
 render(<App/>, document.body);
-

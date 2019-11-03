@@ -17,7 +17,7 @@ import commonjs from "rollup-plugin-commonjs";
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build_lib = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps}) => {
+const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps}) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -28,7 +28,7 @@ const build_lib = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBu
         treeshake: true,
         external: includeExternalDeps ? undefined : excludeExternalDeps,
         output: {
-            dir: outputDir,
+            dir: libOutputDir,
             format: 'esm',
             chunkFileNames: "[hash].js",
         },
@@ -75,7 +75,7 @@ const build_lib = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBu
 
 
     return new Promise((resolve, reject) => {
-        rimraf(outputDir, {}, () => {
+        rimraf(libOutputDir, {}, () => {
             resolve(config);
         })
     })

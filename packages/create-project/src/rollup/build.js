@@ -17,7 +17,7 @@ import commonjs from "rollup-plugin-commonjs";
 
 
 
-const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}) => {
+const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild}) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -28,7 +28,7 @@ const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}
         treeshake: true,
         // external,
         output: {
-            dir: path.join(outputDir, legacy ? '/legacy' : ''),
+            dir: path.join(buildOutputDir, legacy ? '/legacy' : ''),
             format: legacy ? 'system' : 'esm',
             dynamicImportFunction: !legacy && 'importShim',
             chunkFileNames: "[hash].js",
@@ -90,7 +90,7 @@ const build = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBuild}
 
 
     return new Promise((resolve, reject) => {
-        rimraf(outputDir, {}, () => {
+        rimraf(buildOutputDir, {}, () => {
             createLazyPages()
                 .then(() => {
                     multiBuild && console.log('creating multiBuild');

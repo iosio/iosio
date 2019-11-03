@@ -727,9 +727,9 @@
     postcss-preset-env "^6.7.0"
 
 "@iosio/create-project@^0.5.39":
-  version "0.5.39"
-  resolved "https://registry.yarnpkg.com/@iosio/create-project/-/create-project-0.5.39.tgz#88601be94755dc99babbf4c1310137a8fb44b10a"
-  integrity sha512-vAXuD9PkfG/nktJAQpZ0zr8xtS4lk0CSb7L0Qkbgay5Kr517x36OvldXvRe2PhsJ9Rehu4ynIZGo5Ex+9uCJ5Q==
+  version "0.5.40"
+  resolved "https://registry.yarnpkg.com/@iosio/create-project/-/create-project-0.5.40.tgz#3ae1f338d4c178052062c75a730ee932495ca526"
+  integrity sha512-UY05+S8I9OgN8dnE22DgI0bk1h/xEZBQvaVZfkxrHeDxYLvJiZMCQVf9krV96vqjQcMADQpS39jNoI0XFJ3o5w==
   dependencies:
     "@babel/cli" "^7.5.5"
     "@babel/core" "^7.5.5"

@@ -2,12 +2,13 @@
 	"name": "my_project",
 	"version": "0.0.1",
 	"description": "",
-	"main": "src/index.js",
+	"main": "lib/index.js",
+	"module": "src/index.js",
 	"private": true,
 	"scripts": {
 		"start": "create-project start",
 		"build": "create-project build",
-		"build_lib": "create-project build_lib",
+		"build:lib": "create-project build_lib",
 		"test": "echo \"No test specified\" && exit 0"
 	},
 	"dependencies": {
@@ -17,7 +18,7 @@
 		"@iosio/custom-elements-router": "^0.5.38"
 	},
 	"devDependencies": {
-		"@iosio/create-project": "^0.5.40"
+		"@iosio/create-project": "^0.5.39"
 	},
 	"cxa_config": {}
 }
