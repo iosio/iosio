@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/create-project",
-	"version": "0.5.41",
+	"version": "0.5.42",
 	"description": "cli for generating, developing and building modern web apps and libraries",
 	"main": "lib/index.js",
 	"module": "src/index.js",
