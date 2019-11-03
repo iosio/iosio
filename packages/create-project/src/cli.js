@@ -114,6 +114,13 @@ const devLocation = rootScriptsLocation + '/dev.js';
 const buildLocation = rootScriptsLocation + '/build.js';
 
 const buildLibLocation = rootScriptsLocation + '/build_lib.js';
+
+const actionLocations = {
+    'start': devLocation,
+    'build': buildLocation,
+    'build_lib': buildLibLocation
+};
+
 // const buildLocation = '../src/build_.js';
 
 export async function cli(args) {
@@ -121,31 +128,31 @@ export async function cli(args) {
 
     const {action, api} = options;
 
-    if(['start', 'build'].includes(action)){
+    if(!action) {
+
+        console.log(chalk.cyan('version: ' + PKG.version));
+        options = await promptForMissingOptions(options);
+        await createProject(options);
+        console.log(chalk.green('run npm install then npm start to begin developing!!!'));
+    }else{
 
         // let pathToRollup = path.join()
 
+        let rollupLocation = actionLocations[action];
+
+        if(!rollupLocation){
+            console.error('invalid cli command. must be: dev, build, or build_lib.');
+            return process.exit();
+        }
+
         const subprocess = execa.shell(
-            `rollup -c ${action === 'build'? buildLocation : devLocation}${api ? (' --environment ENV:' + api) : ''}`
+            `rollup -c ${rollupLocation}${api ? (' --environment ENV:' + api) : ''}`
         );
 
         subprocess.stdout.pipe(process.stdout);
 
         return subprocess;
 
-        // await isDirectory(rootScriptsLocation).then((exists)=>{
-        //     if(!exists){
-        //         console.error(chalk.red('The required package "@iosio/create-x-app-scripts" is not installed'));
-        //         return process.exit();
-        //     }
-        // });
-
-    } else if(!action) {
-
-        console.log(chalk.cyan('version: ' + PKG.version));
-        options = await promptForMissingOptions(options);
-        await createProject(options);
-        console.log(chalk.green('run npm install then npm start to begin developing!!!'));
     }
 
 }

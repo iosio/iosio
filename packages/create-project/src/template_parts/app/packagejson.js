@@ -7,18 +7,19 @@ export default (options) => {
         "main": "src/index.js",
         private: true,
         "scripts": {
-            "start": "create-x-app start",
-            "build": "create-x-app build",
+            "start": "create-project start",
+            "build": "create-project build",
+            "build_lib": "create-project build_lib",
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
-            "@iosio/x": "latest",
-            "@iosio/obi": "latest",
-            "@iosio/util": "latest",
-            "@iosio/custom-elements-router": "latest",
+            "@iosio/x": "^0.5.38",
+            "@iosio/obi": "^0.5.38",
+            "@iosio/util": "^0.5.38",
+            "@iosio/custom-elements-router": "^0.5.38",
         },
         devDependencies: {
-            "@iosio/create-x-app": "^0.5.32"
+            "@iosio/create-project": "^0.5.39"
         },
         cxa_config: {}
     };
