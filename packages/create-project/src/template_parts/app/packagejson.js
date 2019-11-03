@@ -4,12 +4,13 @@ export default (options) => {
         name: (options.npm_namespace ? options.npm_namespace + "/" : "") + (options.npm_library_name || ''),
         version: "0.0.1",
         description: options.npm_library_description || '',
-        "main": "src/index.js",
+        "main": "lib/index.js",
+        "module": "src/index.js",
         private: true,
         "scripts": {
             "start": "create-project start",
             "build": "create-project build",
-            "build_lib": "create-project build_lib",
+            "build:lib": "create-project build_lib",
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {

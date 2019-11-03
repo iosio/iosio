@@ -77,7 +77,7 @@ const build_lib = ({ROOT, input, html, outputDir, browsers, cssBrowsers, multiBu
     return new Promise((resolve, reject) => {
         rimraf(outputDir, {}, () => {
             resolve(config);
-        }).catch(reject)
+        })
     })
 };
 
