@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 0",
-		"build": "echo \"no build script\""
+		"build": "node build-create-project.js"
 	},
 	"keywords": [
 		"cli",

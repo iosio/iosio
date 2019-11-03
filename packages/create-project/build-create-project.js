@@ -1,3 +1,20 @@
+const fse = require('fs-extra');
+
+let create_project = require('./package.json');
+
+
+console.log('building "create-project"');
+
+/*
+
+           "@iosio/x": "^${version}",
+            "@iosio/obi": "^${version}",
+            "@iosio/util": "^${version}",
+            "@iosio/custom-elements-router": "^${version}",
+ */
+
+
+const string = `\
 export default (options) => {
     let pkg = {
         name: (options.npm_namespace ? options.npm_namespace + "/" : "") + (options.npm_library_name || ''),
@@ -10,7 +27,7 @@ export default (options) => {
             "start": "create-project start",
             "build": "create-project build",
             "build:lib": "create-project build_lib",
-            "test": "echo \"No test specified\" && exit 0",
+            "test": "echo \\"No test specified\\" && exit 0",
         },
         dependencies: {
  
@@ -25,5 +42,7 @@ export default (options) => {
         cxa_config: {}
     };
 
-    return JSON.stringify(pkg, null, '\t');
-};
+    return JSON.stringify(pkg, null, '\\t');
+};`;
+
+fse.outputFile(__dirname + '/src/template_parts/app/packagejson.js', string);
