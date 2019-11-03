@@ -20,7 +20,7 @@ import {setup} from "./setup";
 import rimraf from 'rimraf';
 
 
-const dev = ({input, html, outputDir: devOutputDir, browsers, cssBrowsers, host, port, open}) => {
+const dev = ({input, html, devOutputDir, browsers, cssBrowsers, host, port, open}) => {
 
 
     process.env.NODE_ENV = 'development';

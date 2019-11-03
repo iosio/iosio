@@ -107,7 +107,6 @@ async function promptForMissingOptions(options) {
 
 
 
-// const rootScriptsLocation = './node_modules/@iosio/create-x-app-scripts/src';
 const rootScriptsLocation = __dirname + '/rollup';
 const devLocation = rootScriptsLocation + '/dev.js';
 // const devLocation = '../src/dev_.js';
@@ -145,6 +144,7 @@ export async function cli(args) {
             return process.exit();
         }
 
+        console.log()
         const subprocess = execa.shell(
             `rollup -c ${rollupLocation}${api ? (' --environment ENV:' + api) : ''}`
         );

@@ -18,7 +18,7 @@
 		"@iosio/custom-elements-router": "^0.5.38"
 	},
 	"devDependencies": {
-		"@iosio/create-project": "^0.5.39"
+		"@iosio/create-project": "^0.5.41"
 	},
 	"cxa_config": {}
 }

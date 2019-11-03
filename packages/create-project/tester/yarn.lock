@@ -726,10 +726,10 @@
     postcss-flexbugs-fixes "^4.1.0"
     postcss-preset-env "^6.7.0"
 
-"@iosio/create-project@^0.5.39":
-  version "0.5.40"
-  resolved "https://registry.yarnpkg.com/@iosio/create-project/-/create-project-0.5.40.tgz#3ae1f338d4c178052062c75a730ee932495ca526"
-  integrity sha512-UY05+S8I9OgN8dnE22DgI0bk1h/xEZBQvaVZfkxrHeDxYLvJiZMCQVf9krV96vqjQcMADQpS39jNoI0XFJ3o5w==
+"@iosio/create-project@^0.5.41":
+  version "0.5.41"
+  resolved "https://registry.yarnpkg.com/@iosio/create-project/-/create-project-0.5.41.tgz#34ab13bf457f93731a10a8383fa8c47b36da07bd"
+  integrity sha512-5lPG3k8tuA/tmZqK3dgV467/vPmIHnT2BWmaHbZWHEl3SeQG81BFWbCWKFBYpRehFv2IKpnd7sbWM/XAh2TsoQ==
   dependencies:
     "@babel/cli" "^7.5.5"
     "@babel/core" "^7.5.5"
