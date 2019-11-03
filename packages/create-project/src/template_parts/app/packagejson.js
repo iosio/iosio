@@ -13,14 +13,14 @@ export default (options) => {
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
- 
+
            "@iosio/x": "^0.5.38",
             "@iosio/obi": "^0.5.38",
             "@iosio/util": "^0.5.38",
             "@iosio/custom-elements-router": "^0.5.38",
         },
         devDependencies: {
-            "@iosio/create-project": "^0.5.41"
+            "@iosio/create-project": "^0.5.42"
         },
         cxa_config: {}
     };
