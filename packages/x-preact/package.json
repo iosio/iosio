@@ -1,6 +1,6 @@
 {
   "name": "@iosio/x-preact",
-  "version": "0.5.49",
+  "version": "0.5.50",
   "description": "Build web components with preact",
   "main": "lib/index.js",
   "module": "src/index.js",

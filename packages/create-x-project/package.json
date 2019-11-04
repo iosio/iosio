@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/create-x-project",
-	"version": "0.5.49",
+	"version": "0.5.50",
 	"description": "cli for generating, developing and bundling modern web apps and libraries",
 	"main": "lib/index.js",
 	"module": "src/index.js",
