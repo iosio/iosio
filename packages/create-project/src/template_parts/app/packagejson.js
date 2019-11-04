@@ -14,13 +14,13 @@ export default (options) => {
         },
         dependencies: {
 
-           "@iosio/x": "^0.5.43",
-            "@iosio/obi": "^0.5.43",
-            "@iosio/util": "^0.54.43",
-            "@iosio/custom-elements-router": "^0.5.43",
+           "@iosio/x": "^0.5.48",
+            "@iosio/obi": "^0.5.48",
+            "@iosio/util": "^0.54.48",
+            "@iosio/custom-elements-router": "^0.5.48",
         },
         devDependencies: {
-            "@iosio/create-project": "^0.5.47"
+            "@iosio/create-project": "^0.5.48"
         },
         cxa_config: {}
     };
