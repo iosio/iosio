@@ -143,10 +143,8 @@ export async function cli(args) {
             console.error('invalid cli command. must be: dev, build, or build_lib.');
             return process.exit();
         }
-
-        console.log()
         const subprocess = execa.shell(
-            `rollup -c ${rollupLocation}${api ? (' --environment ENV:' + api) : ''}`
+            `rollup -c ${rollupLocation}${api ? (' --environment APP_ENV:' + api) : ''}`
         );
 
         subprocess.stdout.pipe(process.stdout);

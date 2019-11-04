@@ -32,6 +32,8 @@ export const setup = (rollup) => {
 
     let APP_ENV = process.env.APP_ENV;
 
+    console.log('app env:', APP_ENV)
+
 
     let ENVS = c.APP_ENV && APP_ENV && c.APP_ENV[APP_ENV];
 
