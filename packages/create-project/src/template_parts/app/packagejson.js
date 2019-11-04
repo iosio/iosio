@@ -20,7 +20,7 @@ export default (options) => {
             "@iosio/custom-elements-router": "^0.5.43",
         },
         devDependencies: {
-            "@iosio/create-project": "^0.5.44"
+            "@iosio/create-project": "^0.5.45"
         },
         cxa_config: {}
     };
