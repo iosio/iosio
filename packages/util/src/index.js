@@ -263,7 +263,7 @@ export const getRandomOneOf = (arr) => arr[getRandomInt(0, arr.length - 1)];
 export const Q = (count = 0, queue = {}) => ({
     nq: cb => queue[`${count++}`] = cb,
     kill: queue = {},
-    invoke: Object.keys(queue).forEach(q => (queue[q](), delete queue[q]))
+    invoke: ()=> Object.keys(queue).forEach(q => (queue[q](), delete queue[q]))
 });
 
 
