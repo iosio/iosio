@@ -12,6 +12,9 @@
     "src",
     "lib"
   ],
+  "scripts": {
+    "build": "create-x-project build_lib"
+  },
   "keywords": [
     "web-components",
     "web",
@@ -21,15 +24,13 @@
     "vdom",
     "virtual-dom"
   ],
-  "peerDependencies": {
-    "preact": "^10.0.1"
-  },
   "dependencies": {
     "@iosio/x-base": "^0.5.47",
-    "@iosio/xact": "^0.5.47"
+    "@iosio/xact": "^0.5.47",
+    "preact": "^10.0.1"
   },
   "devDependencies": {
-    "@iosio/todos": "^0.5.47",
-    "preact": "^10.0.1"
+    "@iosio/create-x-project": "^0.5.47",
+    "@iosio/todos": "^0.5.47"
   }
 }

@@ -1,6 +1,7 @@
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 import cssnano from "cssnano";
+import aliasImports from '@rollup/plugin-alias';
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from 'rollup-plugin-json';
@@ -17,13 +18,19 @@ import indexHTML from "rollup-plugin-index-html";
 import {createLazyPages} from "./lazyPages";
 import {setup} from "./setup";
 import rimraf from "rimraf";
+import {parseMappingArgumentAlias} from "./util";
 
 
-const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild}) => {
+const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias}) => {
 
 
     process.env.NODE_ENV = 'production';
     console.log('Creating production build...');
+
+    const moduleAliases = alias
+        ? parseMappingArgumentAlias(alias)
+        : [];
+
 
     const config = (legacy) =>({
         input,
@@ -44,9 +51,10 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
                         preset: 'default',
                     }),
                 ],
-                // only write out CSS for the first bundle (avoids pointless extra files):
-                inject: false,
-                // extract: !!writeMeta,
+            }),
+            moduleAliases.length > 0  && aliasImports({
+                resolve: DEFAULT_EXTENSIONS,
+                entries: moduleAliases
             }),
             indexHTML({
                 indexHTML: html,

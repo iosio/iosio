@@ -10,8 +10,8 @@ export const setup = (rollup) => {
 
     let xProjectConfig;
 
-    let possibleJsConfig = path.join(ROOT, 'xProject.config.js');
-    let possibleJSONConfig = path.join(ROOT, 'xProject.config.json');
+    let possibleJsConfig = path.join(ROOT, 'xProjectConfig.js');
+    let possibleJSONConfig = path.join(ROOT, 'xProjectConfig.json');
 
     if (fs.existsSync(possibleJsConfig)) {
 
@@ -54,7 +54,8 @@ export const setup = (rollup) => {
         port: c.port || 3000,
         host: c.host || 'localhost',
         open: c.open,
-        includeExternalDeps: c.includeExternalDeps
+        includeExternalDeps: c.includeExternalDeps,
+        alias: c.alias
     };
 
 

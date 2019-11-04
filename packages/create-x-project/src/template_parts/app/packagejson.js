@@ -9,7 +9,7 @@ export default (options) => {
         "scripts": {
             "start": "create-x-project start",
             "build": "create-x-project build",
-            "build:lib": "create-project build_lib",
+            "build_lib": "create-project build_lib",
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {

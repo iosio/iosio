@@ -2,8 +2,9 @@
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 
-import resolve from "rollup-plugin-node-resolve";
 import {watch} from 'rollup';
+import aliasImports from '@rollup/plugin-alias';
+import resolve from "rollup-plugin-node-resolve";
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import {DEFAULT_EXTENSIONS} from "@babel/core";
@@ -12,23 +13,27 @@ import indexHTML from "rollup-plugin-index-html";
 import url from "rollup-plugin-url";
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
-// import alias from 'rollup-plugin-alias';
 import {babelPlugins} from "./babelPlugins";
 
 
 
 //------------
 import {createLazyPages} from "./lazyPages";
+import {parseMappingArgumentAlias} from "./util";
 
 import {setup} from "./setup";
 
 import rimraf from 'rimraf';
 
 
-const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open}) => {
+const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias}) => {
 
 
     process.env.NODE_ENV = 'development';
+
+    const moduleAliases = alias
+        ? parseMappingArgumentAlias(alias)
+        : [];
 
     const config = {
         watch: {
@@ -43,19 +48,15 @@ const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, 
             chunkFileNames: "[name][hash].js"
         },
         plugins: [
-            // alias({
-            //     resolve: DEFAULT_EXTENSIONS,
-            //     entries:{
-            //         './xact':'preact'
-            //     }
-            // }),
+
             postcss({
                 plugins: [
                     autoprefixer(),
                 ],
-                // only write out CSS for the first bundle (avoids pointless extra files):
-                inject: false,
-                // extract: !!writeMeta,
+            }),
+            moduleAliases.length > 0  && aliasImports({
+                resolve: DEFAULT_EXTENSIONS,
+                entries: moduleAliases
             }),
             resolve({
                 mainFields: ['module', 'jsnext', 'main'],

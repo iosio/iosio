@@ -829,6 +829,41 @@
     rollup-plugin-terser "^5.1.1"
     rollup-plugin-url "^3.0.0"
 
+"@iosio/create-x-app@^0.5.37":
+  version "0.5.37"
+  resolved "https://registry.yarnpkg.com/@iosio/create-x-app/-/create-x-app-0.5.37.tgz#1175f8e182ec7a67e0f589a7328bf14fb18f849f"
+  integrity sha512-8MtPIXMn9vn53yZ3+DLMDWkdqgIFneTzXf36EV0ilycGh/Appcfpz9fWLJvpQ4OLnFp6dRSjC2skU24J5kgOaA==
+  dependencies:
+    "@babel/cli" "^7.5.5"
+    "@babel/core" "^7.5.5"
+    "@babel/plugin-proposal-class-properties" "^7.5.5"
+    "@babel/plugin-syntax-dynamic-import" "^7.2.0"
+    "@babel/plugin-syntax-import-meta" "^7.2.0"
+    "@babel/plugin-transform-react-jsx" "^7.3.0"
+    "@babel/preset-env" "^7.6.3"
+    "@iosio/babel-plugin-jcss" "^0.5.37"
+    "@open-wc/building-utils" "^2.7.0"
+    arg "^4.1.0"
+    babel-plugin-bundled-import-meta "^0.3.1"
+    babel-plugin-transform-inline-environment-variables "^0.4.3"
+    chalk "^2.4.2"
+    esm "^3.2.25"
+    execa "^1.0.0"
+    fs-extra "^8.1.0"
+    inquirer "^6.2.2"
+    intersection-observer "^0.7.0"
+    rimraf "^2.6.3"
+    rollup "^1.15.4"
+    rollup-plugin-babel "^4.3.3"
+    rollup-plugin-commonjs "^10.1.0"
+    rollup-plugin-filesize "^6.2.1"
+    rollup-plugin-index-html "^1.5.5"
+    rollup-plugin-livereload "^1.0.4"
+    rollup-plugin-node-resolve "^5.2.0"
+    rollup-plugin-serve "^1.0.1"
+    rollup-plugin-terser "^5.1.1"
+    rollup-plugin-url "^3.0.0"
+
 "@lerna/add@3.18.0":
   version "3.18.0"
   resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.18.0.tgz#86e38f14d7a0a7c61315dccb402377feb1c9db83"
@@ -1597,6 +1632,13 @@
     valid-url "^1.0.9"
     whatwg-fetch "^3.0.0"
     whatwg-url "^7.0.0"
+
+"@rollup/plugin-alias@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-2.2.0.tgz#3ac52ece8b39583249884adb90fb316484389fe5"
+  integrity sha512-//6zmlHGbmousaatu4pBlC61gqZykLbH0c2GESBO4JgK5xFZgb/ih0zlg/5/BmTAczX5R/xsHRnsYsu4KyHV5w==
+  dependencies:
+    slash "^3.0.0"
 
 "@types/estree@*", "@types/estree@0.0.39":
   version "0.0.39"

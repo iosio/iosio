@@ -1,6 +1,7 @@
 import cssnano from 'cssnano';
 import autoprefixer from 'autoprefixer';
 import postcss from 'rollup-plugin-postcss';
+import aliasImports from '@rollup/plugin-alias';
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from 'rollup-plugin-json';
@@ -11,21 +12,24 @@ import {terser} from "rollup-plugin-terser";
 import filesize from "rollup-plugin-filesize";
 
 import {babelPlugins} from "./babelPlugins";
-import path from "path";
-import indexHTML from "rollup-plugin-index-html";
 
-import {createLazyPages} from "./lazyPages";
 import {setup} from "./setup";
 import rimraf from "rimraf";
+import {parseMappingArgumentAlias} from "./util";
 
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps}) => {
+const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias}) => {
 
 
     process.env.NODE_ENV = 'production';
     console.log('Creating production build...');
+
+
+    const moduleAliases = alias
+        ? parseMappingArgumentAlias(alias)
+        : [];
 
     const config = {
         input,
@@ -44,9 +48,10 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
                         preset: 'default',
                     }),
                 ],
-                // only write out CSS for the first bundle (avoids pointless extra files):
-                inject: false,
-                // extract: !!writeMeta,
+            }),
+            moduleAliases.length > 0  && aliasImports({
+                resolve: DEFAULT_EXTENSIONS,
+                entries: moduleAliases
             }),
             resolve({
                 mainFields: ['module', 'jsnext', 'main'],

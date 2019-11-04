@@ -25,3 +25,4 @@ export {
 
 export * from 'preact';
 export * from '@iosio/x-base';
+console.log('using x-preact')

@@ -1,5 +1,7 @@
 import {render, h, x, headStyleTag} from "@iosio/x";
 
+import './index.css';
+
 const globalStyles = headStyleTag();
 
 globalStyles(/*language=CSS format=true*/jcss`

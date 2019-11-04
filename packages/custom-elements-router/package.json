@@ -16,5 +16,8 @@
 	"dependencies": {
 		"@iosio/routing": "^0.5.47",
 		"@iosio/util": "^0.5.47"
+	},
+	"devDependencies": {
+		"@iosio/create-x-project": "^0.5.47"
 	}
 }

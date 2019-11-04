@@ -1,7 +1,7 @@
 {
   "name": "@iosio/x",
   "version": "0.5.47",
-  "description": "Build web components using vdom and jsx",
+  "description": "Create web components with built constructableStyleSheets and vdom",
   "main": "lib/index.js",
   "module": "src/index.js",
   "publishConfig": {
@@ -21,11 +21,15 @@
     "vdom",
     "virtual-dom"
   ],
+  "scripts": {
+    "build": "create-x-project build_lib"
+  },
   "dependencies": {
     "@iosio/x-base": "^0.5.47",
     "@iosio/xact": "^0.5.47"
   },
   "devDependencies": {
-    "@iosio/todos": "^0.5.47"
+    "@iosio/todos": "^0.5.47",
+    "@iosio/create-x-project": "^0.5.47"
   }
 }
