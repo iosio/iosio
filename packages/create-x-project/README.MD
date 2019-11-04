@@ -172,7 +172,11 @@ in each file, default export a custom element defined as the name of the file
 import {x,h} from '@iosio/x';
 export default x('index-page', ()=><h1>index page</h1>);
 ```
-start the app and you should now see a file called dynamicImports.js. 
+start the app and you should now see a file called dynamicImports.js.
+ 
+**note**: restart the dev server when new pages are added
+ 
+ 
 ```sh 
 src
   |_ lazyPages
@@ -180,7 +184,9 @@ src
             |_ index-page.js
             |_ login-page.js 
 ```
-**note**: restart the dev server when new pages are added
+
+exported from dynamicImports.js are configuration objects used for routing.
+
 ```js
 //dynamicImports.js
 export const lazyMap = {
@@ -196,5 +202,6 @@ export const pathMap = {
 }
 
 ```
-then import the objects and configure the custom elements router
+import the objects and configure the @iosio/custom-elements-router
+
 
