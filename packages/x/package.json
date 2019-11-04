@@ -29,7 +29,6 @@
     "@iosio/xact": "^0.5.47"
   },
   "devDependencies": {
-    "@iosio/create-x-project": "^0.5.49",
     "@iosio/todos": "^0.5.47"
   }
 }

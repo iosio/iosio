@@ -30,7 +30,6 @@
     "preact": "^10.0.1"
   },
   "devDependencies": {
-    "@iosio/create-x-project": "^0.5.49",
     "@iosio/todos": "^0.5.47"
   }
 }
