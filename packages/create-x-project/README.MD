@@ -15,7 +15,6 @@ Other features:
 
 
 ## Installation
-create a new directory, cd inside the directory then run:
 ```sh
 mkdir my_app
 cd my_app
@@ -50,11 +49,9 @@ Define optional configuration JSON object in package.json as xProjectConfig,
 or as a separate file at the root of the project directory called xProjectConfig.json
 ```json
 { 
-  ...
+  "name": "my_app",
   "xProjectConfig":{
-    ...
-  },
-  ... 
+  }
 } 
 ```
 You may instead export default a configuration object from xProjectConfig.js 
@@ -65,36 +62,49 @@ export default {
 }
 ```
 
-### Default Configuration Properties
+### Configuration Properties
 ```js
 export default {
     
     //js entry point
     input: /*default*/ '/src/index.js',
+    
     //alternative entry point for developing demos alongside a lib
     devInput: /*default*/ '/src/index.js', //ex: '/demo/index.js',
+    
     //location of index.html file. *currently this is required 
     html: /*default*/ '/index.html',
+    
     //location where the dev build is placed and served from
     devOutputDir: /*default*/ '/build',
+    
     //location where the production build is placed (removes and replaces dev output)
     buildOutputDir: /*default*/ '/build',
+    
     //location where the library build is placed
     libOutputDir: /*default*/ '/lib',
+    
     //browserlist 
     browsers: /*default*/ ['chrome 78'],
+    
     //browserlist specific to css auto prefixer in case it differs from js
     cssBrowsers: /*default*/['chrome 78'],
+    
     //if true, creates a legacy build that is conditionally loaded for older browsers  
     multiBuild: /*default*/ undefined,
+    
     //the port that the development build is served from
     port: /*default*/ 3000,
+    
     //the host that the dev build is served from
     host: /*default*/ 'localhost',
+    
     //if true, will include external dependencies into the library build
     includeExternalDeps: /*default*/ undefined,
+    
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
+    
     //environment variables. see next section for explanation 
     APP_ENV: /*default*/ undefined
 }
@@ -121,7 +131,7 @@ you are serving/building.
     }
 }
 ```
-To apply the env variables, add the env name to the third argument in the cli command:
+To apply the env variables, add the env name to the second argument on the create-x-project cli command:
 ```sh
 create-x-project build prod
 ```
@@ -147,6 +157,44 @@ const minified_and_autoprefixed_css_string = jcss`
 //Depending on the target, the output might look something like this:
 const minified_and_autoprefixed_css_string = `.noSelect{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}`;
 
+```
+
+### Lazy Pages (intended for @iosio/custom-elements-router)
+To dynamically generate lazyMap and pathMap objects, create a lazyPages directory under your src: src/lazyPages/
+```sh 
+src
+  |_ lazyPages
+            |_ index-page.js
+            |_ login-page.js 
+```
+in each file, default export a custom element defined as the name of the file
+```js
+import {x,h} from '@iosio/x';
+export default x('index-page', ()=><h1>index page</h1>);
+```
+start the app and you should now see a file called dynamicImports.js. 
+```sh 
+src
+  |_ lazyPages
+            |_ dynamicImports.js
+            |_ index-page.js
+            |_ login-page.js 
+```
+**note**: restart the dev server when new pages are added
+```js
+//dynamicImports.js
+export const lazyMap = {
+"index-page": () => import("./index-page.js"),
+"login-page": ()=> import("./login-page.js")
+}
+
+//index-page will default to "/"
+//and -page is removed from all url paths 
+export const pathMap = {
+	"/": "index-page",
+	"/login": "login-page"
+}
 
 ```
+then import the objects and configure the custom elements router
 
