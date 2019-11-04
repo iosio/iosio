@@ -39,7 +39,7 @@ export default (options) => {
         devDependencies: {
             "@iosio/create-project": "^0.5.41"
         },
-        cxa_config: {}
+        project_config: {}
     };
 
     return JSON.stringify(pkg, null, '\\t');

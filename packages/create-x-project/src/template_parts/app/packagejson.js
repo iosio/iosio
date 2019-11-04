@@ -1,28 +1,29 @@
 export default (options) => {
-
     let pkg = {
         name: (options.npm_namespace ? options.npm_namespace + "/" : "") + (options.npm_library_name || ''),
         version: "0.0.1",
         description: options.npm_library_description || '',
-        "main": "src/index.js",
+        "main": "lib/index.js",
+        "module": "src/index.js",
         private: true,
         "scripts": {
-            "start": "create-x-app start",
-            "build": "create-x-app build",
+            "start": "create-x-project start",
+            "build": "create-x-project build",
+            "build:lib": "create-project build_lib",
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
-            "@iosio/x": "latest",
-            "@iosio/obi": "latest",
-            "@iosio/util": "latest",
-            "@iosio/custom-elements-router": "latest",
+
+           "@iosio/x": "^0.5.47",
+            "@iosio/obi": "^0.5.47",
+            "@iosio/util": "^0.5.47",
+            "@iosio/custom-elements-router": "^0.5.47",
         },
         devDependencies: {
-            "@iosio/create-x-app": "^0.5.32"
+            "@iosio/create-x-project": "^0.5.47"
         },
-        cxa_config: {}
+        xProjectConfig: {}
     };
 
     return JSON.stringify(pkg, null, '\t');
 };
-

@@ -15,7 +15,7 @@ globalStyles(/*language=CSS format=true*/jcss`
     }
 `);
 
-const App = x('x-app', ({Host, CSS}) => (
+export const App = x('x-app', ({Host, CSS}) => (
 
     <Host>
 

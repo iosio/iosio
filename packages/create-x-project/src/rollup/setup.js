@@ -8,32 +8,29 @@ export const setup = (rollup) => {
 
     const ROOT = process.cwd();
 
-    let cxa_config;
+    let xProjectConfig;
 
-    let possibleJsConfig = path.join(ROOT, 'cxa.config.js');
-    let possibleJSONConfig = path.join(ROOT, 'cxa.config.json');
+    let possibleJsConfig = path.join(ROOT, 'xProject.config.js');
+    let possibleJSONConfig = path.join(ROOT, 'xProject.config.json');
 
     if (fs.existsSync(possibleJsConfig)) {
 
-        cxa_config = require(possibleJsConfig);
+        xProjectConfig = require(possibleJsConfig);
 
     } else if (fs.existsSync(possibleJSONConfig)) {
 
-        cxa_config = require(possibleJSONConfig)
+        xProjectConfig = require(possibleJSONConfig)
 
     } else {
 
-        cxa_config = require(path.join(ROOT, 'package.json')).cxa_config;
+        xProjectConfig = require(path.join(ROOT, 'package.json')).xProjectConfig;
 
     }
 
 
-    let c = cxa_config || {};
+    let c = xProjectConfig || {};
 
     let APP_ENV = process.env.APP_ENV;
-
-    console.log('app env:', APP_ENV)
-
 
     let ENVS = c.APP_ENV && APP_ENV && c.APP_ENV[APP_ENV];
 
@@ -47,7 +44,7 @@ export const setup = (rollup) => {
         ROOT,
         input,
         devInput: c.devInput ? path.join(ROOT, c.devInput) : input,
-        html: ROOT + (c.html || '/index.html'),
+        html: path.join(ROOT, (c.html || '/index.html')),
         devOutputDir: path.join(ROOT, c.devOutputDir || '/build'),
         buildOutputDir: path.join(ROOT, c.buildOutputDir || '/build'),
         libOutputDir: path.join(ROOT, c.libOutputDir || '/lib'),
