@@ -105,6 +105,9 @@ export default {
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
     
+    //if using any commonjs packages, pass a configuration object
+    commonjsConfig: /*default*/ undefined, 
+    
     //environment variables. see next section for explanation 
     APP_ENV: /*default*/ undefined
 }

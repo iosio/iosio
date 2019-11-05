@@ -20,7 +20,7 @@ import {parseMappingArgumentAlias} from "./util";
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias}) => {
+const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig}) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -57,9 +57,7 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
                 mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-            commonjs({
-                include: /\/node_modules\//,
-            }),
+            commonjsConfig && commonjs(commonjsConfig),
             json(),
             babel({
                 extensions: DEFAULT_EXTENSIONS,

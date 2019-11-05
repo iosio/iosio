@@ -21,7 +21,7 @@ import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
 
 
-const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias}) => {
+const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig}) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -73,9 +73,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
                 mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-            commonjs({
-                include: /\/node_modules\//,
-            }),
+            commonjsConfig && commonjs(commonjsConfig),
             json(),
             babel({
                 extensions: DEFAULT_EXTENSIONS,

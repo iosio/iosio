@@ -26,7 +26,7 @@ import {setup} from "./setup";
 import rimraf from 'rimraf';
 
 
-const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias}) => {
+const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig}) => {
 
 
     process.env.NODE_ENV = 'development';
@@ -62,9 +62,7 @@ const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, 
                 mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-            commonjs({
-                include: /\/node_modules\//,
-            }),
+            commonjsConfig && commonjs(commonjsConfig),
             json(),
             indexHTML({indexHTML: html}),
             babel({

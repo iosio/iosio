@@ -55,7 +55,8 @@ export const setup = (rollup) => {
         host: c.host || 'localhost',
         open: c.open,
         includeExternalDeps: c.includeExternalDeps,
-        alias: c.alias
+        alias: c.alias,
+        commonjsConfig: c.commonjsConfig
     };
 
 
