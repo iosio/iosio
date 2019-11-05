@@ -3,7 +3,7 @@
     "packages/*"
   ],
   "npmClient": "yarn",
-  "version": "0.5.53",
+  "version": "0.5.54",
   "command": {
     "publish": {
       "ignoreChanges": [
