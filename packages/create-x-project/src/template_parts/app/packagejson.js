@@ -14,7 +14,7 @@ export default (options) => {
         },
         dependencies: {
 
-           "@iosio/x": "^0.5.52",
+           "@iosio/x": "^0.5.54",
             "@iosio/obi": "^0.5.52",
             "@iosio/util": "^0.5.52",
             "@iosio/custom-elements-router": "^0.5.52",
