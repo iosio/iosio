@@ -14,13 +14,13 @@ export default (options) => {
         },
         dependencies: {
 
-           "@iosio/x": "^0.5.50",
-            "@iosio/obi": "^0.5.48",
-            "@iosio/util": "^0.5.48",
-            "@iosio/custom-elements-router": "^0.5.51",
+           "@iosio/x": "^0.5.52",
+            "@iosio/obi": "^0.5.52",
+            "@iosio/util": "^0.5.52",
+            "@iosio/custom-elements-router": "^0.5.52",
         },
         devDependencies: {
-            "@iosio/create-x-project": "^0.5.50"
+            "@iosio/create-x-project": "^0.5.53"
         },
         xProjectConfig: {}
     };
