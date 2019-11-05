@@ -12,9 +12,6 @@
     "src",
     "lib"
   ],
-  "scripts": {
-    "build": "create-x-project build_lib"
-  },
   "keywords": [
     "web-components",
     "web",

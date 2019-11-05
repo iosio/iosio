@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-
-require = require('../node_modules/esm/esm')(module /*, options*/);
-require('../src/dev.js').dev(process.argv);

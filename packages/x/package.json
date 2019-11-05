@@ -21,9 +21,6 @@
     "vdom",
     "virtual-dom"
   ],
-  "scripts": {
-    "build": "create-x-project build_lib"
-  },
   "dependencies": {
     "@iosio/x-base": "^0.5.47",
     "@iosio/xact": "^0.5.47"
