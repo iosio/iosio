@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/create-x-project",
-	"version": "0.5.51",
+	"version": "0.5.52",
 	"description": "cli for generating, developing and bundling modern web apps and libraries",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -30,7 +30,7 @@
 		"@babel/plugin-syntax-import-meta": "^7.2.0",
 		"@babel/plugin-transform-react-jsx": "^7.3.0",
 		"@babel/preset-env": "^7.6.3",
-		"@iosio/babel-plugin-jcss": "^0.5.37",
+		"@iosio/babel-plugin-jcss": "^0.5.52",
 		"@open-wc/building-utils": "^2.7.0",
 		"@rollup/plugin-alias": "^2.2.0",
 		"arg": "^4.1.0",

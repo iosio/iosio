@@ -1,6 +1,6 @@
 {
   "name": "@iosio/x",
-  "version": "0.5.50",
+  "version": "0.5.52",
   "description": "Create web components with built constructableStyleSheets and vdom",
   "main": "lib/index.js",
   "module": "src/index.js",
@@ -22,10 +22,10 @@
     "virtual-dom"
   ],
   "dependencies": {
-    "@iosio/x-base": "^0.5.47",
-    "@iosio/xact": "^0.5.47"
+    "@iosio/x-base": "^0.5.52",
+    "@iosio/xact": "^0.5.52"
   },
   "devDependencies": {
-    "@iosio/todos": "^0.5.47"
+    "@iosio/todos": "^0.5.52"
   }
 }
