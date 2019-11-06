@@ -10,6 +10,7 @@ export default (options) => {
             "start": "x start",
             "build": "x build",
             "build_lib": "x build_lib",
+            "serve_build": "x serve_build",
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
