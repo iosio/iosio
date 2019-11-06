@@ -7,17 +7,14 @@ export default (options) => {
         "module": "src/index.js",
         private: true,
         "scripts": {
-            "start": "create-x-project start",
-            "build": "create-x-project build",
-            "build_lib": "create-project build_lib",
+            "start": "x start",
+            "build": "x build",
+            "build_lib": "x build_lib",
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
-
-           "@iosio/x": "^0.5.54",
-            "@iosio/obi": "^0.5.52",
-            "@iosio/util": "^0.5.52",
             "@iosio/custom-elements-router": "^0.5.52",
+            "@iosio/x": "^0.5.54"
         },
         devDependencies: {
             "@iosio/create-x-project": "^0.5.54"

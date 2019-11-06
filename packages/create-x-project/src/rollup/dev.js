@@ -1,4 +1,3 @@
-
 import postcss from "rollup-plugin-postcss";
 import autoprefixer from "autoprefixer";
 
@@ -11,11 +10,9 @@ import {DEFAULT_EXTENSIONS} from "@babel/core";
 import babel from "rollup-plugin-babel";
 import indexHTML from "rollup-plugin-index-html";
 import url from "rollup-plugin-url";
-import serve from 'rollup-plugin-serve';
-import livereload from 'rollup-plugin-livereload';
+import browserSync from 'browser-sync';
 import {babelPlugins} from "./babelPlugins";
-
-
+import historyApiFallback from 'connect-history-api-fallback'
 
 //------------
 import {createLazyPages} from "./lazyPages";
@@ -26,8 +23,9 @@ import {setup} from "./setup";
 import rimraf from 'rimraf';
 
 
-const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig}) => {
+const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig, browserSyncConfig}) => {
 
+    const serveHost = `${host}:${port}`;
 
     process.env.NODE_ENV = 'development';
 
@@ -48,13 +46,12 @@ const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, 
             chunkFileNames: "[name][hash].js"
         },
         plugins: [
-
             postcss({
                 plugins: [
                     autoprefixer(),
                 ],
             }),
-            moduleAliases.length > 0  && aliasImports({
+            moduleAliases.length > 0 && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases
             }),
@@ -83,15 +80,6 @@ const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, 
             }),
             url({limit: 0, fileName: "[dirname][name][extname]"}),
 
-            serve({
-                contentBase: devOutputDir,
-                historyApiFallback: true,
-                verbose: false,
-                host,
-                port,
-                open: !!open
-            }),
-            livereload({watch: devOutputDir, verbose: false})
         ]
     };
 
@@ -101,7 +89,11 @@ const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, 
         rimraf(devOutputDir, {}, () => {
             createLazyPages()
                 .then(() => {
-                    console.log(`Serving at: http://${host}:${port}`);
+                    console.log(`Starting dev server...`);
+
+                    const bs = browserSync.create('rollup');
+                    let bsInitialized = false;
+
                     return watch(config).on('event', e => {
 
                         if (e.code === 'FATAL') {
@@ -109,7 +101,26 @@ const dev = ({ devInput, html, devOutputDir, browsers, cssBrowsers, host, port, 
                         } else if (e.code === 'ERROR') {
                             console.log(e.error);
                         }
+
+                        if (e.code === 'END') {
+
+                            if (!bsInitialized) {
+                                bs.init({
+                                    ...(port ? {port} : {}),
+                                    server: {
+                                        baseDir: devOutputDir,
+                                        middleware: [historyApiFallback()]
+                                    },
+                                    ui: false,
+                                    ...(browserSyncConfig ? browserSyncConfig : {})
+                                });
+                                bsInitialized = true;
+                            } else {
+                                bs.reload(devOutputDir);
+                            }
+                        }
                     })
+
                 }).catch(reject)
 
         });

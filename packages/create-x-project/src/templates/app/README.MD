@@ -1,4 +1,4 @@
-# @iosio/create-x-project
+# This project was generated with @iosio/create-x-project
 
 > Zero configuration cli for generating, developing and bundling modern web apps and libraries
 

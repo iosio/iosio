@@ -17,9 +17,11 @@ import gitignore from './template_parts/app/gitignore'
 
 import fs from "fs";
 
+import {serve_build} from "./rollup/serve_build";
+
 
 export const isDirectory = (name) => new Promise((resolve) => {
-    fs.stat(name, (err, stats)=>{
+    fs.stat(name, (err, stats) => {
         resolve(err ? false : stats.isDirectory())
     })
 });
@@ -38,13 +40,13 @@ function generateFilesFromParts(options) {
     console.log(chalk.cyan('Generate files'));
     return Promise.all([
         fse.writeFile(targetDirectory + '/package.json', packagejson(options)),
-        fse.writeFile(targetDirectory + '/index.html', indexHTML(options)),
+        fse.writeFile(targetDirectory + '/src/index.html', indexHTML(options)),
         fse.writeFile(targetDirectory + '/.gitignore', gitignore(options))
     ])
 }
 
 export async function createProject(options) {
-    await copyTemplateFiles(options).then(()=>generateFilesFromParts(options));
+    await copyTemplateFiles(options).then(() => generateFilesFromParts(options));
     console.log('%s Project ready', chalk.green.bold('DONE'));
     return true;
 }
@@ -105,8 +107,6 @@ async function promptForMissingOptions(options) {
 }
 
 
-
-
 const rootScriptsLocation = __dirname + '/rollup';
 const devLocation = rootScriptsLocation + '/dev.js';
 // const devLocation = '../src/dev_.js';
@@ -114,7 +114,7 @@ const buildLocation = rootScriptsLocation + '/build.js';
 
 const buildLibLocation = rootScriptsLocation + '/build_lib.js';
 
-const actionLocations = {
+const rollupLocations = {
     'start': devLocation,
     'build': buildLocation,
     'build_lib': buildLibLocation
@@ -127,29 +127,32 @@ export async function cli(args) {
 
     const {action, api} = options;
 
-    if(!action) {
+    if (!action) {
 
         console.log(chalk.cyan('version: ' + PKG.version));
         options = await promptForMissingOptions(options);
         await createProject(options);
         console.log(chalk.green('run npm install then npm start to begin developing!!!'));
-    }else{
+    } else {
 
         // let pathToRollup = path.join()
+        let rollupLocation = rollupLocations[action];
+        if (action === 'serve_build') {
+            serve_build();
+        } else if (!rollupLocation) {
 
-        let rollupLocation = actionLocations[action];
-
-        if(!rollupLocation){
             console.error('invalid cli command. must be: dev, build, or build_lib.');
             return process.exit();
+        } else {
+
+            const subprocess = execa.shell(
+                `rollup -c ${rollupLocation}${api ? (' --environment APP_ENV:' + api) : ''}`
+            );
+
+            subprocess.stdout.pipe(process.stdout);
+
+            return subprocess;
         }
-        const subprocess = execa.shell(
-            `rollup -c ${rollupLocation}${api ? (' --environment APP_ENV:' + api) : ''}`
-        );
-
-        subprocess.stdout.pipe(process.stdout);
-
-        return subprocess;
 
     }
 

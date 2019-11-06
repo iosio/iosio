@@ -10,11 +10,14 @@ export const CustomElementsRouter = ({transition, pathMap, noMatch, loadingIndic
     var initial = true, elem, getMountPoint, timeout,
         unsub, transitionStyle = `opacity ${transition}ms ease-in-out`,
         {routerSwitch} = routing, CE = customElements,
+
         clearMountingPoint = (e) => {
             let child = e.lastElementChild;
             while (child) (e.removeChild(child), child = e.lastElementChild)
         },
+
         m = (parentNode, elem) => (clearMountingPoint(parentNode), parentNode.appendChild(elem)),
+
         mount = (elementName, parentNode) => {
             clearTimeout(timeout);
             elem = document.createElement(elementName);
@@ -25,6 +28,7 @@ export const CustomElementsRouter = ({transition, pathMap, noMatch, loadingIndic
                 extend(parentNode.style, {transition: transitionStyle, opacity: 1})
             }, transition ? transition + 10 : 0);
         },
+
         mountLazy = (elementName, to) => {
             loadingIndicator && mount(loadingIndicator, to);
             lazyMap && lazyMap[elementName] && lazyMap[elementName]().then(() =>
@@ -35,10 +39,12 @@ export const CustomElementsRouter = ({transition, pathMap, noMatch, loadingIndic
                     pathMap[location.pathname] === elementName && mount(elementName, to)
                 ));
         },
+
         doRoute = () => {
             let {next, toLast, noChange, replacedLast} = routerSwitch({pathMap, noMatch}),
                 parentNode = getMountPoint && getMountPoint();
             if (!(parentNode && parentNode.nodeName) || toLast || replacedLast || (noChange && !initial)) return;
+
             next && CE.get(next) ? mount(next, parentNode) : mountLazy(next, parentNode);
         };
 
