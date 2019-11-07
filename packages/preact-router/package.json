@@ -1,0 +1,28 @@
+{
+	"name": "@iosio/preact-router",
+	"version": "0.0.1",
+	"description": "",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"private": true,
+	"scripts": {
+		"start": "x start",
+		"build": "x build",
+		"build_lib": "x build_lib",
+		"serve_build": "x serve_build",
+		"test": "echo \"No test specified\" && exit 0"
+	},
+	"dependencies": {
+		"@iosio/obi": "^0.5.52",
+		"@iosio/routing": "^0.5.52",
+		"@iosio/util": "^0.5.52",
+		"preact": "^10.0.4"
+	},
+	"devDependencies": {
+		"@iosio/create-x-project": "^0.5.58"
+	},
+	"xProjectConfig": {
+		"devInput": "dev/index.js",
+		"html": "dev/index.html"
+	}
+}

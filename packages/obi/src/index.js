@@ -24,10 +24,11 @@ export const obi = (suspect, rootNotify) => {
                 !ignoreUpdate && notify(suspect);
             }
         });
+
         for (let key in obj) {
             let internal = obj[key];
             if (isFunc(internal) || key.startsWith('$')) continue;
-            if (isObj(internal)) internal = rootNotify ? makeObi(obj[key]) : obi(obj[key]);
+            if (isObj(internal)) rootNotify ? makeObi(obj[key]) : obi(obj[key]);
             def(obj, key, {
                 enumerable: true,
                 get: () => internal,
@@ -42,4 +43,3 @@ export const obi = (suspect, rootNotify) => {
     };
     return makeObi(suspect);
 };
-

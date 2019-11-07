@@ -51,8 +51,6 @@ const connectObi = function () {
 };
 
 
-
-
 export const obi = (suspect, branchNotify) => {
     const {sub, notify} = Subie();
     let makeObi = obj => {
@@ -93,7 +91,7 @@ export const obi = (suspect, branchNotify) => {
         for (let key in obj) {
             let internal = obj[key];
             if (isFunc(internal) || key.startsWith('$')) continue;
-            if (isObj(internal)) internal = branchNotify ? makeObi(obj[key]) : obi(obj[key]);
+            if (isObj(internal)) branchNotify ? makeObi(obj[key]) : obi(obj[key]);
             def(obj, key, {
                 enumerable: true,
                 get: () => internal,

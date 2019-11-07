@@ -42,7 +42,9 @@ export const CustomElementsRouter = ({transition, pathMap, noMatch, loadingIndic
 
         doRoute = () => {
             let {next, toLast, noChange, replacedLast} = routerSwitch({pathMap, noMatch}),
+
                 parentNode = getMountPoint && getMountPoint();
+
             if (!(parentNode && parentNode.nodeName) || toLast || replacedLast || (noChange && !initial)) return;
 
             next && CE.get(next) ? mount(next, parentNode) : mountLazy(next, parentNode);
