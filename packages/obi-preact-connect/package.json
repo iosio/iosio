@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi-preact-connect",
-	"version": "0.5.52",
+	"version": "0.5.59",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -16,11 +16,9 @@
 		"serve_build": "x serve_build",
 		"test": "echo \"No test specified\" && exit 0"
 	},
-	"dependencies": {
-	},
 	"devDependencies": {
-		"preact": "^10.0.4",
-		"@iosio/obi": "^0.5.52"
+		"@iosio/obi": "^0.5.59",
+		"preact": "^10.0.4"
 	},
 	"xProjectConfig": {
 		"devInput": "dev/index.js",
