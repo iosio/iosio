@@ -4,7 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "module": "src/index.js",
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "start": "x start",
     "build": "x build",
