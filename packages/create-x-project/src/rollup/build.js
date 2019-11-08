@@ -21,7 +21,7 @@ import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
 
 
-const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig}) => {
+const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig, lazyPagesConfig}) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -111,7 +111,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
 
     return new Promise((resolve, reject) => {
         rimraf(buildOutputDir, {}, () => {
-            createLazyPages()
+            createLazyPages(lazyPagesConfig)
                 .then(() => {
                     multiBuild && console.log('creating multiBuild');
                     const builds = [multiBuild && config(true), config()].filter(Boolean);

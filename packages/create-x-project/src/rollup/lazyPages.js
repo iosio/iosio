@@ -3,8 +3,9 @@ import fse from 'fs-extra';
 import chalk from 'chalk';
 
 import fs from 'fs';
+
 export const isDirectory = (name) => new Promise((resolve) => {
-    fs.stat(name, (err, stats)=>{
+    fs.stat(name, (err, stats) => {
 
         // console.log('*********', err, stats);
         resolve(err ? false : stats.isDirectory())
@@ -12,12 +13,11 @@ export const isDirectory = (name) => new Promise((resolve) => {
 });
 
 
+const DYNAMIC_IMPORTS = 'dynamicImports.js';
 
-const IGNORE_DYNAMIC_IMPORTS = 'dynamicImports.js';
+export const createLazyPages = ({dir, type}) => {
 
-export const createLazyPages = (ROOT) => {
-
-    const lazyDir = (ROOT || process.cwd()) + '/src/lazyPages';
+    const lazyDir = process.cwd() + (dir || '/src/lazyPages');
 
 
     return isDirectory(lazyDir).then((isDirectory) => {
@@ -26,7 +26,7 @@ export const createLazyPages = (ROOT) => {
 
         return fse.readdir(lazyDir).then((filenames) => {
 
-            let string = 'export const lazyMap = {\n';
+            let string = type === 'preact' ? 'export const pathMapFn = (lazyLoader) => ({\n' : 'export const lazyMap = {\n';
 
             let pathMap = {};
 
@@ -36,23 +36,35 @@ export const createLazyPages = (ROOT) => {
 
             filenames.forEach((fn, i) => {
 
-                if (fn !== IGNORE_DYNAMIC_IMPORTS) {
+                if (fn !== DYNAMIC_IMPORTS) {
 
                     let name = fn.replace('.js', '');
 
                     let path = name.replace('-page', '');
+
+
                     path = path === 'index' ? '' : path;
 
-                    pathMap[`/${path}`] = name;
+                    if (type === 'preact') {
 
-                    string = string + `"${name}": () => import("./${fn}"),` + (i === filenames.length -1 ? '' : '\n')
+                        string = string + `\t"/${path}" : lazyLoader(() => import("./${fn}")),` + (i === filenames.length - 1 ? '' : '\n');
+
+                    } else {
+                        pathMap[`/${path}`] = name;
+
+                        string = string + `"${name}": () => import("./${fn}"),` + (i === filenames.length - 1 ? '' : '\n')
+                    }
                 }
             });
 
-            string = string + '\n};' + '\n\n' +
-                'export const pathMap = ' + JSON.stringify(pathMap, null, '\t') + ';';
+            if (type === 'preact') {
+                string = string + '\n});'
+            } else {
+                string = string + '\n};' + '\n\n' +
+                    'export const pathMap = ' + JSON.stringify(pathMap, null, '\t') + ';';
+            }
 
-            return fse.outputFile(lazyDir + `/${IGNORE_DYNAMIC_IMPORTS}`, string);
+            return fse.outputFile(lazyDir + `/${DYNAMIC_IMPORTS}`, string);
         })
 
     })

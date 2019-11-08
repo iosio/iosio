@@ -57,7 +57,8 @@ export const setup = (rollup) => {
         includeExternalDeps: c.includeExternalDeps,
         alias: c.alias,
         commonjsConfig: c.commonjsConfig,
-        browserSyncConfig: c.browserSyncConfig
+        browserSyncConfig: c.browserSyncConfig,
+        lazyPagesConfig: c.lazyPagesConfig || {}
     };
 
 

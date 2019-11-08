@@ -10,7 +10,7 @@ const access = obi({
     loggedIn: false
 });
 
-class Blog extends Component{
+class Blog extends Component {
     render() {
         console.log('blog rendered');
         return <h1>blog</h1>
@@ -21,8 +21,8 @@ const publicAccess = {
     '/': () => <h1>home</h1>,
     '/about': () => <h1>about</h1>,
     '/blog': Blog,
-    '/lazy1': lazyLoader(()=>import('./pages/lazy1')),
-    '/lazy2': lazyLoader(()=>import('./pages/lazy2')),
+    '/lazy1': lazyLoader(() => import('./pages/lazy1')),
+    '/lazy2': lazyLoader(() => import('./pages/lazy2')),
 };
 
 const fullAccess = {
@@ -32,17 +32,13 @@ const fullAccess = {
     '/admin/account': () => <h1>account</h1>
 };
 
-
-
-
-
-const App = ()=>{
+const App = () => {
 
     useObi(access);
 
     const pathMap = access.loggedIn ? fullAccess : publicAccess;
 
-    return(
+    return (
         <div>
             {Object.keys(pathMap).map(path => (
                 <button key={path} onClick={() => routing.route(path)}>
@@ -61,13 +57,13 @@ const App = ()=>{
             </button>
 
             <Router root pathMap={{
-                '/': ()=> <Router pathMap={publicAccess}/>,
-                '/admin': ()=> <Router pathMap={fullAccess}/>
+                '/': () => <Router pathMap={publicAccess}/>,
+                '/admin': () => <Router pathMap={fullAccess}/>
             }}/>
 
         </div>
     )
-}
+};
 
 
 render(<App/>, document.body);

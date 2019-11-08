@@ -23,7 +23,7 @@ import {setup} from "./setup";
 import rimraf from 'rimraf';
 
 
-const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig, browserSyncConfig}) => {
+const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig, browserSyncConfig, lazyPagesConfig}) => {
 
     const serveHost = `${host}:${port}`;
 
@@ -87,7 +87,7 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
     return new Promise((resolve, reject) => {
 
         rimraf(devOutputDir, {}, () => {
-            createLazyPages()
+            createLazyPages(lazyPagesConfig)
                 .then(() => {
                     console.log(`Starting dev server...`);
 

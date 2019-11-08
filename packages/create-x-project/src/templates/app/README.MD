@@ -119,6 +119,15 @@ export default {
        ui: false
    },
    
+   //convert default exports into lazy loaded pages for router
+   lazyPagesConfig: /*default*/{
+       //the directory where the page files live
+       dir: '/src/lazyPages',
+       // pass 'preact' to export a factory function for injecting a lazyLoader
+       //keep undefined to use default behavior intended for custom-elements-router
+       type: undefined
+    },
+    
     //environment variables. see next section for explanation 
     APP_ENV: /*default*/ undefined
 }
@@ -145,9 +154,9 @@ you are serving/building.
     }
 }
 ```
-To apply the env variables, add the env name to the second argument on the create-x-project cli command:
+To apply the env variables, add the env name to the second argument on the x cli command:
 ```sh
-create-x-project build prod
+x build prod
 ```
 you may now access the env vars in your js files:
 ```js
@@ -173,18 +182,21 @@ const minified_and_autoprefixed_css_string = `.noSelect{-webkit-user-select:none
 
 ```
 
-### Lazy Pages (intended for @iosio/custom-elements-router)
-To dynamically generate lazyMap and pathMap objects, create a lazyPages directory under your src: src/lazyPages/
+### Lazy Pages
+To dynamically generate lazyMap and pathMap objects, create a lazyPages directory under your src: src/lazyPages/. (see config section above for more info)
 ```sh 
 src
   |_ lazyPages
             |_ index-page.js
             |_ login-page.js 
 ```
-in each file, default export a custom element defined as the name of the file
+in each file, default export a custom element defined as the name of the file, or default export a preact component
 ```js
 import {x,h} from '@iosio/x';
-export default x('index-page', ()=><h1>index page</h1>);
+export default x('index-page', ()=> <h1>index page</h1>);
+//or if 'preact' is passed to configuration
+import {h} from 'preact';
+export default ()=> <h1>index page</h1>;
 ```
 start the app and you should now see a file called dynamicImports.js.
  
@@ -215,8 +227,19 @@ export const pathMap = {
 	"/login": "login-page"
 }
 
+// or if preact is passed to the configuration
+export const pathMapFn = (lazyLoader) => ({
+    "/login": lazyLoader(() => import("./login-page.js")),
+    "/": lazyLoader(() => import("./index-page.js")),
+});
+//then import and inject the lazy loder fn and pass the the @iosio/preact-router
+
+const pathMap = pathMapFn(lazyLoader);
+
+...
+
+<Router pathMap={pathMap}/>
+
 ```
 import the objects and configure the @iosio/custom-elements-router. 
 create-x-project installer outputs a starter app that illustrate this.
-
-
