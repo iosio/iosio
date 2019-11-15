@@ -14,8 +14,8 @@ export default (options) => {
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
-            "@iosio/custom-elements-router": "^0.5.60",
-            "@iosio/x": "^0.5.59"
+            "@iosio/custom-elements-router": "^0.5.62",
+            "@iosio/x": "^0.5.62"
         },
         devDependencies: {
             "@iosio/create-x-project": "^0.5.62"
