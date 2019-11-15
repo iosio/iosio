@@ -1,6 +1,6 @@
 {
   "name": "@iosio/x",
-  "version": "0.5.59",
+  "version": "0.5.62",
   "description": "Create web components with built constructableStyleSheets and vdom",
   "main": "lib/index.js",
   "module": "src/index.js",
@@ -25,11 +25,11 @@
     "start": "create-x-project start"
   },
   "dependencies": {
-    "@iosio/x-base": "^0.5.59",
-    "@iosio/xact": "^0.5.59"
+    "@iosio/x-base": "^0.5.62",
+    "@iosio/xact": "^0.5.62"
   },
   "devDependencies": {
-    "@iosio/todos": "^0.5.59"
+    "@iosio/todos": "^0.5.62"
   },
   "xProjectConfig": {
     "devInput": "/dev/src/index.js",
