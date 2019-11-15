@@ -19,6 +19,7 @@ import {createLazyPages} from "./lazyPages";
 import {setup} from "./setup";
 import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
+import webWorkerLoader from "rollup-plugin-web-worker-loader";
 
 
 const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig, lazyPagesConfig}) => {
@@ -52,6 +53,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
                     }),
                 ],
             }),
+            webWorkerLoader(webWorkerLoaderConfig || {}),
             moduleAliases.length > 0  && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases

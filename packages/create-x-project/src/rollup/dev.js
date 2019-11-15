@@ -12,7 +12,8 @@ import indexHTML from "rollup-plugin-index-html";
 import url from "rollup-plugin-url";
 import browserSync from 'browser-sync';
 import {babelPlugins} from "./babelPlugins";
-import historyApiFallback from 'connect-history-api-fallback'
+import historyApiFallback from 'connect-history-api-fallback';
+import webWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 //------------
 import {createLazyPages} from "./lazyPages";
@@ -23,7 +24,7 @@ import {setup} from "./setup";
 import rimraf from 'rimraf';
 
 
-const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig, browserSyncConfig, lazyPagesConfig}) => {
+const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig, browserSyncConfig, lazyPagesConfig, webWorkerLoaderConfig}) => {
 
     const serveHost = `${host}:${port}`;
 
@@ -43,7 +44,7 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
             dir: devOutputDir,
             format: 'esm',
             sourcemap: false,
-            chunkFileNames: "[name][hash].js"
+            chunkFileNames: "[name].js"
         },
         plugins: [
             postcss({
@@ -51,6 +52,7 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
                     autoprefixer(),
                 ],
             }),
+            webWorkerLoader(webWorkerLoaderConfig || {}),
             moduleAliases.length > 0 && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases
@@ -106,6 +108,7 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
 
                             if (!bsInitialized) {
                                 bs.init({
+                                    notify: false,
                                     ...(port ? {port} : {}),
                                     server: {
                                         baseDir: devOutputDir,

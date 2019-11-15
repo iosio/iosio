@@ -16,6 +16,7 @@ import {babelPlugins} from "./babelPlugins";
 import {setup} from "./setup";
 import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
+import webWorkerLoader from "rollup-plugin-web-worker-loader";
 
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
@@ -51,6 +52,7 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
                     }),
                 ],
             }),
+            webWorkerLoader(webWorkerLoaderConfig || {}),
             moduleAliases.length > 0  && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases

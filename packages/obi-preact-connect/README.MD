@@ -31,7 +31,6 @@ const {test} = state;
 
 const Input = () => {
     useObi(state.test);
-
     return (
         <input value={test.value} onInput={({target}) => test.value = target.value}/>
     )

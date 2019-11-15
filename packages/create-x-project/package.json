@@ -64,5 +64,8 @@
 	"files": [
 		"bin/",
 		"src/"
-	]
+	],
+	"devDependencies": {
+		"rollup-plugin-web-worker-loader": "^0.7.0"
+	}
 }

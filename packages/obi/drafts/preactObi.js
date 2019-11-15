@@ -1,5 +1,5 @@
 import {h, Component} from "preact";
-import {isObj, isFunc, def, extend} from "@iosio/util";
+import {isObj, isFunc, def, extend} from "../../util/src";
 import {useCallback, useEffect, useState} from "preact/hooks";
 
 const getArgs = (a)=>Array.from(a);

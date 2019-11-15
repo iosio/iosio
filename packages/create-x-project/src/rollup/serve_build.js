@@ -6,6 +6,7 @@ const serve = ({buildOutputDir, port, browserSyncConfig}) => {
     const bs = browserSync.create('buildServer');
 
     bs.init({
+        notify: false,
         ...(port ? {port} : {}),
         server: {
             baseDir: buildOutputDir,

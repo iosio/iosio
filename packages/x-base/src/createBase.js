@@ -165,8 +165,8 @@ export const createBase = ({h, render, setProperty}) => {
                     this.unsubs.push(this.lifeCycle(...next)); // optionally return subscriptions to unsub on detach
                     this.didRender(...next);
                     this.didMount(...next);
-                    this.hasMounted = true;
                 };
+                this.hasMounted = true;
                 // Removing this functionality during testing makes life easier.
                 !TEST_ENV ? raf(postInitial) : postInitial();
             };

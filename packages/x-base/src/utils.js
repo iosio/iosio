@@ -20,6 +20,13 @@ export const headStyleTag = (mount) => {
 
 export const globalStyleTagCache = {}; // cache the instance css to the tagName
 
+
+/**
+ *
+ * @param cssText
+ * @param async
+ * @returns {*[]} - [0] constructable style sheet, [1] css text
+ */
 export const createStyleSheet = (cssText, async) => {
     let sheet = false;
     if (CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE) {

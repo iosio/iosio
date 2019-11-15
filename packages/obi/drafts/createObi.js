@@ -1,4 +1,4 @@
-import {def, extend, isFunc, isObj, Subie, isArray} from "@iosio/util";
+import {def, extend, isFunc, isObj, Subie, isArray} from "../../util/src";
 
 export const createObi = (integrations) =>{
 

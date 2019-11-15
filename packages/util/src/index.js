@@ -167,7 +167,7 @@ export const Subie = () => {
     return {
         unsub,
         sub: sub => (subs.push(sub), () => unsub(sub)),
-        notify: data => subs.forEach(s => s && s(data))
+        notify: (...data) => subs.forEach(s => s && s(...data))
     }
 };
 

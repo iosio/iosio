@@ -1,2 +1,2 @@
 export {connectObi} from "./connect";
-export {useObi} from "./use";
+export {useObi, useForceUpdate} from "./use";

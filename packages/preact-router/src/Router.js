@@ -11,6 +11,7 @@ export class Router extends Component {
         this.unsub = routing.$onChange(() =>
             this.setState(Object.create(null))
         );
+        this.initial = true;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -19,11 +20,15 @@ export class Router extends Component {
             noMatch: nextProps.noMatch,
             root: nextProps.root
         });
-        this.c = props => h(next, props);
+        this.next = props => h(next, props);
         let {pathMap, noMatch, root} = this.props;
         return nextProps.root !== root || nextProps.noMatch !== noMatch
             || propsChanged(pathMap || {}, nextProps.pathMap || {})
             || !(toLast || replacedLast || noChange)
+    }
+
+    componentDidMount() {
+        this.initial = false;
     }
 
     componentWillUnmount() {
@@ -34,7 +39,7 @@ export class Router extends Component {
         return h(
             this.initial
                 ? routerSwitch({pathMap, noMatch, root}).next
-                : this.c,
+                : this.next,
             rest
         );
     }
