@@ -37,13 +37,13 @@ export const createBase = ({h, render, setProperty}) => {
 
     /* lots of inspiration from atomico, stencil, and preact*/
     class Element extends HTMLElement {
-        context = context;
-        unsubs = [];
-        state = {};
-        observe = null;
 
         constructor() {
             super();
+            this.context = context;
+            this.unsubs = [];
+            this.state = {};
+            this.observe = null;
             // the statically set fields from the class that extends this
             let {initAttrs, shadow, rootSheet, noRerender, tag} = this.constructor;
 

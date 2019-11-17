@@ -25,5 +25,6 @@
 		"@iosio/util": "^0.5.63",
 		"@iosio/x": "^0.5.63",
 		"fuse.js": "^3.4.5"
-	}
+	},
+	"dependencies": {}
 }
