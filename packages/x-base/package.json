@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/x-base",
-	"version": "0.5.63",
+	"version": "0.5.66",
 	"description": "x base component",
 	"main": "lib/index.js",
 	"module": "lib/index.js",

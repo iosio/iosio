@@ -1,6 +1,6 @@
 {
   "name": "@iosio/preact-router",
-  "version": "0.5.63",
+  "version": "0.5.66",
   "description": "",
   "main": "lib/index.js",
   "module": "src/index.js",
