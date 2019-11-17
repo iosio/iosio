@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/fuse-worker",
-	"version": "0.0.1",
+	"version": "0.5.63",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "dev/index.js",
@@ -14,14 +14,16 @@
 		"serve_build": "x serve_build",
 		"test": "echo \"No test specified\" && exit 0"
 	},
-	"files": ["src", "lib"],
-	"dependencies": {},
+	"files": [
+		"src",
+		"lib"
+	],
 	"devDependencies": {
-		"@iosio/create-x-project": "^0.5.62",
-		"@iosio/custom-elements-router": "^0.5.62",
-		"@iosio/lorem": "^0.5.62",
-		"@iosio/util": "^0.5.62",
-		"@iosio/x": "^0.5.62",
+		"@iosio/create-x-project": "^0.5.63",
+		"@iosio/custom-elements-router": "^0.5.63",
+		"@iosio/lorem": "^0.5.63",
+		"@iosio/util": "^0.5.63",
+		"@iosio/x": "^0.5.63",
 		"fuse.js": "^3.4.5"
 	}
 }
