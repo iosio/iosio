@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/fuse-worker",
-	"version": "0.5.63",
+	"version": "0.5.64",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "dev/index.js",
