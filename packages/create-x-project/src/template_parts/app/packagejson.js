@@ -14,11 +14,11 @@ export default (options) => {
             "test": "echo \"No test specified\" && exit 0",
         },
         dependencies: {
-            "@iosio/custom-elements-router": "^0.5.62",
-            "@iosio/x": "^0.5.62"
+            "@iosio/custom-elements-router": "^0.5.63",
+            "@iosio/x": "^0.5.63"
         },
         devDependencies: {
-            "@iosio/create-x-project": "^0.5.62"
+            "@iosio/create-x-project": "^0.5.63"
         },
         xProjectConfig: {}
     };
