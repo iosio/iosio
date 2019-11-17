@@ -3,7 +3,7 @@
 	"version": "0.5.66",
 	"description": "",
 	"main": "lib/index.js",
-	"module": "dev/index.js",
+	"module": "lib/index.js",
 	"publishConfig": {
 		"access": "public"
 	},
