@@ -19,10 +19,10 @@ import {createLazyPages} from "./lazyPages";
 import {setup} from "./setup";
 import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
-import webWorkerLoader from "rollup-plugin-web-worker-loader";
+import {isDirectory} from "./util";
+import copy from "rollup-plugin-copy";
 
-
-const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig, lazyPagesConfig}) => {
+const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig, lazyPagesConfig, copyConfig}) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -33,7 +33,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
         : [];
 
 
-    const config = (legacy) =>({
+    const config = (legacy) => ({
         input,
         treeshake: true,
         // external,
@@ -53,8 +53,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
                     }),
                 ],
             }),
-            webWorkerLoader(webWorkerLoaderConfig || {}),
-            moduleAliases.length > 0  && aliasImports({
+            moduleAliases.length > 0 && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases
             }),
@@ -106,20 +105,28 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
                     // properties: false
                 }
             }),
+            copyConfig && copy({
+                targets: copyConfig.map((filePath) => ({
+                    src: filePath,
+                    dest: devOutputDir
+                }))
+            }),
             filesize()
-        ]
+        ].filter(Boolean)
     });
 
 
     return new Promise((resolve, reject) => {
-        rimraf(buildOutputDir, {}, () => {
-            createLazyPages(lazyPagesConfig)
-                .then(() => {
-                    multiBuild && console.log('creating multiBuild');
-                    const builds = [multiBuild && config(true), config()].filter(Boolean);
-                    resolve(builds);
-                }).catch(reject)
+        isDirectory(buildOutputDir).then(isDir => {
+            rimraf(buildOutputDir + (isDir ? '/*' : ''), {}, () => {
+                createLazyPages(lazyPagesConfig)
+                    .then(() => {
+                        multiBuild && console.log('creating multiBuild');
+                        const builds = [multiBuild && config(true), config()].filter(Boolean);
+                        resolve(builds);
+                    }).catch(reject)
 
+            })
         })
     })
 };

@@ -16,12 +16,12 @@ import {babelPlugins} from "./babelPlugins";
 import {setup} from "./setup";
 import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
-import webWorkerLoader from "rollup-plugin-web-worker-loader";
-
+import {isDirectory} from "./util";
+import copy from "rollup-plugin-copy";
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig}) => {
+const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig, copyConfig}) => {
 
     console.log('build_lib ********************');
 
@@ -52,8 +52,7 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
                     }),
                 ],
             }),
-            webWorkerLoader(webWorkerLoaderConfig || {}),
-            moduleAliases.length > 0  && aliasImports({
+            moduleAliases.length > 0 && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases
             }),
@@ -90,14 +89,23 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
                     // properties: false
                 }
             }),
+            copyConfig && copy({
+                targets: copyConfig.map((filePath) => ({
+                    src: filePath,
+                    dest: devOutputDir
+                }))
+            }),
             filesize()
-        ]
+        ].filter(Boolean)
     };
 
 
     return new Promise((resolve, reject) => {
-        rimraf(libOutputDir, {}, () => {
-            resolve(config);
+
+        isDirectory(libOutputDir).then((isDir) => {
+            rimraf(libOutputDir + (isDir ? '/*' : ''), {}, (err) => {
+                resolve(config);
+            })
         })
     })
 };

@@ -2,15 +2,7 @@ import fse from 'fs-extra';
 
 import chalk from 'chalk';
 
-import fs from 'fs';
-
-export const isDirectory = (name) => new Promise((resolve) => {
-    fs.stat(name, (err, stats) => {
-
-        // console.log('*********', err, stats);
-        resolve(err ? false : stats.isDirectory())
-    })
-});
+import {isDirectory} from "./util";
 
 
 const DYNAMIC_IMPORTS = 'dynamicImports.js';

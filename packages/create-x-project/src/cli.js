@@ -20,13 +20,6 @@ import fs from "fs";
 import {serve_build} from "./rollup/serve_build";
 
 
-export const isDirectory = (name) => new Promise((resolve) => {
-    fs.stat(name, (err, stats) => {
-        resolve(err ? false : stats.isDirectory())
-    })
-});
-
-
 const templateDirectory = __dirname + '/templates/app';
 const targetDirectory = process.cwd();
 
@@ -121,7 +114,7 @@ const rollupLocations = {
 };
 
 // const buildLocation = '../src/build_.js';
-
+console.log('asdf')
 export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
 

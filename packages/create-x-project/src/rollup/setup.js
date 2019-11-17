@@ -38,12 +38,17 @@ export const setup = (rollup) => {
         process.env[key] = ENVS[key];
     });
 
-    const input = path.join(ROOT, (c.input || '/src/index.js'));
+
+    const giveRoot = (arr) => arr.map((filePath) => path.join(ROOT, filePath));
+
+    const input = Array.isArray(c.input) ? giveRoot(c.input) : path.join(ROOT, (c.input || '/src/index.js'));
+
+    const devInput = Array.isArray(c.devInput) ? giveRoot(c.devInput) : (c.devInput ? path.join(ROOT, c.devInput) : input);
 
     let conf = {
         ROOT,
         input,
-        devInput: c.devInput ? path.join(ROOT, c.devInput) : input,
+        devInput,
         html: path.join(ROOT, (c.html || '/src/index.html')),
         devOutputDir: path.join(ROOT, c.devOutputDir || '/build'),
         buildOutputDir: path.join(ROOT, c.buildOutputDir || '/build'),
@@ -58,9 +63,9 @@ export const setup = (rollup) => {
         alias: c.alias,
         commonjsConfig: c.commonjsConfig,
         browserSyncConfig: c.browserSyncConfig,
-        lazyPagesConfig: c.lazyPagesConfig || {}
+        lazyPagesConfig: c.lazyPagesConfig || {},
+        copyConfig: c.copyConfig
     };
-
 
     return rollup(conf)
 };

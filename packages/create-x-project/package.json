@@ -53,19 +53,19 @@
 		"rollup": "^1.15.4",
 		"rollup-plugin-babel": "^4.3.3",
 		"rollup-plugin-commonjs": "^10.1.0",
+		"rollup-plugin-copy": "^3.1.0",
 		"rollup-plugin-filesize": "^6.2.1",
-		"rollup-plugin-index-html": "^1.5.5",
+		"rollup-plugin-index-html": "^1.5.9",
 		"rollup-plugin-json": "^4.0.0",
 		"rollup-plugin-node-resolve": "^5.2.0",
 		"rollup-plugin-postcss": "^2.0.3",
 		"rollup-plugin-terser": "^5.1.1",
-		"rollup-plugin-url": "^3.0.0"
+		"rollup-plugin-url": "^3.0.0",
+		"rollup-plugin-webworkify": "^0.0.4"
 	},
 	"files": [
 		"bin/",
 		"src/"
 	],
-	"devDependencies": {
-		"rollup-plugin-web-worker-loader": "^0.7.0"
-	}
+	"devDependencies": {}
 }
