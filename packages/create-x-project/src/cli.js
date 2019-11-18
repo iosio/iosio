@@ -134,7 +134,7 @@ export async function cli(args) {
             serve_build();
         } else if (!rollupLocation) {
 
-            console.error('invalid cli command. must be: dev, build, or build_lib.');
+            console.error('invalid cli command. must be: start, build, or build_lib.');
             return process.exit();
         } else {
 

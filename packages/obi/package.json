@@ -13,6 +13,7 @@
 		"lib"
 	],
 	"keywords": [],
+
 	"dependencies": {
 		"@iosio/util": "^0.5.63"
 	}

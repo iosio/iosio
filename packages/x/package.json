@@ -1,7 +1,7 @@
 {
   "name": "@iosio/x",
   "version": "0.5.66",
-  "description": "Create web components with built constructableStyleSheets and vdom",
+  "description": "Create web components with built in constructableStyleSheets and vdom",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "publishConfig": {

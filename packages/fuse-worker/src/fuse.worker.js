@@ -309,21 +309,25 @@ let fuse = null;
 
 const setFuse = ({list, options}) => {
     if (options) _options = {..._options, ...options};
-    fuse = new Fuse(list, _options);
+    if (list) originalList = list;
+    fuse = new Fuse(originalList, _options);
 };
-
 
 onmessage = (e) => {
     const {type, data} = e.data;
     if (type === 'set') {
         setFuse(data);
     } else if (type === 'search' && fuse) {
-        console.log(originalList);
-        postMessage({type: 'search', data: {searchValue: data, results: fuse.search(data)}})
+        postMessage({
+            type: 'search',
+            data: {
+                searchValue: data,
+                results: fuse.search(data)
+            }
+        })
     } else if (!fuse) {
         console.error('fuse needs to be set');
     }
 };
-
 
 

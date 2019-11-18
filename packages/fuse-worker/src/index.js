@@ -1,4 +1,5 @@
-export const FuseWorker = ({workerURL = './fuse.worker.js', list = [], options = {}}) => {
+export const FuseWorker = (config) => {
+    let {workerURL, list, options} = config;
 
     let _options = {
         shouldSort: true,
@@ -12,13 +13,13 @@ export const FuseWorker = ({workerURL = './fuse.worker.js', list = [], options =
         ...options
     };
 
-    let originalList = list;
+    let originalList = list || [];
 
     let lastSearchValue = '';
 
     let cb;
 
-    const worker = new Worker(workerURL),
+    const worker = new Worker(workerURL || './fuse.worker.js'),
 
         set = ({list, options}) => {
             if (options) _options = {..._options, ...options};
@@ -40,3 +41,11 @@ export const FuseWorker = ({workerURL = './fuse.worker.js', list = [], options =
 
     return {set, search};
 };
+
+
+
+
+
+
+
+

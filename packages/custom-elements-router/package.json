@@ -3,7 +3,7 @@
 	"version": "0.5.63",
 	"description": "page-per-route router for custom elements. supports lazy loading",
 	"main": "lib/index.js",
-	"module": "src/index.js",
+	"module": "lib/index.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -13,8 +13,17 @@
 		"lib"
 	],
 	"keywords": [],
+	"scripts": {
+		"start": "x start",
+		"build": "x build_lib",
+		"test": "echo \"No test specified\" && exit 0"
+	},
 	"dependencies": {
 		"@iosio/routing": "^0.5.63",
 		"@iosio/util": "^0.5.63"
+	},
+	"xProjectConfig": {
+		"devInput": "dev/src/index.js",
+		"html": "dev/index.html"
 	}
 }

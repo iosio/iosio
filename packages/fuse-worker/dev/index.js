@@ -1,7 +1,5 @@
 import {render, h, x, headStyleTag, Element} from "@iosio/x";
 
-// import {randomUserAccounts} from "@iosio/lorem";
-
 import {FuseWorker} from "../src";
 
 const globalStyles = headStyleTag();
@@ -28,6 +26,7 @@ export const App = x('x-app', class extends Element {
             this.fuse = FuseWorker({
                 workerURL: './fuse.worker.js',
                 list: module.default,
+                options: {keys: Object.keys(module.default[0])}
             });
             this.setState({displayList: module.default});
         })

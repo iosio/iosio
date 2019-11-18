@@ -108,7 +108,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
             copyConfig && copy({
                 targets: copyConfig.map((filePath) => ({
                     src: filePath,
-                    dest: devOutputDir
+                    dest: buildOutputDir
                 }))
             }),
             filesize()

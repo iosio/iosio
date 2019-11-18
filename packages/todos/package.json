@@ -3,7 +3,7 @@
 	"version": "0.5.63",
 	"description": "todos boilerplate logic for quick todo apps",
 	"main": "lib/index.js",
-	"module": "src/index.js",
+	"module": "lib/index.js",
 	"publishConfig": {
 		"access": "public"
 	},
