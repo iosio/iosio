@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi",
-	"version": "0.5.63",
+	"version": "0.5.68",
 	"description": "mini observable",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -13,8 +13,7 @@
 		"lib"
 	],
 	"keywords": [],
-
 	"dependencies": {
-		"@iosio/util": "^0.5.63"
+		"@iosio/util": "^0.5.68"
 	}
 }

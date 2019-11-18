@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/custom-elements-router",
-	"version": "0.5.63",
+	"version": "0.5.68",
 	"description": "page-per-route router for custom elements. supports lazy loading",
 	"main": "lib/index.js",
 	"module": "lib/index.js",
@@ -19,8 +19,8 @@
 		"test": "echo \"No test specified\" && exit 0"
 	},
 	"dependencies": {
-		"@iosio/routing": "^0.5.63",
-		"@iosio/util": "^0.5.63"
+		"@iosio/routing": "^0.5.68",
+		"@iosio/util": "^0.5.68"
 	},
 	"xProjectConfig": {
 		"devInput": "dev/src/index.js",

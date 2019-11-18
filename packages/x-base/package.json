@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/x-base",
-	"version": "0.5.66",
+	"version": "0.5.68",
 	"description": "x base component",
 	"main": "lib/index.js",
 	"module": "lib/index.js",
@@ -17,10 +17,10 @@
 		"start": "create-x-project start"
 	},
 	"dependencies": {
-		"@iosio/util": "^0.5.63"
+		"@iosio/util": "^0.5.68"
 	},
 	"devDependencies": {
-		"@iosio/xact": "^0.5.63",
+		"@iosio/xact": "^0.5.68",
 		"preact": "^10.0.0-rc.3"
 	},
 	"xProjectConfig": {
