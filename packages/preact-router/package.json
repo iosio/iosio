@@ -1,6 +1,6 @@
 {
   "name": "@iosio/preact-router",
-  "version": "0.5.68",
+  "version": "0.5.69",
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -13,11 +13,11 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@iosio/routing": "^0.5.68"
+    "@iosio/routing": "^0.5.69"
   },
   "devDependencies": {
-    "@iosio/obi": "^0.5.68",
-    "@iosio/util": "^0.5.68",
+    "@iosio/obi": "^0.5.69",
+    "@iosio/util": "^0.5.69",
     "preact": "^10.0.4"
   },
   "xProjectConfig": {
