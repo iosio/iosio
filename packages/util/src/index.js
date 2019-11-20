@@ -257,13 +257,128 @@ export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)
 export const getRandomOneOf = (arr) => arr[getRandomInt(0, arr.length - 1)];
 
 
+/*------------------ STRINGS -------------------------- */
+
+/**
+ * capitalizes a string
+ * @param {String} string - string to upperCase
+ * @returns {String} - all caps string
+ */
+export const allCaps = (string) => string.toUpperCase();
+
+/**
+ * capitalises the first letter of the first word in a string
+ * @param {String} string - to capitalize
+ * @returns {string} - string with first char capitalized
+ */
+export const capFirstLet = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
+/**
+ * capitalizes the first letter of every word in a string
+ * @param {String} string - to capitalize
+ * @returns {String} - string with every first letter capitalized
+ */
+export const capEveryFirst = (string) => string.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
+/**
+ * capitalize a string with different options.
+ *
+ * @param {String} string - to capitalize
+ * @param {String} option - 'everyFirst', 'first', or undefined for all caps
+ * @returns {String} - capitalized string
+ */
+export const capitalize = (string, option) =>
+    option === 'everyFirst'
+        ? capEveryFirst(string)
+        : (option === 'first'
+        ? capFirstLet(string)
+        : allCaps(string));
+
+export const deKabob = text => text.split('_').join(' ').split('-').join();
+
+
+/**
+ * helper function to replace characters in a string with another value
+ * @param {String} string - to replaces chars in
+ * @param {Array} arr - an array of objects containing the key values to find and replace : string - to find, with - to replace with
+ * @returns {String} - updated string
+ */
+export const textReplacer = (string, arr = [{string: '', with: '',}]) => {
+    let _text = string;
+    arr.forEach((obj) => {
+        _text = _text.split(obj.string).join(obj.with);
+    });
+    return _text;
+};
+
+const replacements1 = [
+    {string: '_', with: ' '},
+    {string: '.', with: ' '},
+    {string: '-', with: ' '},
+];
+
+export const camelCase = (value) => {
+    value = textReplacer(value, replacements1);
+    value = capitalize(value, 'everyFirst');
+    value = textReplacer(value, [{string: ' ', with: ''}]);
+    return value.charAt(0).toLowerCase() + value.slice(1);
+};
+
+
 /*------------------ MISC -------------------------- */
+
+/**
+ * helper function for local storage crud
+ * @type {{destroyAll: lsdb.destroyAll, set: lsdb.set, get: (function(String): boolean), destroy: lsdb.destroy}}
+ */
+export const lsdb = {
+    /**
+     * store a value
+     * @param {String} key - name of the thing you are storing
+     * @param {*} val - the thing you want to store. should be stringifiable
+     * @returns {Undefined} - returns nothing
+     */
+    set: (key, val) => {
+        window.localStorage.setItem(key, JSON.stringify(val));
+    },
+    /**
+     * get a value
+     * @param {String} key - name of the value you want
+     * @returns {*|Boolean} - false if the value is not there
+     */
+    get: (key) => {
+        let item = window.localStorage.getItem(key);
+        return item && item !== 'undefined' ? JSON.parse(item) : false;
+    },
+    /**
+     * removes an item from storage
+     * @param {String} key - the name of the thing you want to destroy
+     * @returns {Undefined} - returns nothing
+     */
+    destroy: (key) => {
+        window.localStorage.removeItem(key);
+    },
+    /**
+     * destroys everything in local storage
+     * @returns {Undefined} - returns nothing
+     */
+    destroyAll: () => {
+        window.localStorage.clear();
+    },
+};
+
+export const getUnixTimeStampNow = () => Math.round(+new Date()/1000);
+
+const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+
+export const uniqueID = () =>s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4() + '-' + getUnixTimeStampNow();
 
 
 export const Q = (count = 0, queue = {}) => ({
     nq: cb => queue[`${count++}`] = cb,
     kill: queue = {},
-    invoke: ()=> Object.keys(queue).forEach(q => (queue[q](), delete queue[q]))
+    invoke: () => Object.keys(queue).forEach(q => (queue[q](), delete queue[q]))
 });
 
 

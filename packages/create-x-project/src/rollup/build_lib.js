@@ -92,7 +92,7 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
             copyConfig && copy({
                 targets: copyConfig.map((filePath) => ({
                     src: filePath,
-                    dest: devOutputDir
+                    dest: libOutputDir
                 }))
             }),
             filesize()

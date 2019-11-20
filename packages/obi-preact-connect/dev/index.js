@@ -19,6 +19,7 @@ const Counter = connectObi(state)(({test}) => (
 const {test} = state;
 
 const Input = () => {
+
     useObi(state.test);
 
     return (

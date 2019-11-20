@@ -30,5 +30,3 @@ export {
 
 
 export * from '@iosio/x-base';
-
-console.log('using x');

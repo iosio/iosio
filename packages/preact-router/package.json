@@ -3,22 +3,19 @@
   "version": "0.5.68",
   "description": "",
   "main": "lib/index.js",
-  "module": "src/index.js",
+  "module": "lib/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "start": "x start",
-    "build": "x build",
-    "build_lib": "x build_lib",
-    "serve_build": "x serve_build",
+    "build": "x build_lib",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@iosio/routing": "^0.5.68"
   },
   "devDependencies": {
-    "@iosio/create-x-project": "^0.5.68",
     "@iosio/obi": "^0.5.68",
     "@iosio/util": "^0.5.68",
     "preact": "^10.0.4"

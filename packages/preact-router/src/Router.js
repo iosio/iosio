@@ -20,6 +20,7 @@ export class Router extends Component {
             noMatch: nextProps.noMatch,
             root: nextProps.root
         });
+
         this.next = props => h(next, props);
         let {pathMap, noMatch, root} = this.props;
         return nextProps.root !== root || nextProps.noMatch !== noMatch

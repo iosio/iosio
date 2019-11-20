@@ -3,7 +3,7 @@
 	"version": "0.5.68",
 	"description": "page-per-route router for custom elements. supports lazy loading",
 	"main": "lib/index.js",
-	"module": "lib/index.js",
+	"module": "src/index.js",
 	"publishConfig": {
 		"access": "public"
 	},

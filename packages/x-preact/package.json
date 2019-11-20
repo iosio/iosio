@@ -21,6 +21,11 @@
     "vdom",
     "virtual-dom"
   ],
+  "scripts": {
+    "start": "x start",
+    "build": "x build_lib",
+    "test": "echo \"No test specified\" && exit 0"
+  },
   "dependencies": {
     "@iosio/x-base": "^0.5.68",
     "@iosio/xact": "^0.5.68",

@@ -1,5 +1,7 @@
 import {extend} from "@iosio/util";
-export {routing} from "@iosio/routing";
+import {routing} from "@iosio/routing";
+
+export {routing};
 
 export const CustomElementsRouter = ({transition, pathMap, noMatch, loadingIndicator, lazyMap}) => {
 

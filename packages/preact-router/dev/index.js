@@ -25,8 +25,7 @@ const publicAccess = {
     '/lazy2': lazyLoader(() => import('./pages/lazy2')),
 };
 
-const fullAccess = {
-    ...publicAccess,
+const admin = {
     '/admin': () => <h1>Admin</h1>,
     '/admin/articles': () => <h1>articles</h1>,
     '/admin/account': () => <h1>account</h1>
@@ -36,11 +35,9 @@ const App = () => {
 
     useObi(access);
 
-    const pathMap = access.loggedIn ? fullAccess : publicAccess;
-
     return (
         <div>
-            {Object.keys(pathMap).map(path => (
+            {Object.keys({...publicAccess, ...(access.loggedIn ? admin : {})}).map(path => (
                 <button key={path} onClick={() => routing.route(path)}>
                     {path}
                 </button>
@@ -58,7 +55,7 @@ const App = () => {
 
             <Router root pathMap={{
                 '/': () => <Router pathMap={publicAccess}/>,
-                '/admin': () => <Router pathMap={fullAccess}/>
+                ...(access.loggedIn ? {'/admin': () => <Router  pathMap={admin}/>} : {})
             }}/>
 
         </div>

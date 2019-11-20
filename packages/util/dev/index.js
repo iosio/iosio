@@ -1,2 +1,2 @@
-import {utilTest} from "../../src";
+import {utilTest} from "../src";
 utilTest();

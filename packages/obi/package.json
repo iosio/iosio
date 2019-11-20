@@ -13,7 +13,16 @@
 		"lib"
 	],
 	"keywords": [],
+	"scripts": {
+		"start": "x start",
+		"build": "x build_lib",
+		"test": "echo \"No test specified\" && exit 0"
+	},
 	"dependencies": {
 		"@iosio/util": "^0.5.68"
+	},
+	"xProjectConfig": {
+		"devInput": "dev/src/index.js",
+		"html": "dev/index.html"
 	}
 }

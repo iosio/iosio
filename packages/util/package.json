@@ -3,7 +3,7 @@
 	"version": "0.5.68",
 	"description": "collection of js utils",
 	"main": "lib/index.js",
-	"module": "lib/index.js",
+	"module": "src/index.js",
 	"publishConfig": {
 		"access": "public"
 	},
@@ -12,5 +12,14 @@
 		"src",
 		"lib"
 	],
-	"keywords": []
+	"keywords": [],
+	"scripts": {
+		"start": "x start",
+		"build": "x build_lib",
+		"test": "echo \"No test specified\" && exit 0"
+	},
+	"xProjectConfig": {
+		"devInput": "dev/index.js",
+		"html": "dev/index.html"
+	}
 }

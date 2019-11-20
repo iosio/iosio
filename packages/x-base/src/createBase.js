@@ -14,7 +14,6 @@ import {isArray, raf, CSSTextToObj, def, isFunc, objectIsEmpty, extend} from "@i
 
 
 export const createBase = ({h, render, setProperty}) => {
-    console.log('creating x-base')
 
     let PROPS = 'props',
         IGNORE_ATTR = Symbol(),

@@ -1,7 +1,7 @@
 {
   "name": "@iosio/x",
   "version": "0.5.68",
-  "description": "Create web components with built in constructableStyleSheets and vdom",
+  "description": "Create web components with vdom and built-in constructableStyleSheets",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "publishConfig": {
@@ -22,7 +22,9 @@
     "virtual-dom"
   ],
   "scripts": {
-    "start": "create-x-project start"
+    "start": "x start",
+    "build": "x build_lib",
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@iosio/x-base": "^0.5.68",

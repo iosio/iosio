@@ -13,8 +13,18 @@
 		"lib"
 	],
 	"keywords": [],
+
 	"dependencies": {
 		"@iosio/obi": "^0.5.68",
 		"@iosio/util": "^0.5.68"
+	},
+	"scripts": {
+		"start": "x start",
+		"build": "x build_lib",
+		"test": "echo \"No test specified\" && exit 0"
+	},
+	"xProjectConfig": {
+		"devInput": "dev/index.js",
+		"html": "dev/index.html"
 	}
 }

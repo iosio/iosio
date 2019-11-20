@@ -1,4 +1,4 @@
-import {h, render, Fragment} from "../../src";
+import {h, render, Fragment} from "../src";
 
 
 customElements.define('my-sweet-component', class extends HTMLElement {

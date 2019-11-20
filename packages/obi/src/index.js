@@ -48,6 +48,7 @@ export const obi = (suspect) => {
                 if (isFunc(internal) || non_enumerables.includes(key)) continue;
                 let path = _lastPath + (_lastPath ? '.' : '') + key;
                 if (isObj(internal)) obiOuter(obj[key], path);
+
                 def(obj, key, {
                     enumerable: true,
                     get: () => internal,

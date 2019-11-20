@@ -1,10 +1,1 @@
-import {h as r} from "preact";
-import {lazy as t, Suspense as o} from "preact/compat";
-
-const n = (n, c) => {
-    const l = t(n), p = c || (() => r("div", null));
-    return function (t) {
-        return r(o, {fallback: r(p, null)}, r(l, t))
-    }
-};
-export {n as lazyLoader};
+import{Component as t,h as o}from"preact";import{routing as n}from"@iosio/routing";export{routing}from"@iosio/routing";import{propsChanged as r}from"@iosio/util";import{lazy as i,Suspense as a}from"preact/compat";const{routerSwitch:e}=n;class p extends t{constructor(){super(),this.unsub=n.$onChange(()=>this.setState(Object.create(null))),this.initial=!0}shouldComponentUpdate(t){const{next:n,toLast:i,noChange:a,replacedLast:p}=e({pathMap:t.pathMap,noMatch:t.noMatch,root:t.root});this.next=t=>o(n,t);let{pathMap:s,noMatch:h,root:c}=this.props;return t.root!==c||t.noMatch!==h||r(s||{},t.pathMap||{})||!(i||p||a)}componentDidMount(){this.initial=!1}componentWillUnmount(){this.unsub()}render({pathMap:t,noMatch:n,root:r,...i}){return o(this.initial?e({pathMap:t,noMatch:n,root:r}).next:this.next,i)}}const s=(t,n)=>{const r=i(t),e=n||(()=>o("div"));return function(t){return o(a,{fallback:o(e)},o(r,{...t}))}};export{p as Router,s as lazyLoader};
