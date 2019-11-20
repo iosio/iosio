@@ -18,7 +18,7 @@ export default (options) => {
             "@iosio/x": "^0.5.69"
         },
         devDependencies: {
-            "@iosio/create-x-project": "^0.5.69"
+            "@iosio/create-x-project": "^0.5.70"
         },
         xProjectConfig: {}
     };

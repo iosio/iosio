@@ -74,7 +74,7 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
                 mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-            commonjsConfig && commonjs(commonjsConfig),
+            commonjs(commonjsConfig || {"include": /node_modules/}),
             json(),
             babel({
                 extensions: DEFAULT_EXTENSIONS,

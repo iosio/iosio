@@ -60,7 +60,7 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
                 mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-            commonjsConfig && commonjs(commonjsConfig),
+            commonjs(commonjsConfig || {"include": /node_modules/}),
             json(),
             babel({
                 extensions: DEFAULT_EXTENSIONS,

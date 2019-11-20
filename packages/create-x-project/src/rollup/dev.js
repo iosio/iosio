@@ -67,7 +67,7 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
                 mainFields: ['module', 'jsnext', 'main'],
                 extensions: DEFAULT_EXTENSIONS,
             }),
-            commonjsConfig && commonjs(commonjsConfig),
+            commonjs(commonjsConfig || {"include": /node_modules/}),
             json(),
             babel({
                 extensions: DEFAULT_EXTENSIONS,
