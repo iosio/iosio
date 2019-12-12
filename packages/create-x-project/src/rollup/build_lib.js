@@ -23,7 +23,7 @@ const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
 const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig, copyConfig}) => {
 
-    console.log('build_lib ********************');
+    // console.log('build_lib ********************');
 
     process.env.NODE_ENV = 'production';
 

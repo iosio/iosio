@@ -114,7 +114,7 @@ const rollupLocations = {
 };
 
 // const buildLocation = '../src/build_.js';
-console.log('asdf')
+// console.log('asdf')
 export async function cli(args) {
     let options = parseArgumentsIntoOptions(args);
 

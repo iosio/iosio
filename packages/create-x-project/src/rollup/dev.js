@@ -30,7 +30,7 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
 
     process.env.NODE_ENV = 'development';
 
-    console.log('dev output dir', devOutputDir)
+    // console.log('dev output dir', devOutputDir);
     const moduleAliases = alias
         ? parseMappingArgumentAlias(alias)
         : [];
