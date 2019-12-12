@@ -1,6 +1,6 @@
 {
   "name": "@iosio/xact",
-  "version": "0.5.70",
+  "version": "0.5.71",
   "description": "modified and reduced version of preact without class components. great for simply rendering jsx inside web components (including shadowRoots)",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -29,7 +29,7 @@
     "@iosio/util": "^0.5.69"
   },
   "devDependencies": {
-    "@iosio/create-x-project": "^0.5.70"
+    "@iosio/create-x-project": "^0.5.71"
   },
   "xProjectConfig": {
     "devInput": "dev/index.js",
