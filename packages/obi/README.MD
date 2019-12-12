@@ -6,9 +6,7 @@ Obi extends the functionality of objects to provide change detection.
 
 
 The goal of this module is to provide a straight forward and interoperable option for state management without the bloat. 
-Unlike many other modules that provide extensive functionality, this module aims to provide a minimal 
-and focused approach with the least amount of magic behind the scenes. Rather than being required to learn 
-an extensive api, obi embraces existing limitations and expected native behavior.
+This module aims to provide a minimal and focused approach with the least amount of magic behind the scenes.
 
 ## Installation 
 ```sh
