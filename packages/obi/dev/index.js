@@ -1,4 +1,4 @@
-import {obi} from "../../src";
+import {obi} from "../src";
 
 const testObi = obi({
     hello: '123',
@@ -24,8 +24,10 @@ setTimeout(() => {
 
     setTimeout(() => {
         testObi.object.a = '!@#$@!#$!@#$';
-    }, 2000);
 
 
-}, 2000);
+    }, 1000);
+
+
+}, 1000);
 

@@ -13,7 +13,6 @@ import url from "rollup-plugin-url";
 import browserSync from 'browser-sync';
 import {babelPlugins} from "./babelPlugins";
 import historyApiFallback from 'connect-history-api-fallback';
-import webworkify from 'rollup-plugin-webworkify';
 import copy from 'rollup-plugin-copy'
 //------------
 import {createLazyPages} from "./lazyPages";
@@ -57,10 +56,6 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
             moduleAliases.length > 0 && aliasImports({
                 resolve: DEFAULT_EXTENSIONS,
                 entries: moduleAliases
-            }),
-            webworkify({
-                // specifically patten files
-                pattern: '**/*.worker.js'  // Default: undefined (follow micromath globs)
             }),
             indexHTML({indexHTML: html}),
             resolve({

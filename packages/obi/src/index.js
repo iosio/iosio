@@ -2,16 +2,11 @@ import {def, extend, isFunc, isObj, Subie, arrayIncludesItemFromArray} from "@io
 
 let non_enumerables = ['$obi', '$batching', '$onChange', '$getState', '$merge', '$path'];
 
-export const obi = (suspect) => {
-
+export const obi = suspect => {
     let {sub: base_sub, notify: base_notify} = Subie();
-
     let notifyingPaths = [];
-
     const obiOuter = (_suspect, lastPath = '') => {
-
         const {sub, notify} = Subie();
-
         let makeObi = (obj, _lastPath = '') => {
             if (obj.$obi) return obj;
             def(obj, '$obi', {enumerable: false, value: true});
@@ -48,7 +43,6 @@ export const obi = (suspect) => {
                 if (isFunc(internal) || non_enumerables.includes(key)) continue;
                 let path = _lastPath + (_lastPath ? '.' : '') + key;
                 if (isObj(internal)) obiOuter(obj[key], path);
-
                 def(obj, key, {
                     enumerable: true,
                     get: () => internal,
@@ -77,9 +71,6 @@ export const select = (obi, selections = []) => ({
             mainUnsub = obi.$onAnyChange((data, paths = []) =>
                 arrayIncludesItemFromArray(selections, paths) && notify(data, paths)
             ), unsub = sub(callback);
-        return () => {
-            mainUnsub();
-            unsub();
-        }
+        return () => (mainUnsub(), unsub());
     }
 });

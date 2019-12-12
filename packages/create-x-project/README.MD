@@ -58,6 +58,7 @@ or as a separate file at the root of the project directory called xProjectConfig
 You may instead export default a configuration object from xProjectConfig.js 
 at the root of the project directory
 ```js
+// xProjectConfig.js
 export default {
     ...
 }
@@ -91,7 +92,7 @@ export default {
     //browserlist specific to css auto prefixer in case it differs from js
     cssBrowsers: /*default*/['chrome 78'],
     
-    //if true, creates a legacy build that is conditionally loaded for older browsers  
+    //if true, creates an additional legacy build that is conditionally loaded for older browsers  
     multiBuild: /*default*/ undefined,
     
     //if true, will include external dependencies into the library build
@@ -100,8 +101,8 @@ export default {
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
     
-    //if using any commonjs packages, pass a configuration object
-    commonjsConfig: /*default*/ undefined, 
+    //bundles commonJS packages as es modules: see "rollup-plugin-commonjs" for more info
+    commonjsConfig: /*default*/ {"include": /node_modules/},
     
     //live reloading dev server. see https://browsersync.io/docs/options for more info.
     // assigning a new config object to this prop will override what is shown below
@@ -113,13 +114,13 @@ export default {
        ui: false
    },
    
-   //convert default exports into lazy loaded pages for router
+   //convert default exports into lazy loaded pages for router (see lazyPages section below)
    lazyPagesConfig: /*default*/{
        //the directory where the page files live
-       dir: '/src/lazyPages',
+       dir: /*default*/ '/src/lazyPages',
        // pass 'preact' to export a factory function for injecting a lazyLoader
        //keep undefined to use default behavior intended for custom-elements-router
-       type: undefined
+       type: /*default*/ undefined
     },
     
     //environment variables. see next section for explanation 
@@ -155,7 +156,8 @@ x build prod
 you may now access the env vars in your js files:
 ```js
 fetch(process.env.API_URL + '/get-stuff');
-//build prod output: 'http://app.prod.com/api/get-stuff'
+console.log(process.env.API_URL)
+//build prod logs: 'http://app.prod.com/api/get-stuff'
 ```
 
 
@@ -177,7 +179,7 @@ const minified_and_autoprefixed_css_string = `.noSelect{-webkit-user-select:none
 ```
 
 ### Lazy Pages
-To dynamically generate lazyMap and pathMap objects, create a lazyPages directory under your src: src/lazyPages/. (see config section above for more info)
+(Opt-in) To dynamically generate lazyMap and pathMap objects, create a lazyPages directory under your src: src/lazyPages/. (see config section above for more info)
 ```sh 
 src
   |_ lazyPages
@@ -190,7 +192,7 @@ import {x,h} from '@iosio/x';
 export default x('index-page', ()=> <h1>index page</h1>);
 //or if 'preact' is passed to configuration
 import {h} from 'preact';
-export default ()=> <h1>index page</h1>;
+export default () => <h1>index page</h1>;
 ```
 start the app and you should now see a file called dynamicImports.js.
  
@@ -235,8 +237,7 @@ const pathMap = pathMapFn(lazyLoader);
 <Router pathMap={pathMap}/>
 
 ```
-import the objects and configure the @iosio/custom-elements-router. 
-create-x-project installer outputs a starter app that illustrate this.
+create-x-project installer outputs a starter app that illustrate the usage of lazyPages.
 
 
 

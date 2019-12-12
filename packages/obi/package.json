@@ -22,7 +22,7 @@
 		"@iosio/util": "^0.5.69"
 	},
 	"xProjectConfig": {
-		"devInput": "dev/src/index.js",
+		"devInput": "dev/index.js",
 		"html": "dev/index.html"
 	}
 }

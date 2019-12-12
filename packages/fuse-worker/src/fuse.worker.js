@@ -1,4 +1,13 @@
-//------------------- start fuse.js ---------------------------------
+/*
+
+
+
+------------------- START FUSE.JS SOURCE CODE  ---------------------------------
+
+//@TODO: need to find rollup plugin that will correctly handle web worker files
+
+
+ */
 const t = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
 var e = (e, s, n = / +/g) => {
         let r = new RegExp(s.replace(t, "\\$&").replace(n, "|")), o = e.match(r), i = !!o, a = [];
@@ -295,11 +304,13 @@ class c {
         this.options.verbose && console.log(...arguments)
     }
 }
+/*
 
-//-------------------- end fuse.js ----------------------------------------------
+------------------- END FUSE.JS SOURCE CODE  ---------------------------------
+
+*/
 
 const Fuse = c;
-
 
 let _options = {};
 

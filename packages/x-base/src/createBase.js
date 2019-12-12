@@ -167,7 +167,7 @@ export const createBase = ({h, render, setProperty}) => {
                 };
                 this.hasMounted = true;
                 // Removing this functionality during testing makes life easier.
-                !TEST_ENV ? raf(postInitial) : postInitial();
+                !TEST_ENV ? setTimeout(postInitial) : postInitial();
             };
 
             const subsequentRenderer = () => {

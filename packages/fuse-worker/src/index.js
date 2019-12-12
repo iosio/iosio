@@ -1,4 +1,4 @@
-export const FuseWorker = (config) => {
+export const FuseWorker = (config = {}) => {
     let {workerURL, list, options} = config;
 
     let _options = {
@@ -13,11 +13,8 @@ export const FuseWorker = (config) => {
         ...options
     };
 
-    let originalList = list || [];
-
-    let lastSearchValue = '';
-
-    let cb;
+    let originalList = list || [],
+        lastSearchValue = '', cb;
 
     const worker = new Worker(workerURL || './fuse.worker.js'),
 
