@@ -1,0 +1,1 @@
+import{obi as e}from"@iosio/obi";const t=t=>{const c=e({fetchingStates:Object.keys(t).reduce((e,t)=>(e[t]=!1,e),{}),...Object.keys(t).reduce((e,s)=>(e[s]=(...e)=>(c.fetchingStates[s]=!0,t[s](...e).then(e=>(c.fetchingStates[s]=!1,e)).catch(e=>(c.fetchingStates[s]=!1,Promise.reject(e)))),e),{})});return c};export{t as obiClient};

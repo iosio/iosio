@@ -1,6 +1,20 @@
 import {def, extend, isFunc, isObj, Subie, arrayIncludesItemFromArray} from "@iosio/util";
 
-let non_enumerables = ['$obi', '$batching', '$onChange', '$getState', '$merge', '$path'];
+
+export const select = (obi, selections = []) => ({
+    $onChange: (callback) => {
+        const {sub, notify} = Subie(),
+
+            mainUnsub = obi.$onAnyChange((data, paths = []) =>
+                arrayIncludesItemFromArray(selections, paths) && notify(data, paths)
+            ), unsub = sub(callback);
+
+        return () => (mainUnsub(), unsub());
+    }
+});
+
+
+let non_enumerables = ['$obi', '$batching', '$onChange', '$getState', '$merge', '$path', '$select'];
 
 export const obi = suspect => {
     let {sub: base_sub, notify: base_notify} = Subie();
@@ -38,6 +52,13 @@ export const obi = suspect => {
                     notifyingPaths = [];
                 }
             });
+            def(obj, '$select', {
+                enumerable: false,
+                value: (selections = []) => extend({}, {
+                    ...obj,
+                    ...select(obj, selections)
+                })
+            });
             for (let key in obj) {
                 let internal = obj[key];
                 if (isFunc(internal) || non_enumerables.includes(key)) continue;
@@ -48,12 +69,16 @@ export const obi = suspect => {
                     get: () => internal,
                     set(value) {
                         if (value === internal) return;
-                        internal = value;
-                        notifyingPaths.push(path);
-                        if (!suspect.$batching.active) {
-                            notify(_suspect, [path]);
-                            base_notify(suspect, [path]);
-                            notifyingPaths = [];
+                        if (isObj(value) && isObj(internal) && obj[key].$merge) {
+                            obj[key].$merge(value);
+                        } else {
+                            internal = value;
+                            notifyingPaths.push(path);
+                            if (!suspect.$batching.active) {
+                                notify(_suspect, [path]);
+                                base_notify(suspect, [path]);
+                                notifyingPaths = [];
+                            }
                         }
                     },
                 });
@@ -64,13 +89,3 @@ export const obi = suspect => {
     };
     return obiOuter(suspect)
 };
-
-export const select = (obi, selections = []) => ({
-    $onChange: (callback) => {
-        const {sub, notify} = Subie(),
-            mainUnsub = obi.$onAnyChange((data, paths = []) =>
-                arrayIncludesItemFromArray(selections, paths) && notify(data, paths)
-            ), unsub = sub(callback);
-        return () => (mainUnsub(), unsub());
-    }
-});

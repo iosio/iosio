@@ -1,0 +1,29 @@
+{
+	"name": "@iosio/obi-client",
+	"version": "0.0.1",
+	"description": "",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"files": [
+		"src",
+		"lib"
+	],
+	"scripts": {
+		"start": "x start",
+		"build": "x build",
+		"build_lib": "x build_lib",
+		"serve_build": "x serve_build",
+		"test": "echo \"No test specified\" && exit 0"
+	},
+	"dependencies": {
+		"@iosio/obi": "^0.5.72"
+	},
+	"xProjectConfig": {
+		"devInput": "/dev/index.js",
+		"html": "/dev/index.html"
+	}
+}
