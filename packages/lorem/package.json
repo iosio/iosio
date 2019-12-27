@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/lorem",
-	"version": "0.5.69",
+	"version": "0.5.74",
 	"description": "import lorem ipsum dummy text into js",
 	"main": "lib/index.js",
 	"module": "src/index.js",
