@@ -75,6 +75,9 @@ export const arrayIncludesItemFromArray = (arr1, arr2) => {
     return false;
 };
 
+const validEmailRegexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+export const isValidEmail = email => validEmailRegexp.test(email);
+
 /*------------------ SORTING / FILTERS -------------------------- */
 
 export const sortOrderOfObjArr = (arr, objProp, descend) => {
@@ -367,11 +370,11 @@ export const lsdb = {
     },
 };
 
-export const getUnixTimeStampNow = () => Math.round(+new Date()/1000);
+export const getUnixTimeStampNow = () => Math.round(+new Date() / 1000);
 
 const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 
-export const uniqueID = () =>s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+export const uniqueID = () => s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4() + '-' + getUnixTimeStampNow();
 
 
