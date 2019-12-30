@@ -82,6 +82,7 @@ export const createRouting = () => {
             {pathname, $lastPathname, $lastUrl, $lastType, url} = routing,
             noChange = url === $lastUrl;
         noMatch = noMatch || '/';
+
         if (root) next = pathMap['/' + pathname.split('/')[1]] || pathMap[noMatch];
         else if (pathMap[pathname]) next = pathMap[pathname];
         else if ($lastPathname !== pathname && pathMap[$lastPathname]) {

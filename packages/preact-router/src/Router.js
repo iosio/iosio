@@ -6,11 +6,16 @@ const {routerSwitch} = routing;
 export {routing};
 
 export class Router extends Component {
-    constructor() {
-        super();
-        this.unsub = routing.$onChange(() =>
-            this.setState(Object.create(null))
-        );
+    constructor(props) {
+        super(props);
+        let lastPath = window.location.pathname;
+        this.unsub = routing.$onChange(() => {
+            const {pathname} = routing;
+            if (lastPath !== pathname){
+                this.setState(Object.create(null));
+                lastPath = pathname;
+            }
+        });
         this.initial = true;
     }
 

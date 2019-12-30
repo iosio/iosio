@@ -13,7 +13,14 @@ const access = obi({
 class Blog extends Component {
     render() {
         console.log('blog rendered');
-        return <h1>blog</h1>
+        return (
+            <div>
+                <h1>blog</h1>
+                <button onClick={()=>routing.route(false, {id: 1})}> blog 1</button>
+                <button onClick={()=>routing.route(false, {id: 2})}> blog 2</button>
+                <button onClick={()=>routing.route(false, {id: 3})}> blog 3</button>
+            </div>
+        )
     }
 }
 
@@ -35,6 +42,7 @@ const App = () => {
 
     useObi(access);
 
+
     return (
         <div>
             {Object.keys({...publicAccess, ...(access.loggedIn ? admin : {})}).map(path => (
@@ -55,7 +63,7 @@ const App = () => {
 
             <Router root pathMap={{
                 '/': () => <Router pathMap={publicAccess}/>,
-                ...(access.loggedIn ? {'/admin': () => <Router  pathMap={admin}/>} : {})
+                ...(access.loggedIn ? {'/admin': () => <Router pathMap={admin}/>} : {})
             }}/>
 
         </div>
