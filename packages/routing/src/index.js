@@ -1,4 +1,4 @@
-import {isArray, isObj} from "@iosio/util";
+import {isArray, isObj, isString} from "@iosio/util";
 import {obi} from "@iosio/obi";
 
 export const createRouting = () => {
@@ -64,10 +64,10 @@ export const createRouting = () => {
         getParams,
         stringifyParams,
         getLocation,
-        route(path, search, type) {
+        route(pathOrSearchObj, search, type) {
+            let path = isString(pathOrSearchObj) ? pathOrSearchObj : location.pathname;
+            search = isObj(pathOrSearchObj) ? pathOrSearchObj : (search || '');
             type = type || 'push';
-            path = path || location.pathname;
-            search = search || '';
             const {pathname, url} = getLocation();
             if (type !== 'replace') (_lastUrl = url, _lastPathname = pathname);
             setUrl(path, search, type);

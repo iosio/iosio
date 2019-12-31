@@ -42,7 +42,6 @@ const App = () => {
 
     useObi(access);
 
-
     return (
         <div>
             {Object.keys({...publicAccess, ...(access.loggedIn ? admin : {})}).map(path => (
