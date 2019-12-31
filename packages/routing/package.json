@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/routing",
-	"version": "0.5.76",
+	"version": "0.5.77",
 	"description": "super slim history routing",
 	"main": "lib/index.js",
 	"module": "src/index.js",
