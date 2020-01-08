@@ -34,6 +34,7 @@
 		"@babel/plugin-transform-react-jsx": "^7.3.0",
 		"@babel/preset-env": "^7.6.3",
 		"@iosio/babel-plugin-jcss": "^0.5.79",
+		"@iosio/babel-plugin-minify-html-literals": "^0.5.79",
 		"@open-wc/building-utils": "^2.7.0",
 		"@rollup/plugin-alias": "^2.2.0",
 		"arg": "^4.1.0",

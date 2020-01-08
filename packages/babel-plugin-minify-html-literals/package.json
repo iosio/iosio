@@ -22,12 +22,6 @@
 		"build": "echo \"no build script\""
 	},
 	"dependencies": {
-		"@node-minify/core": "^5.2.1",
-		"autoprefixer": "^9.6.1",
-		"clean-css": "^4.2.1",
-		"html-minifier": "^4.0.0",
-		"postcss": "^7.0.17",
-		"postcss-flexbugs-fixes": "^4.1.0",
-		"postcss-preset-env": "^6.7.0"
+		"html-minifier": "^4.0.0"
 	}
 }
