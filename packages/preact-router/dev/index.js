@@ -1,14 +1,41 @@
 import {h, Component, render} from "preact"
 
 import {obi} from "@iosio/obi";
-import {Router, routing, lazyLoader} from "../src";
+import {Router, routing, lazyLoader, anchorTagResetStyles, Linkage} from "../src";
 
 import {useObi} from '@iosio/obi-preact-connect';
-
 
 const access = obi({
     loggedIn: false
 });
+const linkStyle = (isActive) => ({
+    color: isActive ? 'green' : 'inherit',
+    margin: 10,
+    display: 'block',
+    fontWeight: 'bold'
+});
+
+
+const Link = ({toPath, toParams, name, ...rest}) => (
+    <Linkage toPath={toPath} toParams={toParams} listenTo={'pathname'} {...rest}>
+        {({isActive}) => (
+            <span style={linkStyle(isActive)}>
+                {name}
+            </span>
+        )}
+    </Linkage>
+);
+
+const LinkParams = ({toPath, toParams, name, ...rest}) => (
+    <Linkage toPath={toPath} toParams={toParams} listenTo={'search'} {...rest}>
+        {({isActive}) => (
+            <span style={linkStyle(isActive)}>
+                {name}
+            </span>
+        )}
+    </Linkage>
+);
+
 
 class Blog extends Component {
     render() {
@@ -16,9 +43,9 @@ class Blog extends Component {
         return (
             <div>
                 <h1>blog</h1>
-                <button onClick={()=>routing.route(false, {id: 1})}> blog 1</button>
-                <button onClick={()=>routing.route(false, {id: 2})}> blog 2</button>
-                <button onClick={()=>routing.route(false, {id: 3})}> blog 3</button>
+                <LinkParams toParams={{id: 1}} name={'blog 1'}/>
+                <LinkParams toParams={{id: 2}} name={'blog 2'}/>
+                <LinkParams toParams={{id: 3}} name={'blog 3'}/>
             </div>
         )
     }
@@ -38,17 +65,22 @@ const admin = {
     '/admin/account': () => <h1>account</h1>
 };
 
+
 const App = () => {
 
     useObi(access);
 
     return (
         <div>
-            {Object.keys({...publicAccess, ...(access.loggedIn ? admin : {})}).map(path => (
-                <button key={path} onClick={() => routing.route(path)}>
-                    {path}
-                </button>
-            ))}
+            <style>
+                {anchorTagResetStyles}
+            </style>
+            <div style={{display: 'flex', width: '100%'}}>
+
+                {Object.keys({...publicAccess, ...(access.loggedIn ? admin : {})}).map(path => (
+                    <Link key={path} toPath={path} name={path} style={{margin: 10, display: 'block'}}/>
+                ))}
+            </div>
 
             <button onClick={() => routing.route('/derrrrrrpp')}>
                 invalid route

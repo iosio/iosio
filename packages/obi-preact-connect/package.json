@@ -18,7 +18,7 @@
 	},
 	"devDependencies": {
 		"@iosio/obi": "^0.5.75",
-		"preact": "^10.0.4"
+		"preact": "^10.1.1"
 	},
 	"xProjectConfig": {
 		"devInput": "dev/index.js",

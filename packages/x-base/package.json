@@ -14,14 +14,15 @@
 	],
 	"keywords": [],
 	"scripts": {
-		"start": "create-x-project start"
+		"start": "x start",
+		"build": "x build_lib"
 	},
 	"dependencies": {
 		"@iosio/util": "^0.5.75"
 	},
 	"devDependencies": {
 		"@iosio/xact": "^0.5.75",
-		"preact": "^10.0.0-rc.3"
+		"preact": "^10.1.1"
 	},
 	"xProjectConfig": {
 		"devInput": "/dev/src/index.js",

@@ -1,0 +1,33 @@
+{
+	"name": "@iosio/babel-plugin-minify-html-literals",
+	"version": "0.5.74",
+	"description": "custom babel plugin for minifying html template strings in javascript",
+	"main": "index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"template",
+		"litteral",
+		"css",
+		"minify",
+		"autoprefix"
+	],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "echo \"no build script\""
+	},
+	"dependencies": {
+		"@node-minify/core": "^5.2.1",
+		"autoprefixer": "^9.6.1",
+		"clean-css": "^4.2.1",
+		"html-minifier": "^4.0.0",
+		"postcss": "^7.0.17",
+		"postcss-flexbugs-fixes": "^4.1.0",
+		"postcss-preset-env": "^6.7.0"
+	}
+}

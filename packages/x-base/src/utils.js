@@ -13,28 +13,13 @@ export const CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE = "adoptedStyleSheets" in docu
  */
 export const headStyleTag = (mount) => {
     let style = d.createElement('style');
-    style.appendChild( d.createTextNode(""));
+    style.appendChild(d.createTextNode(""));
     (mount || d.head).appendChild(style);
     return (css) => (style.appendChild(d.createTextNode(css)), style);
 };
 
 export const globalStyleTagCache = {}; // cache the instance css to the tagName
 
-
-/**
- *
- * @param cssText
- * @param async
- * @returns {*[]} - [0] constructable style sheet, [1] css text
- */
-export const createStyleSheet = (cssText, async) => {
-    let sheet = false;
-    if (CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE) {
-        sheet = new CSSStyleSheet();
-        sheet[async ? 'replace' : 'replaceSync'](cssText);
-    }
-    return [sheet, cssText];
-};
 
 /*------------------ WEB COMPONENT -------------------------- */
 /**
@@ -81,6 +66,57 @@ export const updateAttribute = (node, attr, value) => {
 
 export const propToAttr = (prop) => prop.replace(/([A-Z])/g, "-$1").toLowerCase();
 export const attrToProp = (attr) => attr.replace(/-(\w)/g, (all, letter) => letter.toUpperCase());
+
+
+export const getShadowParent = elmnt => {
+    while (elmnt.parentNode && (elmnt = elmnt.parentNode)) if (elmnt instanceof ShadowRoot) return elmnt;
+    return document;
+};
+
+/**
+ * @param cssText
+ * @param async
+ * @returns {*[]} - [0] constructable style sheet, [1] css text
+ */
+export const createStyleSheet = (cssText, async) => {
+    let sheet = false;
+    if (CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE) {
+        sheet = new CSSStyleSheet();
+        sheet[async ? 'replace' : 'replaceSync'](cssText);
+    }
+    return [sheet, cssText];
+};
+
+
+/*
+* adopts style sheets to the shadowRoot or the document
+* @param sheets {array|CSSStyleSheet}
+* @returns {string}
+*/
+export const adoptSheets = ({styleSheets, getCombined, shadowRoot}) => {
+    let adopter = shadowRoot || getShadowParent(this);
+    let combinedCSSTextIfNotAdoptable = '',
+
+        constructable = customArrayOrSheet => {
+            let sheet = isArray(customArrayOrSheet) ? customArrayOrSheet[0] : customArrayOrSheet;
+            if (sheet && !([].concat(adopter.adoptedStyleSheets).includes(sheet))) {
+                adopter.adoptedStyleSheets = [...adopter.adoptedStyleSheets, sheet];
+            }
+        },
+        combinedText = customArrayOrSheet => {
+            if (isArray(customArrayOrSheet) && customArrayOrSheet[1]) {
+                combinedCSSTextIfNotAdoptable = combinedCSSTextIfNotAdoptable + customArrayOrSheet[1]
+            }
+        };
+    let adopt = CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE && !getCombined ? constructable : combinedText;
+    [].concat(styleSheets).forEach(adopt);
+    return combinedCSSTextIfNotAdoptable
+};
+
+
+
+
+
 
 /*------------------ CONSTANTS -------------------------- */
 
