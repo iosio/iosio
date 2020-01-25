@@ -14,5 +14,6 @@ export const lazyLoader = (importComponent, indicator) => {
         )
     }
 
+    // Lazy
     return LazyComponent;
 };

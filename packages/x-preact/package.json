@@ -3,7 +3,7 @@
   "version": "0.5.79",
   "description": "Build web components with preact",
   "main": "lib/index.js",
-  "module": "lib/index.js",
+  "module": "src/index.js",
   "publishConfig": {
     "access": "public"
   },

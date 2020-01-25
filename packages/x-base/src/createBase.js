@@ -4,9 +4,9 @@ import {
     propToAttr,
     attrToProp,
     TEST_ENV,
-
-    globalStyleTagCache,
+    adoptSheets,
     CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE, headStyleTag,
+    DEFAULT_SHADOWROOT_HOST_CSS_RESETS
 
 } from "./utils";
 
@@ -15,9 +15,11 @@ import {isArray, raf, CSSTextToObj, def, isFunc, objectIsEmpty, extend} from "@i
 
 export const createBase = ({h, render, setProperty}) => {
 
+    const globalStyleTagCache = {}; // cache the instance css to the tagName
+
     let PROPS = 'props',
         IGNORE_ATTR = Symbol(),
-        DEFAULT_SHADOWROOT_HOST_CSS_RESETS = `:host, *, *::before, *::after {box-sizing: border-box;} `,
+
         context = {};
 
     const getShadowParent = element => {
@@ -56,29 +58,6 @@ export const createBase = ({h, render, setProperty}) => {
             // Promise is resolved in connectedCallback when mount is called
             this.mounted = new Promise(mount => (this._mount = mount));
 
-            /*
-             * adopts style sheets to the shadowRoot or the document
-             * @param sheets {array|CSSStyleSheet}
-             * @returns {string}
-             */
-            const adoptSheets = (sheets, getCombined) => {
-                let adopter = shadow ? root : getShadowParent(this);
-                let combinedCSSTextIfNotAdoptable = '',
-                    constructable = customArrayOrSheet => {
-                        let sheet = isArray(customArrayOrSheet) ? customArrayOrSheet[0] : customArrayOrSheet;
-                        if (sheet && !([].concat(adopter.adoptedStyleSheets).includes(sheet))) {
-                            adopter.adoptedStyleSheets = [...adopter.adoptedStyleSheets, sheet];
-                        }
-                    },
-                    combinedText = customArrayOrSheet => {
-                        if (isArray(customArrayOrSheet) && customArrayOrSheet[1]) {
-                            combinedCSSTextIfNotAdoptable = combinedCSSTextIfNotAdoptable + customArrayOrSheet[1]
-                        }
-                    };
-                let adopt = CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE && !getCombined ? constructable : combinedText;
-                [].concat(sheets).forEach(adopt);
-                return combinedCSSTextIfNotAdoptable
-            };
 
             let combinedCSSText = '', cssOncePerRenderVerify = 0, renderStyle = false;
             /**
@@ -104,13 +83,18 @@ export const createBase = ({h, render, setProperty}) => {
                 if (!noResets && shadow) cssText = DEFAULT_SHADOWROOT_HOST_CSS_RESETS + cssText;
 
                 if (CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE && !useStyleTag) {
-                    adoptSheets(rootSheet);
+                    adoptSheets({styleSheets: rootSheet, element: this});
                     rootSheet.cssRules.length === 0 && rootSheet.replaceSync(cssText);
-                    styleSheets && adoptSheets(styleSheets);
+                    styleSheets && adoptSheets({styleSheets: styleSheets, element: this});
                     renderStyle = null;
                 } else {
-                    combinedCSSText = cssText + adoptSheets(rootSheet, true) + (styleSheets ? adoptSheets(styleSheets, true) : '');
-
+                    combinedCSSText = cssText
+                        + adoptSheets({styleSheets: rootSheet, element: this, getCombined: true})
+                        + (styleSheets ? adoptSheets({
+                            styleSheets: styleSheets,
+                            element: this,
+                            getCombined: true
+                        }) : '');
                     if (globalFallback && !globalStyleTagCache[tag]) {
                         globalStyleTagCache[tag] = true;
                         globalStyles(combinedCSSText);

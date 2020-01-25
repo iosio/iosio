@@ -1,0 +1,20 @@
+{
+	"name": "@iosio/elemental",
+	"version": "0.0.1",
+	"description": "",
+	"main": "lib/index.js",
+	"module": "src/index.js",
+	"private": true,
+	"scripts": {
+		"start": "x start",
+		"build": "x build",
+		"build_lib": "x build_lib",
+		"serve_build": "x serve_build",
+		"test": "echo \"No test specified\" && exit 0"
+	},
+	"dependencies": {
+		"@iosio/util": "^0.5.75"
+	},
+	"devDependencies": {},
+	"xProjectConfig": {}
+}

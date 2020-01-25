@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 /* inspired by: https://github.com/art-bazhin/babel-plugin-postcss-template-literals */
@@ -70,7 +68,6 @@ module.exports = function ({types: t}) {
                 opts = Object.assign({}, DEFAULT_OPTIONS, opts);
                 let htmlOpts = Object.assign(
                     {},
-                    {from: file.opts.filename},
                     opts.htmlOpts
                 );
 
@@ -87,13 +84,15 @@ module.exports = function ({types: t}) {
                     return acc + quasi.value.raw + expr;
                 }, '');
 
-                let processed = minify(html, {
-                    caseSensitive: true,
-                    continueOnParseError: true,
-                    minifyCSS: true,
-                    removeComments: true,
-                });
+                let processed = html.replace(/  +/g, ' ').replace('\n', ' ');
 
+                //     minify(html, {
+                //     collapseWhitespace: true,
+                //     caseSensitive: true,
+                //     minifyCSS: true,
+                //     removeComments: true,
+                //     ...htmlOpts
+                // });
 
 
                 let split = splitExpressions(processed);

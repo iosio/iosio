@@ -22,6 +22,7 @@ export const toLowerCase = (toLower) => toLower.toLowerCase();
 export const toUpperCase = (toUpper) => toUpper.toUpperCase();
 export const addListener = (to, ev, cb) => to.addEventListener(ev, cb);
 export const removeListener = (from, ev, cb) => from.removeEventListener(ev, cb);
+
 export const eventListener = (to, ev, cb, opts) => {
     if (!isArray(to)) return addListener(to, ev, cb, opts), () => removeListener(to, ev, cb);
     let unListenAll = [];
@@ -62,6 +63,13 @@ export const isChrome = () => {
         isIEedge === false;
 };
 
+// https://github.com/Polymer/pwa-helpers
+export const installOfflineWatcher = offlineUpdatedCallback => {
+    window.addEventListener('online', () => offlineUpdatedCallback(false));
+    window.addEventListener('offline', () => offlineUpdatedCallback(true));
+
+    offlineUpdatedCallback(navigator.onLine === false);
+};
 
 /*------------------ CHECKS -------------------------- */
 
