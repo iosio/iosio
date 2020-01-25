@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/elemental",
-	"version": "0.5.83",
+	"version": "0.5.84",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
