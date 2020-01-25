@@ -2,7 +2,6 @@ import {def, isFunc} from "@iosio/util";
 import {
     adoptStyles,
     appendTemplate,
-    makeProxyObj,
     attrToProp,
     formatType,
     propToAttr,
@@ -12,6 +11,12 @@ import {
 } from "./util";
 
 const IGNORE_ATTR = Symbol();
+
+/*
+    @TODO
+    - cache refs
+    -
+ */
 
 export class Elemental extends HTMLElement {
     constructor() {
@@ -42,9 +47,12 @@ export class Elemental extends HTMLElement {
             }
         };
 
+        let refsCache = {};
         this.refs = new Proxy({}, {
             get(target, key) {
-                return root.querySelector('#' + key)
+                if (key === 'refreshRefsCache') return () => refsCache = {};
+                if (!refsCache[key]) refsCache[key] = root.querySelector('#' + key);
+                return refsCache[key];
             }
         });
 
@@ -55,17 +63,26 @@ export class Elemental extends HTMLElement {
             }
         };
 
+        //if there is a shadowRoot, then its safe to render
         shadow && render();
-
         const initialUpdate = () => {
-            if (this.render) this.render(this.props);
-            else !shadow && render();
+            !shadow && render();
             this.didMount && this.didMount(this.props, this.prevProps, this.changedProps);
             this.hasMounted = true;
+            if (this.propLogic) {
+                const logic = this.propLogic(true);
+                Object.keys(this.props).forEach(prop => {
+                    logic[prop] && logic[prop](this.props[prop], this.refs);
+                });
+            }
         };
 
         const subsequentUpdate = () => {
             this.didUpdate && this.didUpdate(this.props, this.prevProps, this.changedProps);
+            if (this.propLogic) {
+                const logic = this.propLogic();
+                this.changedProps.forEach(prop => logic[prop] && logic[prop](this.props[prop], this.refs))
+            }
         };
 
         this.update = () => {
@@ -156,10 +173,10 @@ export class Elemental extends HTMLElement {
     }
 }
 
-
 Elemental.define = (...elements) => {
     elements.forEach((e) => {
-        if (!e.tag) return console.error('The static "tag" property is required on Elemental element', e);
+        console.log(e.tag);
+        if (!e.tag) return console.error('The Elemental base class requires a tag name on the static "tag" property', e);
         customElements.define(e.tag, e);
     })
 };

@@ -54,6 +54,7 @@ export const adoptStyles = (tag, element, cssString, async, useStyleTag) => {
             constructable[async ? 'replace' : 'replaceSync'](cssString);
             constructableStyleCache[tag] = constructable;
         }
+
         if (!([].concat(adopter.adoptedStyleSheets).includes(constructable))) {
             adopter.adoptedStyleSheets = [...adopter.adoptedStyleSheets, constructable];
         }
@@ -93,15 +94,6 @@ export const appendTemplate = (tag, element, templateStr) => {
     el.appendChild(temp.content.cloneNode(true));
 };
 
-export const UpdatableTemplate = (host) => {
-    let temp; // try caching again
-    return (html) => {
-        temp = document.createElement('template');
-        temp.innerHTML = html;
-        host.innerHTML = '';
-        host.appendChild(temp.content.cloneNode(true));
-    }
-};
 
 
 export const templateToHost = (host, html) => {
@@ -110,8 +102,6 @@ export const templateToHost = (host, html) => {
     host.innerHTML = '';
     host.appendChild(temp.content.cloneNode(true));
 };
-
-
 
 
 export const TemplateMapFactory = () =>{
@@ -168,19 +158,4 @@ export const formatType = (value, type) => {
         error: type == Number && Number.isNaN(value)
     };
     return {value, error: true};
-};
-
-export const makeProxyObj = (fallBackGetter) => {
-    return new Proxy({}, {
-        get(target, key) {
-            // let prop = target[key];
-            // if (prop) return prop;
-            // else {
-            //     prop = fallBackGetter(key);
-            //     target[key] = prop;
-            //     return prop;
-            // }
-            return fallBackGetter(key);
-        }
-    });
 };
