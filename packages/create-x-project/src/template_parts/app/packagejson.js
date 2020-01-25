@@ -13,12 +13,8 @@ export default (options) => {
             "serve_build": "x serve_build",
             "test": "echo \"No test specified\" && exit 0",
         },
-        dependencies: {
-            "@iosio/custom-elements-router": "^0.5.72",
-            "@iosio/x": "^0.5.73"
-        },
         devDependencies: {
-            "@iosio/create-x-project": "^0.5.73"
+            "@iosio/create-x-project": "^0.5.82"
         },
         xProjectConfig: {}
     };

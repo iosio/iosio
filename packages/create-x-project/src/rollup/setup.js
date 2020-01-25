@@ -41,13 +41,20 @@ export const setup = (rollup) => {
 
     const giveRoot = (arr) => arr.map((filePath) => path.join(ROOT, filePath));
 
+
     const input = Array.isArray(c.input) ? giveRoot(c.input) : path.join(ROOT, (c.input || '/src/index.js'));
+
+    const lib_input = !c.lib_input
+        ? input
+        : Array.isArray(c.lib_input) ? giveRoot(c.lib_input) : path.join(ROOT, (c.lib_input || '/src/index.js'));
+
 
     const devInput = Array.isArray(c.devInput) ? giveRoot(c.devInput) : (c.devInput ? path.join(ROOT, c.devInput) : input);
 
     let conf = {
         ROOT,
         input,
+        lib_input,
         devInput,
         html: path.join(ROOT, (c.html || '/src/index.html')),
         devOutputDir: path.join(ROOT, c.devOutputDir || '/build'),

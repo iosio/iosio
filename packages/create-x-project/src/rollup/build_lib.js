@@ -21,7 +21,7 @@ import copy from "rollup-plugin-copy";
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig, copyConfig}) => {
+const build_lib = ({ROOT, lib_input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig, copyConfig}) => {
 
     // console.log('build_lib ********************');
 
@@ -35,7 +35,7 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
         : [];
 
     const config = {
-        input,
+        input: lib_input,
         treeshake: true,
         external: includeExternalDeps ? undefined : excludeExternalDeps,
         output: {
@@ -101,7 +101,6 @@ const build_lib = ({ROOT, input, html, libOutputDir, browsers, cssBrowsers, mult
 
 
     return new Promise((resolve, reject) => {
-
         isDirectory(libOutputDir).then((isDir) => {
             rimraf(libOutputDir + (isDir ? '/*' : ''), {}, (err) => {
                 resolve(config);

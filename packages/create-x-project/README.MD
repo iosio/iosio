@@ -71,6 +71,9 @@ export default {
     //js entry point
     input: /*default*/ '/src/index.js',
     
+    //optional alternative entry point for build_lib. falls back to input 
+    lib_input: /*default*/ '/src/index.js',
+    
     //alternative entry point for developing demos alongside a lib
     devInput: /*default*/ '/src/index.js', //ex: '/demo/index.js',
     
@@ -237,9 +240,6 @@ const pathMap = pathMapFn(lazyLoader);
 <Router pathMap={pathMap}/>
 
 ```
-create-x-project installer outputs a starter app that illustrate the usage of lazyPages.
-
-
 
 
 
