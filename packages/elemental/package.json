@@ -4,7 +4,9 @@
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
-	"private": true,
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"start": "x start",
 		"build": "x build",
@@ -12,6 +14,10 @@
 		"serve_build": "x serve_build",
 		"test": "echo \"No test specified\" && exit 0"
 	},
+	"files": [
+		"src",
+		"lib"
+	],
 	"dependencies": {
 		"@iosio/util": "^0.5.81"
 	},
