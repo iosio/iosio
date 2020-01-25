@@ -1,4 +1,4 @@
-# This project was generated with @iosio/create-x-project (version: 0.5.82)
+# This project was generated with @iosio/create-x-project (version: 0.5.83)
 # @iosio/create-x-project
 
 > Zero configuration cli for generating, developing and bundling modern web apps and libraries
