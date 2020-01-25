@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/elemental",
-	"version": "0.0.1",
+	"version": "0.5.81",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -13,8 +13,7 @@
 		"test": "echo \"No test specified\" && exit 0"
 	},
 	"dependencies": {
-		"@iosio/util": "^0.5.75"
+		"@iosio/util": "^0.5.81"
 	},
-	"devDependencies": {},
 	"xProjectConfig": {}
 }

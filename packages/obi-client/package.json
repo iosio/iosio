@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi-client",
-	"version": "0.5.75",
+	"version": "0.5.81",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -20,7 +20,7 @@
 		"test": "echo \"No test specified\" && exit 0"
 	},
 	"dependencies": {
-		"@iosio/obi": "^0.5.75"
+		"@iosio/obi": "^0.5.81"
 	},
 	"xProjectConfig": {
 		"devInput": "/dev/index.js",
