@@ -101,25 +101,27 @@ export class Elemental extends HTMLElement {
 
         this.eventListener = (to, ev, cb, opts) => {
             this.unsubs.push(eventListener(to, ev, cb, opts));
-        }
+        };
+
+        this.emit = (event, detail, opts = {}, from = this) => from.dispatchEvent(
+            new CustomEvent(event, {detail: detail, bubbles: true, composed: true, ...opts})
+        );
+
+        this.unsubSubs = () => {
+            this.unsubs.forEach(f => f && f());
+        };
     }
 
     connectedCallback() {
         if (!this.hasMounted) this._mount();
     }
 
-    emit = (event, detail, opts = {}, from = this) => from.dispatchEvent(
-        new CustomEvent(event, {detail: detail, bubbles: true, composed: true, ...opts})
-    );
 
     attributeChangedCallback(attr, oldValue, newValue) {
         if (this[IGNORE_ATTR] === attr || oldValue === newValue) return;
         this[attrToProp(attr)] = newValue;
     }
 
-    unsubSubs = () => {
-        this.unsubs.forEach(f => f && f());
-    };
 
     disconnectedCallback() {
         if (this.isConnected) return;
@@ -175,7 +177,6 @@ export class Elemental extends HTMLElement {
 
 Elemental.define = (...elements) => {
     elements.forEach((e) => {
-        console.log(e.tag);
         if (!e.tag) return console.error('The Elemental base class requires a tag name on the static "tag" property', e);
         customElements.define(e.tag, e);
     })
