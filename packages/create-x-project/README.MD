@@ -104,7 +104,7 @@ export default {
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
     
-    //set this to to to enable absolute path imports. 
+    //enable absolute path imports. 
     // Example: instead of:
     //      import '../../someDep'
     // you may use:

@@ -1,4 +1,4 @@
-# This project was generated with @iosio/create-x-project (version: 0.5.84)
+# This project was generated with @iosio/create-x-project (version: 0.5.86)
 # @iosio/create-x-project
 
 > Zero configuration cli for generating, developing and bundling modern web apps and libraries
@@ -105,7 +105,7 @@ export default {
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
     
-    //set this to to to enable absolute path imports. 
+    //enable absolute path imports. 
     // Example: instead of:
     //      import '../../someDep'
     // you may use:
