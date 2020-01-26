@@ -53,6 +53,8 @@ export const setup = (rollup) => {
 
     let conf = {
         ROOT,
+        enableExperimentalAbsolutePathPlugin: c.enableExperimentalAbsolutePathPlugin,
+        baseUrl: c.baseUrl,
         input,
         lib_input,
         devInput,

@@ -1,4 +1,4 @@
-# This project was generated with @iosio/create-x-project (version: 0.5.83)
+# This project was generated with @iosio/create-x-project (version: 0.5.84)
 # @iosio/create-x-project
 
 > Zero configuration cli for generating, developing and bundling modern web apps and libraries
@@ -105,6 +105,15 @@ export default {
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
     
+    //set this to to to enable absolute path imports. 
+    // Example: instead of:
+    //      import '../../someDep'
+    // you may use:
+    //      import '/someDep'
+    // if '/someDep' is located at the baseUrl 
+    enableExperimentalAbsolutePathPlugin: /*default*/ undefined, //ex: true
+    baseUrl: /*default*/ undefined, // ex: 'src'
+
     //bundles commonJS packages as es modules: see "rollup-plugin-commonjs" for more info
     commonjsConfig: /*default*/ {"include": /node_modules/},
     
@@ -117,6 +126,7 @@ export default {
        },
        ui: false
    },
+    
    
    //convert default exports into lazy loaded pages for router (see lazyPages section below)
    lazyPagesConfig: /*default*/{

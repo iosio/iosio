@@ -22,7 +22,12 @@ import {parseMappingArgumentAlias} from "./util";
 import {isDirectory} from "./util";
 import copy from "rollup-plugin-copy";
 
-const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig, lazyPagesConfig, copyConfig}) => {
+import {absolutePathPlugin} from "./absolutePathPlugin";
+
+const build = ({
+                   ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiBuild, alias, commonjsConfig,
+                   lazyPagesConfig, copyConfig, enableExperimentalAbsolutePathPlugin, baseUrl
+               }) => {
 
 
     process.env.NODE_ENV = 'production';
@@ -45,6 +50,10 @@ const build = ({ROOT, input, html, buildOutputDir, browsers, cssBrowsers, multiB
             sourcemap: false,
         },
         plugins: [
+            enableExperimentalAbsolutePathPlugin && baseUrl && absolutePathPlugin({
+                input,
+                baseUrl
+            }),
             postcss({
                 plugins: [
                     autoprefixer(),

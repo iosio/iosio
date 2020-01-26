@@ -22,9 +22,12 @@ import {setup} from "./setup";
 
 import rimraf from 'rimraf';
 import {isDirectory} from "./util";
+import {absolutePathPlugin} from "./absolutePathPlugin";
 
-
-const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig, browserSyncConfig, lazyPagesConfig, copyConfig}) => {
+const dev = ({
+                 ROOT, devInput, html, devOutputDir, browsers, cssBrowsers, host, port, open, alias, commonjsConfig,
+                 browserSyncConfig, lazyPagesConfig, copyConfig, enableExperimentalAbsolutePathPlugin, baseUrl
+             }) => {
 
     const serveHost = `${host}:${port}`;
 
@@ -48,6 +51,10 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
             chunkFileNames: "[name].js"
         },
         plugins: [
+            enableExperimentalAbsolutePathPlugin && baseUrl && absolutePathPlugin({
+                input: devInput,
+                baseUrl
+            }),
             postcss({
                 plugins: [
                     autoprefixer(),
@@ -89,12 +96,6 @@ const dev = ({devInput, html, devOutputDir, browsers, cssBrowsers, host, port, o
             url({limit: 0, fileName: "[dirname][name][extname]"}),
         ].filter(Boolean)
     };
-
-    /*
-    {
-  targets: [{ src: 'src/index.html', dest: 'dist/public' }]
-}
-     */
 
     return new Promise((resolve, reject) => {
         isDirectory(devOutputDir).then(isDir => {

@@ -18,10 +18,14 @@ import rimraf from "rimraf";
 import {parseMappingArgumentAlias} from "./util";
 import {isDirectory} from "./util";
 import copy from "rollup-plugin-copy";
+import {absolutePathPlugin} from "./absolutePathPlugin";
 
 const excludeExternalDeps = (id) => !id.startsWith('.') && !id.startsWith('/');
 
-const build_lib = ({ROOT, lib_input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias, commonjsConfig, copyConfig}) => {
+const build_lib = ({
+                       ROOT, lib_input, html, libOutputDir, browsers, cssBrowsers, multiBuild, includeExternalDeps, alias,
+                       commonjsConfig, copyConfig, enableExperimentalAbsolutePathPlugin, baseUrl
+                   }) => {
 
     // console.log('build_lib ********************');
 
@@ -44,6 +48,10 @@ const build_lib = ({ROOT, lib_input, html, libOutputDir, browsers, cssBrowsers, 
             chunkFileNames: "[hash].js",
         },
         plugins: [
+            enableExperimentalAbsolutePathPlugin && baseUrl && absolutePathPlugin({
+                input: lib_input,
+                baseUrl
+            }),
             postcss({
                 plugins: [
                     autoprefixer(),

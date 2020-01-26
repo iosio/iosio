@@ -14,7 +14,7 @@ export default (options) => {
             "test": "echo \"No test specified\" && exit 0",
         },
         devDependencies: {
-            "@iosio/create-x-project": "^0.5.83"
+            "@iosio/create-x-project": "^0.5.84"
         },
         xProjectConfig: {}
     };
