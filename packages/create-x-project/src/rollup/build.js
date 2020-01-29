@@ -120,6 +120,8 @@ const build = ({
                     dest: buildOutputDir
                 }))
             }),
+
+
             filesize()
         ].filter(Boolean)
     });

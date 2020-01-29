@@ -19,6 +19,10 @@ import fs from "fs";
 
 import {serve_build} from "./rollup/serve_build";
 
+import {dev} from './rollup/dev';
+import {setup} from "./rollup/setup";
+import {stdout} from "./rollup/util";
+import {logError} from "./rollup/logError";
 
 const templateDirectory = __dirname + '/templates/app';
 const targetDirectory = process.cwd();
@@ -130,21 +134,27 @@ export async function cli(args) {
 
         // let pathToRollup = path.join()
         let rollupLocation = rollupLocations[action];
+
         if (action === 'serve_build') {
             serve_build();
         } else if (!rollupLocation) {
 
-            console.error('invalid cli command. must be: start, build, or build_lib.');
+            console.error('invalid cli command. must be: start, build, build_lib or serve_build.');
             return process.exit();
         } else {
 
-            const subprocess = execa.shell(
-                `rollup -c ${rollupLocation}${api ? (' --environment APP_ENV:' + api) : ''}`
-            );
-
-            subprocess.stdout.pipe(process.stdout);
-
-            return subprocess;
+            // const subprocess = execa.shell(
+            //     `rollup -c ${rollupLocation}${api ? (' --environment APP_ENV:' + api) : ''}`
+            // );
+            // subprocess.stdout.pipe(process.stdout);
+            // return subprocess;
+            return setup(dev).then(output => {
+                if (output != null) stdout(output);
+            }).catch(err => {
+                process.exitCode = (typeof err.code === 'number' && err.code) || 1;
+                logError(err);
+                process.exit();
+            });
         }
 
     }

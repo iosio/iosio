@@ -2,7 +2,6 @@
 
 /*
     inspired by: https://github.com/art-bazhin/babel-plugin-postcss-template-literals
-
  */
 
 const postcss = require('postcss');

@@ -42,7 +42,7 @@ export class Elemental extends HTMLElement {
                 if (!css) return;
                 if (!updatableStyleTag) {
                     updatableStyleTag = createStyleTag(css);
-                    (this.shadowRoot || this).appendChild(updatableStyleTag.element)
+                    root.appendChild(updatableStyleTag.element)
                 } else updatableStyleTag.update(css);
             }
         };

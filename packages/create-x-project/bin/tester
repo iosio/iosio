@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+require = require('esm/esm')(module /*, options*/);
+require('../src/cli_tester.js').cli(process.argv);

@@ -1,4 +1,26 @@
 #!/usr/bin/env node
 
+// import {stdout} from "../src/rollup/util";
+// import {logError} from "../src/rollup/logError";
+
 require = require('esm/esm')(module /*, options*/);
-require('../src/cli.js').cli(process.argv);
+require('../src/cli.js')
+    .cli(process.argv)
+//     .then(output => {
+//         if (output != null) stdout(output);
+//         if (!opts.watch) process.exit(0);
+//     })
+//
+//
+// const run = opts => {
+//     microbundle(opts)
+//         .then(output => {
+//             if (output != null) stdout(output);
+//             if (!opts.watch) process.exit(0);
+//         })
+//         .catch(err => {
+//             process.exitCode = (typeof err.code === 'number' && err.code) || 1;
+//             logError(err);
+//             process.exit();
+//         });
+// };
