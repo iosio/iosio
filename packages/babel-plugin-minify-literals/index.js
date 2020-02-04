@@ -64,12 +64,12 @@ module.exports = function ({types: t}) {
                 let quasis = path.node.quasi.quasis;
                 let exprs = path.node.quasi.expressions;
 
-                let html = quasis.reduce((acc, quasi, i) => {
+                let string = quasis.reduce((acc, quasi, i) => {
                     let expr = exprs[i] ? getExprId(i) : '';
                     return acc + quasi.value.raw + expr;
                 }, '');
 
-                let processed = html.replace(/  +/g, ' ').replace('\n', ' ');
+                let processed = string.split('\n').join(' ').replace(/  +/g, ' ');
 
                 let split = splitExpressions(processed);
                 let quasisAst = buildQuasisAst(t, split.quasis);

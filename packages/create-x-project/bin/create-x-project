@@ -5,7 +5,7 @@
 
 require = require('esm/esm')(module /*, options*/);
 require('../src/cli.js')
-    .cli(process.argv)
+    .cli(process.argv);
 //     .then(output => {
 //         if (output != null) stdout(output);
 //         if (!opts.watch) process.exit(0);

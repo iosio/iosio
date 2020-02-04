@@ -1,0 +1,1 @@
+{"version":3,"file":"index.module.js","sources":["../src/index.js"],"sourcesContent":["console.log('hello world');\n\n\nexport const fuckDisIsh = async ()=>{\n\n    let poop = await true;\n\n    return poop;\n};"],"names":["console","log","fuckDisIsh"],"mappings":"AAAAA,QAAQC,IAAI,eAGCC,IAAAA,qCAEQ"}

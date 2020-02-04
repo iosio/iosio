@@ -1,61 +1,121 @@
 import sade from 'sade';
-import {stdout} from "./rollup/util";
+import {scaffold} from "./scaffold/scaffold";
+import {log} from "./util/logging";
+import {isDirEmpty} from "./util/fileSystem";
+import {combineAndNormalizeOptions} from "@iosio/rollup-config/src/combineAndNormalizeOptions";
+import path from 'path';
+
+import {xBundle} from "@iosio/rollup-config/src/createConfig";
+
 
 let {version} = require('../package');
 
-const toArray = val => (Array.isArray(val) ? val : val == null ? [] : [val]);
+const start = 'start';
+const build_app = 'build_app';
+const build_lib = 'build_lib';
+
+const presets = {
+    start,
+    build_app,
+    build_lib
+};
 
 export const program = handler => {
-    const ENABLE_MODERN = process.env.MICROBUNDLE_MODERN !== 'false';
 
-    const DEFAULT_FORMATS = ENABLE_MODERN ? 'modern,es,cjs,umd' : 'es,cjs,umd';
+    const cmd = command => (opts, str) => {
 
-    const cmd = type => (str, opts) => {
-        console.log(str, opts)
-        // opts.watch = opts.watch || type === 'watch';
-        //
-        // opts.compress = opts.compress != null ? opts.compress : opts.target !== 'node'
-        //
-        // opts.entries = toArray(str || opts.entry).concat(opts._);
-
-        handler(opts);
+        handler({command, opts, str});
     };
 
     let prog = sade('x');
 
-    prog
-        .version(version)
-        .option('--entry, -i', 'Entry module(s)')
-        .option('--compress', 'Compress output using Terser', null);
+    prog.version(version)
+        .option('--app_env', 'Specify which APP_ENV to use in your config')
+        .example('x start --app_env prod')
+        .option('--cwd', 'Use an alternative working directory', '.')
+        .example('x start --cwd someOtherProject/')
+        .option('--project', 'Specify an overrides object on the config "project" property')
+        .example('x start --project demo');
 
-    prog
-        .command('build [...entries]', '', {default: true})
-        .describe('Build once and exit')
-        .action(cmd('build'));
+    prog.command(start)
+        .describe('Starts a dev server and rebuilds on any changes')
+        .example(`x ${start}`)
+        .action(cmd(start));
 
-    // prog
-    //     .command('watch [...entries]')
-    //     .describe('Rebuilds on any change')
-    //     .action(cmd('watch'));
+    prog.command(build_app)
+        .describe('Builds a production web app')
+        .example(`x ${build_app}`)
+        .action(cmd(build_app));
 
-    // Parse argv; add extra aliases
-    return argv =>
-        prog.parse(argv, {
-            alias: {
-                o: ['output', 'd'],
-                i: ['entry', 'entries', 'e'],
-                w: ['watch'],
-            },
-        });
+    prog.command(build_lib)
+        .describe('Produces tiny, optimized code for your node module')
+        .example(`x ${build_lib}`)
+        .action(cmd(build_lib));
+
+    prog.command('serve_build')
+        .describe('Serves the production build')
+        .example('x serve_build')
+        .action(cmd('serve_build'));
+
+    // prog.command('add')
+    //     .describe('Add a template file to your existing project (coming soon!)')
+    //     .example('x add --rollup_build_app')
+    //     .action(cmd('add'));
+
+    return argv => prog.parse(argv);
 };
 
 
-export const cli = function (args) {
+export const cli = async function (rawArgs) {
 
-    const run = opts => {
-        // stdout('opts', opts);
-    };
+    let hasArgs = rawArgs.slice(2).length > 0;
 
-    program(run)(args);
+    const emptyProject = await isDirEmpty(process.cwd());
+
+    if (hasArgs && !emptyProject) {
+
+
+        program(({command, opts, str}) => {
+
+            console.log(command, opts, str);
+
+
+            if (presets[command]) {
+
+                let options = {
+                    // cwd
+                    // app_env,
+                    // project,
+                    ...opts,
+                    preset: command,
+                    configName: 'xProjectConfig',
+                };
+
+                xBundle(options)
+                    .then(output => {
+                        if (output != null) log.out(output);
+                        if (command !== 'start') process.exit(0);
+                    })
+                    .catch(err => {
+                        process.exitCode = (typeof err.code === 'number' && err.code) || 1;
+                        log.Error(err);
+                        process.exit();
+                    });
+            }
+
+        })(rawArgs);
+
+    } else {
+
+        return await scaffold();
+    }
 
 };
+
+/*
+
+   if (options.cli.command === 'add') {
+                scaffold(options).catch(log.Error);
+            } else {
+            }
+ */

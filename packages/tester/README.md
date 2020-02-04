@@ -1,3 +1,4 @@
+This README was generated with @iosio/create-x-project at version: 0.5.86 
 # @iosio/create-x-project
 
 > Zero configuration cli for generating, developing and bundling modern web apps and libraries
@@ -137,20 +138,20 @@ export default {
     },
     
     //environment variables. see next section for explanation 
-    app_env: /*default*/ undefined
+    APP_ENV: /*default*/ undefined
 }
 
 ```
 
 ### Environment Variables
-Define environment variables in the config object under app_env as an object where the key represents the environment 
+Define environment variables in the config object under APP_ENV as an object where the key represents the environment 
 you are serving/building.
 
 ```js
 // example:
 {
     
-    app_env: {
+    APP_ENV: {
         dev: {
             API_URL: 'http://app.dev.com/api',
             SOME_OTHER_ENDPOINT: 'https://someotherendpoint.com'

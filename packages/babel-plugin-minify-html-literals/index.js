@@ -84,8 +84,11 @@ module.exports = function ({types: t}) {
                     return acc + quasi.value.raw + expr;
                 }, '');
 
-                let processed = html.replace(/  +/g, ' ').replace('\n', ' ');
-
+                // console.log('*************** html *************');
+                // console.log(html);
+                let processed = html.split('\n').join(' ').replace(/  +/g, ' ');
+                // console.log('*************** processed *************');
+                // console.log(processed);
                 //     minify(html, {
                 //     collapseWhitespace: true,
                 //     caseSensitive: true,

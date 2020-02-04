@@ -187,6 +187,7 @@ export default async function microbundle(inputOptions) {
 			: options.compress;
 
 	let formats = (options.format || options.formats).split(',');
+
 	// always compile cjs first if it's there:
 	formats.sort((a, b) => (a === 'cjs' ? -1 : a > b ? 1 : 0));
 
@@ -258,7 +259,7 @@ export default async function microbundle(inputOptions) {
 	return (
 		blue(
 			`Build "${options.name}" to ${relative(cwd, dirname(options.output)) ||
-				'.'}:`,
+			'.'}:`,
 		) +
 		'\n   ' +
 		out.join('\n   ')
@@ -321,8 +322,8 @@ async function jsOrTs(cwd, filename) {
 	const extension = (await isFile(resolve(cwd, filename + '.ts')))
 		? '.ts'
 		: (await isFile(resolve(cwd, filename + '.tsx')))
-		? '.tsx'
-		: '.js';
+			? '.tsx'
+			: '.js';
 
 	return resolve(cwd, `${filename}${extension}`);
 }
@@ -335,13 +336,13 @@ async function getInput({ entries, cwd, source, module }) {
 			entries && entries.length
 				? entries
 				: (source &&
-						(Array.isArray(source) ? source : [source]).map(file =>
-							resolve(cwd, file),
-						)) ||
-						((await isDir(resolve(cwd, 'src'))) &&
-							(await jsOrTs(cwd, 'src/index'))) ||
-						(await jsOrTs(cwd, 'index')) ||
-						module,
+				(Array.isArray(source) ? source : [source]).map(file =>
+					resolve(cwd, file),
+				)) ||
+				((await isDir(resolve(cwd, 'src'))) &&
+					(await jsOrTs(cwd, 'src/index'))) ||
+				(await jsOrTs(cwd, 'index')) ||
+				module,
 		)
 		.map(file => glob(file))
 		.forEach(file => input.push(...file));
@@ -391,6 +392,7 @@ function createConfig(options, entry, format, writeMeta) {
 		: [];
 
 	const peerDeps = Object.keys(pkg.peerDependencies || {});
+
 	if (options.external === 'none') {
 		// bundle everything (external=[])
 	} else if (options.external) {
@@ -454,6 +456,37 @@ function createConfig(options, entry, format, writeMeta) {
 
 	// let rollupName = safeVariableName(basename(entry).replace(/\.js$/, ''));
 
+	let nameCache = {};
+	const bareNameCache = nameCache;
+	// Support "minify" field and legacy "mangle" field via package.json:
+	const rawMinifyValue = options.pkg.minify || options.pkg.mangle || {};
+	let minifyOptions = typeof rawMinifyValue === 'string' ? {} : rawMinifyValue;
+	const getNameCachePath =
+		typeof rawMinifyValue === 'string'
+			? () => resolve(options.cwd, rawMinifyValue)
+			: () => resolve(options.cwd, 'mangle.json');
+
+	const useTypescript = extname(entry) === '.ts' || extname(entry) === '.tsx';
+
+	const externalPredicate = new RegExp(`^(${external.join('|')})($|/)`);
+	const externalTest =
+		external.length === 0 ? () => false : id => externalPredicate.test(id);
+
+	function loadNameCache() {
+		try {
+			nameCache = JSON.parse(fs.readFileSync(getNameCachePath(), 'utf8'));
+			// mangle.json can contain a "minify" field, same format as the pkg.mangle:
+			if (nameCache.minify) {
+				minifyOptions = Object.assign(
+					{},
+					minifyOptions || {},
+					nameCache.minify,
+				);
+			}
+		} catch (e) {}
+	}
+	loadNameCache();
+
 	normalizeMinifyOptions(minifyOptions);
 
 	if (nameCache === bareNameCache) nameCache = null;
@@ -479,19 +512,19 @@ function createConfig(options, entry, format, writeMeta) {
 						plugins: [
 							autoprefixer(),
 							options.compress !== false &&
-								cssnano({
-									preset: 'default',
-								}),
+							cssnano({
+								preset: 'default',
+							}),
 						].filter(Boolean),
 						// only write out CSS for the first bundle (avoids pointless extra files):
 						inject: false,
 						extract: !!writeMeta,
 					}),
 					moduleAliases.length > 0 &&
-						alias({
-							resolve: EXTENSIONS,
-							entries: moduleAliases,
-						}),
+					alias({
+						resolve: EXTENSIONS,
+						entries: moduleAliases,
+					}),
 					nodeResolve({
 						mainFields: ['module', 'jsnext', 'main'],
 						browser: options.target !== 'node',
@@ -511,38 +544,38 @@ function createConfig(options, entry, format, writeMeta) {
 						}),
 					},
 					useTypescript &&
-						typescript({
-							typescript: require('typescript'),
-							cacheRoot: `./node_modules/.cache/.rts2_cache_${format}`,
-							tsconfigDefaults: {
-								compilerOptions: {
-									sourceMap: options.sourcemap,
-									declaration: true,
-									jsx: 'react',
-									jsxFactory: options.jsx || 'h',
-								},
+					typescript({
+						typescript: require('typescript'),
+						cacheRoot: `./node_modules/.cache/.rts2_cache_${format}`,
+						tsconfigDefaults: {
+							compilerOptions: {
+								sourceMap: options.sourcemap,
+								declaration: true,
+								jsx: 'react',
+								jsxFactory: options.jsx || 'h',
 							},
-							tsconfig: options.tsconfig,
-							tsconfigOverride: {
-								compilerOptions: {
-									target: 'esnext',
-								},
+						},
+						tsconfig: options.tsconfig,
+						tsconfigOverride: {
+							compilerOptions: {
+								target: 'esnext',
 							},
-						}),
+						},
+					}),
 					// if defines is not set, we shouldn't run babel through node_modules
 					isTruthy(defines) &&
-						babel({
-							babelrc: false,
-							configFile: false,
-							compact: false,
-							include: 'node_modules/**',
-							plugins: [
-								[
-									require.resolve('babel-plugin-transform-replace-expressions'),
-									{ replace: defines },
-								],
+					babel({
+						babelrc: false,
+						configFile: false,
+						compact: false,
+						include: 'node_modules/**',
+						plugins: [
+							[
+								require.resolve('babel-plugin-transform-replace-expressions'),
+								{ replace: defines },
 							],
-						}),
+						],
+					}),
 					customBabel({
 						extensions: EXTENSIONS,
 						exclude: 'node_modules/**',

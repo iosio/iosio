@@ -27,6 +27,7 @@
 		"es6-promisify": "^6.0.2",
 		"fs-extra": "^8.1.0",
 		"kleur": "^3.0.3",
+		"rimraf": "^3.0.1",
 		"rollup": "^1.30.1"
 	}
 }

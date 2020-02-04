@@ -12,7 +12,7 @@ export const isFile = name =>
 	stat(name)
 		.then(stats => stats.isFile())
 		.catch(() => false);
-export const stdout = console.log.bind(console); // eslint-disable-line no-console
+export const stdout = console.log.bind(console);
 export const stderr = console.error.bind(console);
 
 export const isTruthy = obj => {

@@ -24,30 +24,6 @@ import {setup} from "./rollup/setup";
 import {stdout} from "./rollup/util";
 import {logError} from "./rollup/logError";
 
-const templateDirectory = __dirname + '/templates/app';
-const targetDirectory = process.cwd();
-
-async function copyTemplateFiles(options) {
-    console.log(chalk.cyan('Copy project files'));
-    return fse.copy(templateDirectory, targetDirectory);
-}
-
-
-function generateFilesFromParts(options) {
-    console.log(chalk.cyan('Generate files'));
-    return Promise.all([
-        fse.writeFile(targetDirectory + '/package.json', packagejson(options)),
-        fse.writeFile(targetDirectory + '/src/index.html', indexHTML(options)),
-        fse.writeFile(targetDirectory + '/.gitignore', gitignore(options))
-    ])
-}
-
-export async function createProject(options) {
-    await copyTemplateFiles(options).then(() => generateFilesFromParts(options));
-    console.log('%s Project ready', chalk.green.bold('DONE'));
-    return true;
-}
-
 
 function parseArgumentsIntoOptions(rawArgs) {
     const args = arg(
@@ -128,7 +104,7 @@ export async function cli(args) {
 
         console.log(chalk.cyan('version: ' + PKG.version));
         options = await promptForMissingOptions(options);
-        await createProject(options);
+        await scaffold(options);
         console.log(chalk.green('run npm install then npm start to begin developing!!!'));
     } else {
 
@@ -150,7 +126,7 @@ export async function cli(args) {
             // return subprocess;
             return setup(dev).then(output => {
                 if (output != null) stdout(output);
-            }).catch(err => {
+            }).catch((err) => {
                 process.exitCode = (typeof err.code === 'number' && err.code) || 1;
                 logError(err);
                 process.exit();
