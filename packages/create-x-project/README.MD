@@ -1,17 +1,20 @@
 # @iosio/create-x-project
 
-> Zero configuration cli for generating, developing and bundling modern web apps and libraries
+> Cli for generating, developing and bundling modern web apps and libraries
 
-Currently supports building @iosio/x, @iosio/x-preact, and preact apps with jsx transpiling. 
-Includes conditional polyfill loading and optional multi build for legacy browsers using System es module shims.
+Awesome for building preact/react or web component libraries and apps! 
 
-
-Other features:
-- jcss - minifies and autoprefixes css template tag literals.
-- opt-in autogeneration of dynamic imports for lazyLoading pages
+Features:
+- all the rollup and babel stuff is figured out for you behind the scenes
+- live reloading dev server
+- optional multiBuildApp mode for legacy browsers using System es module shims.
+- conditional polyfills for web apps
 - file/image asset bundling
 - post css loader
-- live reloading dev server
+- minifies and autoprefixes css template tag literals with keyword 'jcss'.
+- minifies tag template literals using keyword 'minify'
+- multi project configurations
+- ..and more
 
 
 ## Installation
@@ -35,7 +38,7 @@ follow the prompts then run npm/yarn install.
 #### x start
 starts the dev server at port:3000 and watches for file changes: src > build.
 
-#### x build
+#### x build_app
 creates a production build for a web application: src > build.
 
 #### x build_lib
@@ -45,13 +48,30 @@ creates a production library as a npm installable es module: src > lib.
 serves up the build
 
 
+## Command line options
+#### --cwd
+change the current working directory
+```sh
+x start --cwd some/other/directory
+```
+#### --project
+selects a override options from your configuration object
+
+#### --app_env
+Specify which envs to use in your config
+```sh
+x start --project demo --app_env dev
+```
+
+
 ## Configuration (optional)
-Define optional configuration JSON object in package.json as xProjectConfig, 
-or as a separate file at the root of the project directory called xProjectConfig.json
+Define optional configuration JSON object in package.json as xProjectConfig
 ```json
 { 
   "name": "my_app",
+  "verson": "1.0.0",
   "xProjectConfig":{
+    ...
   }
 } 
 ```
@@ -59,7 +79,7 @@ You may instead export default a configuration object from xProjectConfig.js
 at the root of the project directory
 ```js
 // xProjectConfig.js
-export default {
+module.exports = {
     ...
 }
 ```
@@ -69,88 +89,87 @@ export default {
 export default {
     
     //js entry point
-    input: /*default*/ '/src/index.js',
-    
-    //optional alternative entry point for build_lib. falls back to input 
-    lib_input: /*default*/ '/src/index.js',
-    
-    //alternative entry point for developing demos alongside a lib
-    devInput: /*default*/ '/src/index.js', //ex: '/demo/index.js',
+    input: /*default*/ '/src/index.js', // may pass an array, comma separated string or glob patter "src/*"
     
     //location of index.html file. entry (input) script is automatically inserted at build time
     html: /*default*/ '/src/index.html',
     
     //location where the dev build is placed and served from
-    devOutputDir: /*default*/ '/build',
+    output: /*default*/ '/build', // will output to /lib by default when the command build_lib is used
     
-    //location where the production build is placed (removes and replaces dev output)
-    buildOutputDir: /*default*/ '/build',
-    
-    //location where the library build is placed
-    libOutputDir: /*default*/ '/lib',
-    
-    //browserlist 
-    browsers: /*default*/ ['chrome 78'],
+    //browserlist target browsers
+    browsers: /*default*/ undefined, // looks for browserlist in package.json if none provided
     
     //browserlist specific to css auto prefixer in case it differs from js
-    cssBrowsers: /*default*/['chrome 78'],
+    cssBrowsers: /*default*/ browsers, //uses the browsers option if none provided
     
     //if true, creates an additional legacy build that is conditionally loaded for older browsers  
-    multiBuild: /*default*/ undefined,
+    multiBuildApp: /*default*/ undefined,
     
-    //if true, will include external dependencies into the library build
-    includeExternalDeps: /*default*/ undefined,
-    
-    //alias imported dependencies
-    alias: /*default*/ undefined, //ex: 'React=preact,someModule=../../someModule',
-    
-    //enable absolute path imports. 
-    // Example: instead of:
-    //      import '../../someDep'
-    // you may use:
-    //      import '/someDep'
-    // if '/someDep' is located at the baseUrl 
-    enableExperimentalAbsolutePathPlugin: /*default*/ undefined, //ex: true
-    baseUrl: /*default*/ undefined, // ex: 'src'
+    //set to false to disable conditional polyfills 
+    polyfills: /*default*/true,
 
-    //bundles commonJS packages as es modules: see "rollup-plugin-commonjs" for more info
-    commonjsConfig: /*default*/ {"include": /node_modules/},
+    //compresses code using terser
+    compress: /*default*/ true, 
     
+    // specify the output format. uses 'modern' and 'system' for multi build apps
+    format: /*default*/ 'modern',
+    
+    //jsx pragma
+    jsx: /*default*/ 'h',
+    //jsx pragmaFrag
+    jsxFragment: /*default*/ 'Fragment',
+    
+    //set sourcemap to false to disable sourcemapping
+    sourcemap: /*default*/ true, 
+    
+    //Enforce undefined global context and add "use strict"
+    strict: /*default*/ undefined,
+    
+    //node or web
+    target: /*default*/ 'web',
+    
+    // pass an array of files to copy from input to output
+    // ex: ['node_modules/@iosio/fuse-worker/lib/fuse.worker.js', 'src/imgs/favicon.co']
+    copyConfig: /*default*/ undefined, 
+    
+    //Replace constants with hard-coded values
+    define: /*default*/ undefined, // 'API_KEY=1234,hello="asdf"'
+    
+    //Specify globals dependencies, or 'none'
+    globals: /*default*/ undefined,
+
+    //specify external dependencies or 'none'. 'none' bundles everything
+    external: /*default*/ undefined, // pass comma separated values 'chartist,some,external,dependency' 
+            
+    //alias imported dependencies
+    alias: /*default*/ undefined, //ex: 'react=preact/compat',
+
     //live reloading dev server. see https://browsersync.io/docs/options for more info.
-    // assigning a new config object to this prop will override what is shown below
-    browserSyncConfig: /*default*/ {
-       server: {
-           baseDir: devOutputDir,
-           middleware: [historyApiFallback()]
-       },
-       ui: false
-   },
-    
-   
-   //convert default exports into lazy loaded pages for router (see lazyPages section below)
-   lazyPagesConfig: /*default*/{
-       //the directory where the page files live
-       dir: /*default*/ '/src/lazyPages',
-       // pass 'preact' to export a factory function for injecting a lazyLoader
-       //keep undefined to use default behavior intended for custom-elements-router
-       type: /*default*/ undefined
-    },
+    devServer: /*default*/ undefined, 
+    /*
+        {
+            historyApiFallback,//(default: true) set this to false for non SPA builds
+            baseDir, // uses the the primary config 'output' option
+            // all other options map to browsersync config. see browsersync docs 
+        }
+    */   
     
     //environment variables. see next section for explanation 
-    app_env: /*default*/ undefined
+    envs: /*default*/ undefined
 }
 
 ```
 
 ### Environment Variables
-Define environment variables in the config object under app_env as an object where the key represents the environment 
-you are serving/building.
+Define environment variables in the config object under 'envs' as an object where the key represents the environment 
+you are serving/building. You may use the '--app_env' flag to set this via script/command line'
 
 ```js
 // example:
-{
+xProjectConfig: { 
     
-    app_env: {
+    envs: {
         dev: {
             API_URL: 'http://app.dev.com/api',
             SOME_OTHER_ENDPOINT: 'https://someotherendpoint.com'
@@ -173,9 +192,8 @@ console.log(process.env.API_URL)
 //build prod logs: 'http://app.prod.com/api/get-stuff'
 ```
 
-
 ### jcss
-minify and auto prefix tagged template literals as so
+minify and auto prefix css tagged template literals as so
 ```js
 //no import required, just use the keyword "jcss" and the bundler will 
 // remove it and process the css. 
@@ -188,68 +206,47 @@ const minified_and_autoprefixed_css_string = jcss`
 //You may configure the target browsers on the browsers property of the config object.
 //Depending on the target, the output might look something like this:
 const minified_and_autoprefixed_css_string = `.noSelect{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}`;
-
 ```
-
-### Lazy Pages
-(Opt-in) To dynamically generate lazyMap and pathMap objects, create a lazyPages directory under your src: src/lazyPages/. (see config section above for more info)
-```sh 
-src
-  |_ lazyPages
-            |_ index-page.js
-            |_ login-page.js 
-```
-in each file, default export a custom element defined as the name of the file, or default export a preact component
+### minify
+minify tagged template literals as so
 ```js
-import {x,h} from '@iosio/x';
-export default x('index-page', ()=> <h1>index page</h1>);
-//or if 'preact' is passed to configuration
-import {h} from 'preact';
-export default () => <h1>index page</h1>;
-```
-start the app and you should now see a file called dynamicImports.js.
- 
-**note**: restart the dev server when new pages are added
- 
- 
-```sh 
-src
-  |_ lazyPages
-            |_ dynamicImports.js
-            |_ index-page.js
-            |_ login-page.js 
-```
+//no import required, just use the keyword "minify" and the bundler will 
+// remove it and leave just the string. 
+const minified_string = minify`
+   <div>
+        remove white space
+   </div>
+`;
 
-exported from dynamicImports.js are configuration objects used for routing.
-
-```js
-//dynamicImports.js
-export const lazyMap = {
-    "index-page": () => import("./index-page.js"),
-    "login-page": ()=> import("./login-page.js")
+//output
+const minified_string = `<div>remove white space</div>`;
+```
+### project overrides
+By passing and option to the flag '--project', you can override the options in the config object. 
+The options under the specified project will be prioritized over the other properties.
+```json
+"xProjectConfig": {
+    "project": {
+        "demo": {
+            "input": "demo/src/index.js",
+            "html": "demo/src/index.html",
+            "output": "demo/build",
+            "exclude": "none"
+        }
+    },
+    "input": "src/*",
+    "output": "lib",
+    "format" : "modern",
+    "exclude": [
+        "@iosio/elemental",
+        "@iosio/obi",
+        "@iosio/obi-preact-connect",
+        "@iosio/util",
+        "chartist"
+    ]
 }
-
-//index-page will default to "/"
-//and -page is removed from all url paths 
-export const pathMap = {
-	"/": "index-page",
-	"/login": "login-page"
-}
-
-// or if preact is passed to the configuration
-export const pathMapFn = (lazyLoader) => ({
-    "/login": lazyLoader(() => import("./login-page.js")),
-    "/": lazyLoader(() => import("./index-page.js")),
-});
-//then import and inject the lazy loder fn and pass the the @iosio/preact-router
-
-const pathMap = pathMapFn(lazyLoader);
-
-...
-
-<Router pathMap={pathMap}/>
-
 ```
-
-
-
+Running the following in the command line will build an app to 'demo/build'
+```sh
+x build_app --project demo
+```

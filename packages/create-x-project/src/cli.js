@@ -25,7 +25,7 @@ export const program = handler => {
     let prog = sade('x');
 
     prog.version(version)
-        .option('--app_env', 'Specify which APP_ENV to use in your config')
+        .option('--app_env', 'Specify which envs to use in your config')
         .example('x start --app_env prod')
         .option('--cwd', 'Use an alternative working directory', '.')
         .example('x start --cwd someOtherProject/')
@@ -71,7 +71,7 @@ export const cli = async function (rawArgs) {
 
         program(({command, opts, str}) => {
 
-            if (presets[command]) {
+            if (presets[command] || command === 'serve_build') {
 
                 let options = {
                     // cwd
@@ -85,7 +85,7 @@ export const cli = async function (rawArgs) {
                 xProject(options)
                     .then(output => {
                         if (output != null) log.out(output);
-                        if (command !== 'start') process.exit(0);
+                        if (command !== 'start' && command !== 'serve_build') process.exit(0);
                     })
                     .catch(err => {
                         process.exitCode = (typeof err.code === 'number' && err.code) || 1;

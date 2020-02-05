@@ -13,15 +13,16 @@ export const xProject = async (inputOptions) => {
         .forEach((key) => process.env[key] = options.envs[key]);
 
     const builds = createBuilds(options);
-
-    if (options.preset === presets.start) {
-        return await rollupWatch(builds, options, DevServer({baseDir: options.output}))
+    if (options.preset === 'serve_build') {
+        DevServer({baseDir: options.output})();
+    } else if (options.preset === presets.start) {
+        return await rollupWatch(builds, options, DevServer({cwd: options.cwd, baseDir: options.output, ...options.devServer}))
     } else {
         await clearDir(options.output);
         const logout = await nodeRollup({builds});
         return (
             green().bold(`Built "${options.name}" to ${relative(options.cwd, options.output) || '.'}`) +
-            ( logout ? '\n   ' + logout.join('\n   ') : '')
+            (logout ? '\n   ' + logout.join('\n   ') : '')
         );
     }
 };

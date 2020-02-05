@@ -141,7 +141,7 @@ export const rollupConfig =
                             safari10: true
                         }),
                     ],
-                    filesize()
+                    preset !== presets.start && filesize()
                 ).filter(Boolean),
             },
 

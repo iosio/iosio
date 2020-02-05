@@ -12,7 +12,9 @@ import {stdout, stderr, isDir, isFile, readFile} from "@iosio/node-util";
 
 export const toArray = val => (Array.isArray(val) ? val : val == null ? [] : [val]);
 
-export const get_input = (inp) => {
+
+
+export const get_input = (inp, options) => {
     if (!inp) throw new Error('No input detected');
     if (typeof inp === 'string') inp = inp.split(',');
     let files = [];
@@ -20,7 +22,7 @@ export const get_input = (inp) => {
         const _files = glob(file, {cwd: options.cwd});
         files = [...files, ..._files];
     });
-    files = files.map(f => joinPath(f));
+    files = files.map(f => path.join(options.cwd, f));
     if (files.length < 2) files = files[0];
     return files;
 };
@@ -357,7 +359,7 @@ export const getExternalsAndGlobals = (options, entry) => {
     // ------------ globals ----------------
     let globals = external.reduce((g, name) => {
         // valid JS identifiers are usually library globals:
-        if (name.match(/^[a-z_$][a-z0-9_$]*$/))  g[name] = name;
+        if (name.match(/^[a-z_$][a-z0-9_$]*$/)) g[name] = name;
         return g;
     }, {});
 

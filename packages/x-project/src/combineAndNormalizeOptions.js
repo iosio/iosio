@@ -12,7 +12,8 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     let options = {...inputOptions};
 
     options.cwd = path.resolve(process.cwd(), options.cwd || '.');
-    const joinPath = (pathname) => path.join(options.cwd, pathname);
+
+   const joinPath = (pathname) => path.join(options.cwd, pathname);
 
     const {hasPackageJson, pkg} = await getConfigFromPkgJson(options.cwd);
     options.pkg = pkg;
@@ -46,11 +47,8 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     options.pkg.name = pkgName;
 
 
-    let input = getOption('input') || options.pkg.source;
-
-
-
-    options.input = get_input(input);
+    let input = getOption('input') || options.pkg.source || 'src/index.js';
+    options.input = get_input(input, options);
 
     let output = getOption('output') || (options.preset === presets.build_lib ? 'lib' : 'build');
     options.output = joinPath(output);
@@ -85,11 +83,11 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
 
     options.multiBuildApp = getOption('multiBuildApp') || false;
 
-    options.polyfills = getOption('webPolyfills');
+    options.polyfills = getOption('polyfills');
 
     options.target = getOption('target') || 'web'; // node
 
-    options.context = getOption('context') || (options.target === 'web' && 'window');
+    options.context = getOption('context') || (options.target === 'web' ? 'window' : undefined);
 
     options.browsers = getOption('browsers') || options.pkg.browserlist;
 
@@ -104,6 +102,8 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     options.external = typeof ext === 'string' && ext !== 'none' ? ext.split(',') : Array.isArray(ext) ? ext : [];
 
     options.globals = getOption('globals') || 'none';
+
+    options.devServer = getOption('devServer') || {};
 
     return options;
 };
