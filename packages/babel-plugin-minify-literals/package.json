@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/babel-plugin-minify-literals",
-	"version": "0.0.1",
+	"version": "0.6.0",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "index.js",

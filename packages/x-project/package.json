@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/x-project",
-	"version": "0.0.1",
+	"version": "0.6.0",
 	"description": "",
 	"license": "MIT",
 	"files": [
@@ -15,11 +15,10 @@
 		"build": "exit 0",
 		"test": "exit 0"
 	},
-	"devDependencies": {},
 	"xProjectConfig": {},
 	"dependencies": {
-		"@iosio/node-util": "^0.0.1",
-		"@iosio/rollup-config": "^0.0.1",
+		"@iosio/node-util": "^0.6.0",
+		"@iosio/rollup-config": "^0.6.0",
 		"asyncro": "^3.0.0",
 		"brotli-size": "^4.0.0",
 		"camelcase": "^5.3.1",

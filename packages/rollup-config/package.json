@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/rollup-config",
-	"version": "0.0.1",
+	"version": "0.6.0",
 	"description": "rollup config used for @iosio/create-x-project",
 	"main": "src/index.js",
 	"module": "src/index.js",
@@ -12,10 +12,9 @@
 		"build": "exit 0",
 		"test": "exit 0"
 	},
-	"devDependencies": {},
 	"xProjectConfig": {},
 	"dependencies": {
-		"@iosio/rollup-plugin-custom-x-babel": "^0.0.1",
+		"@iosio/rollup-plugin-custom-x-babel": "^0.6.0",
 		"@rollup/plugin-alias": "^3.0.0",
 		"@rollup/plugin-commonjs": "^11.0.1",
 		"@rollup/plugin-json": "^4.0.1",
