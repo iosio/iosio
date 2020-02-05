@@ -7,20 +7,17 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"license": "MIT",
 	"scripts": {
-		"start": "x start",
-		"build": "x build",
-		"build_lib": "x build_lib",
-		"serve_build": "x serve_build",
-		"test": "echo \"No test specified\" && exit 0"
+		"build": "x build_lib",
+		"test": "exit 0"
 	},
 	"files": [
 		"src",
 		"lib"
 	],
 	"dependencies": {
-		"@iosio/util": "^0.5.81",
-		"lit-html": "^1.1.2"
+		"@iosio/util": "^0.5.81"
 	},
 	"xProjectConfig": {}
 }

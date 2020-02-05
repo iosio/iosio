@@ -13,10 +13,6 @@
 		"lib"
 	],
 	"keywords": [],
-	"scripts": {
-		"start": "x start",
-		"build": "x build_lib"
-	},
 	"dependencies": {
 		"@iosio/util": "^0.5.81"
 	},
@@ -24,8 +20,18 @@
 		"@iosio/xact": "^0.5.81",
 		"preact": "^10.1.1"
 	},
+	"scripts": {
+		"start": "x start --project demo",
+		"build": "x build_lib",
+		"test": "exit 0"
+	},
 	"xProjectConfig": {
-		"devInput": "/dev/src/index.js",
-		"html": "/dev/index.html"
+		"project": {
+			"demo": {
+				"input": "demo/index.js",
+				"html": "demo/index.html"
+			}
+		},
+		"input": "src/index.js"
 	}
 }

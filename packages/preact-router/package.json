@@ -2,15 +2,16 @@
   "name": "@iosio/preact-router",
   "version": "0.5.81",
   "description": "",
+  "license": "MIT",
   "main": "lib/index.js",
   "module": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "start": "x start",
+    "start": "x start --project dev",
     "build": "x build_lib",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "exit 0"
   },
   "dependencies": {
     "@iosio/routing": "^0.5.81"
@@ -21,7 +22,12 @@
     "preact": "^10.1.1"
   },
   "xProjectConfig": {
-    "devInput": "dev/index.js",
-    "html": "dev/index.html"
+    "project": {
+      "dev": {
+        "input": "dev/index.js",
+        "html": "dev/index.html"
+      }
+    },
+    "input": "src/index.js"
   }
 }

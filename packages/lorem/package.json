@@ -14,12 +14,17 @@
 	],
 	"keywords": [],
 	"scripts": {
-		"start": "x start",
+		"start": "x start --project dev",
 		"build": "x build_lib",
-		"test": "echo \"No test specified\" && exit 0"
+		"test": "exit 0"
 	},
 	"xProjectConfig": {
-		"devInput": "dev/src/index.js",
-		"html": "dev/index.html"
+		"project": {
+			"dev": {
+				"input": "dev/src/index.js",
+				"html": "dev/index.html"
+			}
+		},
+		"input": "src/*"
 	}
 }

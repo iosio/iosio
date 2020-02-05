@@ -2,18 +2,23 @@
 	"name": "@iosio/babel-plugin-minify-literals",
 	"version": "0.0.1",
 	"description": "",
-	"main": "index.js",
+	"main": "lib/index.js",
 	"module": "index.js",
 	"publishConfig": {
 		"access": "public"
 	},
 	"license": "MIT",
 	"files": [
+		"lib",
 		"index.js"
 	],
 	"scripts": {
-		"test": "echo \"no test specified\" && exit 0",
-		"build": "echo \"no build script\""
+		"test": "exit 0",
+		"build": "x build_lib"
 	},
-	"xProjectConfig": {}
+	"xProjectConfig": {
+		"input": "index.js",
+		"target": "node",
+		"sourcemap": false
+	}
 }

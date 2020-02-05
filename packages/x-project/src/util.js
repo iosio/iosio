@@ -353,7 +353,7 @@ export const getExternalsAndGlobals = (options, entry) => {
 
     if (options.external === 'none') {
         // bundle everything
-    } else if (options.external.length > 0) external = external.concat(peerDeps);
+    } else if (options.external) external = external.concat(peerDeps);
     else external = external.concat(peerDeps).concat(Object.keys(options.pkg.dependencies || {}));
 
     // ------------ globals ----------------
@@ -369,7 +369,7 @@ export const getExternalsAndGlobals = (options, entry) => {
 
     const externalPredicate = new RegExp(`^(${external.join('|')})($|/)`);
 
-    const externalTest = options.external.length === 0
+    const externalTest = options.external && options.external.length === 0
         ? () => false : id => externalPredicate.test(id);
 
     return {external, externalTest, globals};

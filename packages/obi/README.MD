@@ -65,13 +65,12 @@ some.nested = 'newValue';
 //logs: state changed: ['some.nested']
 ```
 #### Selecting specific properties to detect changes on
-Import select and pass the obi object to the first argument. In the second argument, pass an array containing 
-string values that represent the property paths you want to be notified about, 'dot-walking' out to any nested value 
+pass an array containing string values that represent the property paths you want to be notified about, 'dot-walking' out to any nested value 
 if need be;
 ```js
-import {select} from '@iosio/obi';
 
-const watchNested = select($state, ['foo','some.nested']);
+
+const watchNested = $state.$select(['foo','some.nested']);
 
 watchNested.$onChange((state, paths) => {
     console.log('state changed: ', paths)

@@ -62,6 +62,9 @@ Specify which envs to use in your config
 ```sh
 x start --project demo --app_env dev
 ```
+#### --help
+List cli options
+
 
 
 ## Configuration (optional)

@@ -7,10 +7,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "license": "MIT",
   "scripts": {
-    "start": "x start",
+    "start": "x start --project dev",
     "build": "x build_lib",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "exit 0"
   },
   "files": [
     "src",
@@ -23,11 +24,15 @@
     "fuse.js": "^3.4.5"
   },
   "xProjectConfig": {
-    "devInput": "dev/index.js",
-    "html": "dev/index.html",
-    "copyConfig": [
-      "src/fuse.worker.js"
-    ],
+    "project": {
+      "dev": {
+        "input": "dev/index.js",
+        "html": "dev/index.html",
+        "copyConfig": [
+          "src/fuse.worker.js"
+        ]
+      }
+    },
     "input": [
       "src/index.js",
       "src/fuse.worker.js"

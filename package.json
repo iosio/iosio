@@ -13,7 +13,7 @@
     "scripts": {
         "bootstrap": "lerna bootstrap --use-workspaces",
         "lerna:publish": "lerna publish --ignore private/*",
-        "build": "lerna exec --ignore @iosio/babel-plugin-jcss --ignore @iosio/create-x-project -- create-x-project build_lib",
+        "build": "lerna exec yarn build",
         "test": "cross-env NODE_ENV=test karma start --single-run --browsers ChromeHeadless karma.config.js"
     },
     "devDependencies": {

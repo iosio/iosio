@@ -13,7 +13,7 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
 
     options.cwd = path.resolve(process.cwd(), options.cwd || '.');
 
-   const joinPath = (pathname) => path.join(options.cwd, pathname);
+    const joinPath = (pathname) => path.join(options.cwd, pathname);
 
     const {hasPackageJson, pkg} = await getConfigFromPkgJson(options.cwd);
     options.pkg = pkg;
@@ -99,7 +99,9 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     options.defines = defs ? Object.assign({}, parseMappingArgument(defs, toReplacementExpression)) : {};
 
     let ext = getOption('external');
-    options.external = typeof ext === 'string' && ext !== 'none' ? ext.split(',') : Array.isArray(ext) ? ext : [];
+    if (typeof ext === 'string' && ext !== 'none') ext = ext.split(',').filter(Boolean);
+    if (Array.isArray(ext)) ext = ext.length ? ext : undefined;
+    options.external = !ext && (options.preset === presets.build_app || options.preset === presets.start) ? 'none' : ext;
 
     options.globals = getOption('globals') || 'none';
 

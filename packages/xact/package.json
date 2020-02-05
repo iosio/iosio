@@ -20,16 +20,21 @@
     "virtual dom",
     "custom-elements"
   ],
-  "scripts": {
-    "start": "x start",
-    "build": "x build_lib",
-    "test": "echo \"No test specified\" && exit 0"
-  },
   "dependencies": {
     "@iosio/util": "^0.5.81"
   },
+  "scripts": {
+    "start": "x start --project demo",
+    "build": "x build_lib",
+    "test": "exit 0"
+  },
   "xProjectConfig": {
-    "devInput": "dev/index.js",
-    "html": "dev/index.html"
+    "project": {
+      "demo": {
+        "input": "demo/index.js",
+        "html": "demo/index.html"
+      }
+    },
+    "input": "src/index.js"
   }
 }

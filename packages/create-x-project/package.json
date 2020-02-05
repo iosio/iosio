@@ -2,19 +2,20 @@
 	"name": "@iosio/create-x-project",
 	"version": "0.5.86",
 	"description": "cli for generating, developing and bundling modern web apps and libraries",
+	"license": "MIT",
+	"author": "iosio",
 	"main": "src/index.js",
 	"module": "src/index.js",
 	"bin": {
 		"create-x-project": "bin/create-x-project",
-		"x": "bin/create-x-project",
-		"tester": "bin/tester"
+		"x": "bin/create-x-project"
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"scripts": {
-		"test": "echo \" no test specified\" && exit 0",
-		"build": "echo \" no build specified\" && exit 0"
+		"test": "exit 0",
+		"build": "exit 0"
 	},
 	"keywords": [
 		"cli",
@@ -24,8 +25,6 @@
 		"dev",
 		"boilerplate"
 	],
-	"author": "iosio",
-	"license": "MIT",
 	"dependencies": {
 		"@iosio/node-util": "^0.0.1",
 		"@iosio/x-project": "^0.0.1",

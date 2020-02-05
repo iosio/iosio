@@ -1,1 +1,2 @@
-import{obi as e}from"@iosio/obi";const t=t=>{const c=e({fetchingStates:Object.keys(t).reduce((e,t)=>(e[t]=!1,e),{}),...Object.keys(t).reduce((e,s)=>(e[s]=(...e)=>(c.fetchingStates[s]=!0,t[s](...e).then(e=>(c.fetchingStates[s]=!1,e)).catch(e=>(c.fetchingStates[s]=!1,Promise.reject(e)))),e),{})});return c};export{t as obiClient};
+import{obi as e}from"@iosio/obi";const t=({routes:t,...c})=>{const s=e({fetchingStates:Object.keys(t).reduce((e,t)=>(e[t]=!1,e),{}),...Object.keys(t).reduce((e,c)=>(e[c]=(...e)=>(s.fetchingStates[c]=!0,t[c](...e).then(e=>(s.fetchingStates[c]=!1,e)).catch(e=>(s.fetchingStates[c]=!1,Promise.reject(e)))),e),{}),...c});return s};export{t as obiClient};
+//# sourceMappingURL=index.js.map

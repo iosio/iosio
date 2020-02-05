@@ -1,6 +1,5 @@
 import {obi} from "@iosio/obi";
 
-
 export const obiClient = ({ routes, ...rest}) => {
     const $client = obi({
 

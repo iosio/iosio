@@ -217,37 +217,33 @@ export default ({
                     targets,
                     pragma,
                     pragmaFrag
-                }) => {
-
-
-    return [
-        isTruthy(defines) && babelPlugin({
-            babelrc: false,
-            configFile: false,
-            compact: false,
-            include: 'node_modules/**',
-            plugins: [
-                [
-                    require.resolve('babel-plugin-transform-replace-expressions'),
-                    {replace: defines},
-                ],
+                }) => [
+    isTruthy(defines) && babelPlugin({
+        babelrc: false,
+        configFile: false,
+        compact: false,
+        include: 'node_modules/**',
+        plugins: [
+            [
+                require.resolve('babel-plugin-transform-replace-expressions'),
+                {replace: defines},
             ],
-        }),
-        customBabel({
-            extensions,
-            exclude: 'node_modules/**',
-            passPerPreset: true, // @see https://babeljs.io/docs/en/options#passperpreset
-            custom: {
-                minifyLiterals,
-                legacy,
-                modern,
-                jcss,
-                compress,
-                targets,
-                pragma,
-                pragmaFrag
-            }
-        })
+        ],
+    }),
+    customBabel({
+        extensions,
+        exclude: 'node_modules/**',
+        passPerPreset: true, // @see https://babeljs.io/docs/en/options#passperpreset
+        custom: {
+            minifyLiterals,
+            legacy,
+            modern,
+            jcss,
+            compress,
+            targets,
+            pragma,
+            pragmaFrag
+        }
+    })
 
-    ].filter(Boolean)
-}
+].filter(Boolean);

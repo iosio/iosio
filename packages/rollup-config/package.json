@@ -4,12 +4,13 @@
 	"description": "rollup config used for @iosio/create-x-project",
 	"main": "src/index.js",
 	"module": "src/index.js",
+	"license": "MIT",
 	"publishConfig": {
 		"access": "public"
 	},
 	"scripts": {
 		"build": "exit 0",
-		"test": "echo \"No test specified\" && exit 0"
+		"test": "exit 0"
 	},
 	"devDependencies": {},
 	"xProjectConfig": {},
