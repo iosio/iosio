@@ -92,7 +92,8 @@ module.exports = {
 export default {
     
     //js entry point
-    input: /*default*/ '/src/index.js', // may pass an array, comma separated string or glob patter "src/*"
+    // may pass an array, comma separated string or glob patter "src/*"
+    input: /*default*/ '/src/index.js', 
     
     //location of index.html file. entry (input) script is automatically inserted at build time
     html: /*default*/ '/src/index.html',
@@ -116,7 +117,7 @@ export default {
     compress: /*default*/ true, 
     
     // specify the output format. uses 'modern' and 'system' for multi build apps
-    format: /*default*/ 'modern',
+    format: /*default*/ 'modern', // umd,es,iife... see rollup docs for more info on supported formats
     
     //jsx pragma
     jsx: /*default*/ 'h',
