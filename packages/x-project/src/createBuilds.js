@@ -26,6 +26,13 @@ export const createBuilds = (options) => {
         ].filter(Boolean);
     } else if (options.preset === presets.start) {
         builds = [
+            options.multiBuildApp && rollupConfig({
+                ...options,
+                legacy: true,
+                globals,
+                format: 'system',
+                external
+            }),
             rollupConfig({
                 ...options,
                 globals,
