@@ -5,8 +5,7 @@ import {
     get_input, getConfigFromPkgJson, getName
 } from "./util";
 import {isFile} from "@iosio/node-util";
-import {presets} from "./presets";
-import glob from 'tiny-glob/sync';
+import {presets} from "@iosio/rollup-config";
 
 export const combineAndNormalizeOptions = async (inputOptions) => {
     // --- provided by cli: cwd, app_env, project, preset, configName
@@ -18,7 +17,7 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     const {hasPackageJson, pkg} = await getConfigFromPkgJson(options.cwd);
     options.pkg = pkg;
 
-    options.configName = options.configName || 'xBundle';
+    options.configName = options.configName || 'xProject';
     let possibleJsConfig = joinPath(options.configName + '.js');
     const jsConfigExists = await isFile(possibleJsConfig);
     let conf = jsConfigExists

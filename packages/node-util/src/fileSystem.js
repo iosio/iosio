@@ -19,3 +19,7 @@ export const readFile = promisify(fs.readFile);
 export const clearDir = (dir) => new Promise(resolve => {
     isDir(dir).then((dirThere) => rimraf(dir + (dirThere ? '/*' : ''), {}, resolve));
 });
+
+export const isDirEmpty = (dir = '.') => new Promise((resolve, reject) => {
+    fs.readdir(dir, (err, files) => err ? reject(err) : resolve(!files.length));
+});

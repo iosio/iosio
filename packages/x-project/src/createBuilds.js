@@ -1,6 +1,5 @@
 import {getExternalsAndGlobals} from "./util";
-import {presets} from "./presets";
-import {rollupConfig} from "./config";
+import {rollupConfig, presets} from "@iosio/rollup-config";
 
 export const createBuilds = (options) => {
     let builds = [];

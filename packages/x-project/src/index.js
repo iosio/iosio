@@ -1,13 +1,11 @@
-import {presets} from "./presets";
+import {presets} from "@iosio/rollup-config";
 import {green} from "kleur";
 import {relative} from "path";
-
 import {clearDir, DevServer, nodeRollup, rollupWatch} from "@iosio/node-util";
-
 import {combineAndNormalizeOptions} from "./combineAndNormalizeOptions";
 import {createBuilds} from "./createBuilds";
 
-export const xBundle = async (inputOptions) => {
+export const xProject = async (inputOptions) => {
 
     const options = await combineAndNormalizeOptions(inputOptions);
 
@@ -28,4 +26,4 @@ export const xBundle = async (inputOptions) => {
     }
 };
 
-export default xBundle;
+export default xProject;

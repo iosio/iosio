@@ -1,140 +1,112 @@
-import arg from 'arg';
-import inquirer from 'inquirer';
-import chalk from 'chalk';
+import sade from 'sade';
+import {scaffold} from "./scaffold/scaffold";
+import {isDirEmpty, log} from "@iosio/node-util";
+import {xProject} from "@iosio/x-project";
 
-import execa from 'execa';
+let {version} = require('../package');
 
-import PKG from '../package';
+const start = 'start';
+const build_app = 'build_app';
+const build_lib = 'build_lib';
 
-import fse from 'fs-extra';
-
-import path from 'path';
-
-import packagejson from './template_parts/app/packagejson'
-import indexHTML from './template_parts/app/indexHTML'
-import gitignore from './template_parts/app/gitignore'
-
-
-import fs from "fs";
-
-import {serve_build} from "./rollup/serve_build";
-
-import {dev} from './rollup/dev';
-import {setup} from "./rollup/setup";
-import {stdout} from "./rollup/util";
-import {logError} from "./rollup/logError";
-
-
-function parseArgumentsIntoOptions(rawArgs) {
-    const args = arg(
-        {
-            '--git': Boolean,
-            '--yes': Boolean,
-            '--install': Boolean,
-            '-g': '--git',
-            '-y': '--yes',
-            '-i': '--install',
-        },
-        {
-            argv: rawArgs.slice(2),
-        }
-    );
-    return {
-        skipPrompts: args['--yes'] || false,
-        git: args['--git'] || false,
-        action: args._[0],
-        api: args._[1],
-        runInstall: args['--install'] || false,
-    };
-}
-
-
-async function promptForMissingOptions(options) {
-    const defaultTemplate = 'app';
-
-    if (options.skipPrompts) {
-        return {
-            ...options,
-            template: defaultTemplate,
-        };
-    }
-    const questions = [];
-
-    questions.push({
-        type: 'input',
-        name: 'npm_library_name',
-        message: 'Enter project name...',
-        default: 'my_project',
-    });
-
-    const answers = await inquirer.prompt(questions);
-
-    return {
-        ...options,
-        ...answers,
-        npm_library_description: "",
-        template: defaultTemplate,
-        git: options.git || answers.git,
-        npm_namespace: ''
-    };
-}
-
-
-const rootScriptsLocation = __dirname + '/rollup';
-const devLocation = rootScriptsLocation + '/dev.js';
-// const devLocation = '../src/dev_.js';
-const buildLocation = rootScriptsLocation + '/build.js';
-
-const buildLibLocation = rootScriptsLocation + '/build_lib.js';
-
-const rollupLocations = {
-    'start': devLocation,
-    'build': buildLocation,
-    'build_lib': buildLibLocation
+const presets = {
+    start,
+    build_app,
+    build_lib
 };
 
-// const buildLocation = '../src/build_.js';
-// console.log('asdf')
-export async function cli(args) {
-    let options = parseArgumentsIntoOptions(args);
+export const program = handler => {
 
-    const {action, api} = options;
+    const cmd = command => (opts, str) => {
 
-    if (!action) {
+        handler({command, opts, str});
+    };
 
-        console.log(chalk.cyan('version: ' + PKG.version));
-        options = await promptForMissingOptions(options);
-        await scaffold(options);
-        console.log(chalk.green('run npm install then npm start to begin developing!!!'));
+    let prog = sade('x');
+
+    prog.version(version)
+        .option('--app_env', 'Specify which APP_ENV to use in your config')
+        .example('x start --app_env prod')
+        .option('--cwd', 'Use an alternative working directory', '.')
+        .example('x start --cwd someOtherProject/')
+        .option('--project', 'Specify an overrides object on the config "project" property')
+        .example('x start --project demo');
+
+    prog.command(start)
+        .describe('Starts a dev server and rebuilds on any changes')
+        .example(`x ${start}`)
+        .action(cmd(start));
+
+    prog.command(build_app)
+        .describe('Builds a production web app')
+        .example(`x ${build_app}`)
+        .action(cmd(build_app));
+
+    prog.command(build_lib)
+        .describe('Produces tiny, optimized code for your node module')
+        .example(`x ${build_lib}`)
+        .action(cmd(build_lib));
+
+    prog.command('serve_build')
+        .describe('Serves the production build')
+        .example('x serve_build')
+        .action(cmd('serve_build'));
+
+    // prog.command('add')
+    //     .describe('Add a template file to your existing project (coming soon!)')
+    //     .example('x add --rollup_build_app')
+    //     .action(cmd('add'));
+
+    return argv => prog.parse(argv);
+};
+
+
+export const cli = async function (rawArgs) {
+
+    let hasArgs = rawArgs.slice(2).length > 0;
+
+    const emptyProject = await isDirEmpty(process.cwd());
+
+    if (hasArgs && !emptyProject) {
+
+        program(({command, opts, str}) => {
+
+            if (presets[command]) {
+
+                let options = {
+                    // cwd
+                    // app_env,
+                    // project,
+                    ...opts,
+                    preset: command,
+                    configName: 'xProjectConfig',
+                };
+
+                xProject(options)
+                    .then(output => {
+                        if (output != null) log.out(output);
+                        if (command !== 'start') process.exit(0);
+                    })
+                    .catch(err => {
+                        process.exitCode = (typeof err.code === 'number' && err.code) || 1;
+                        log.Error(err);
+                        process.exit();
+                    });
+            }
+
+        })(rawArgs);
+
     } else {
 
-        // let pathToRollup = path.join()
-        let rollupLocation = rollupLocations[action];
-
-        if (action === 'serve_build') {
-            serve_build();
-        } else if (!rollupLocation) {
-
-            console.error('invalid cli command. must be: start, build, build_lib or serve_build.');
-            return process.exit();
-        } else {
-
-            // const subprocess = execa.shell(
-            //     `rollup -c ${rollupLocation}${api ? (' --environment APP_ENV:' + api) : ''}`
-            // );
-            // subprocess.stdout.pipe(process.stdout);
-            // return subprocess;
-            return setup(dev).then(output => {
-                if (output != null) stdout(output);
-            }).catch((err) => {
-                process.exitCode = (typeof err.code === 'number' && err.code) || 1;
-                logError(err);
-                process.exit();
-            });
-        }
-
+        return await scaffold();
     }
 
-}
+};
 
+/*
 
+   if (options.cli.command === 'add') {
+                scaffold(options).catch(log.Error);
+            } else {
+            }
+ */

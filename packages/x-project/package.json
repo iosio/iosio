@@ -17,6 +17,8 @@
 	"devDependencies": {},
 	"xProjectConfig": {},
 	"dependencies": {
+		"@iosio/node-util": "^0.0.1",
+		"@iosio/rollup-config": "^0.0.1",
 		"asyncro": "^3.0.0",
 		"brotli-size": "^4.0.0",
 		"camelcase": "^5.3.1",

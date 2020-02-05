@@ -1,12 +1,19 @@
 import fse from "fs-extra";
-import {log} from "../util/logging";
+import {log, isDirEmpty} from "@iosio/node-util";
 import path from "path";
 import glob from 'tiny-glob/sync'
 import {series} from "asyncro";
 import inquirer from "inquirer";
-import {isDirEmpty} from "../util/fileSystem";
-import {safeVariableName} from "../util";
+import camelCase from "camelcase";
 
+export const removeScope = name => name.replace(/^@.*\//, '');
+
+export const safeVariableName = name =>
+    camelCase(
+        removeScope(name)
+            .toLowerCase()
+            .replace(/((^[^a-zA-Z]+)|[^\w.-])|([^a-zA-Z0-9]+$)/g, ''),
+    );
 
 const createProject = async (options) => {
 
