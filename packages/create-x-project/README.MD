@@ -233,20 +233,10 @@ The options under the specified project will be prioritized over the other prope
         "demo": {
             "input": "demo/src/index.js",
             "html": "demo/src/index.html",
-            "output": "demo/build",
-            "exclude": "none"
+            "output": "demo/build"
         }
     },
-    "input": "src/*",
-    "output": "lib",
-    "format" : "modern",
-    "exclude": [
-        "@iosio/elemental",
-        "@iosio/obi",
-        "@iosio/obi-preact-connect",
-        "@iosio/util",
-        "chartist"
-    ]
+    "input": "src/*"
 }
 ```
 Running the following in the command line will build an app to 'demo/build'

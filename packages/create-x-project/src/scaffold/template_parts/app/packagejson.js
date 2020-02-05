@@ -16,7 +16,7 @@ export default (options) => {
             "test": "exit 0",
         },
         devDependencies: {
-            "@iosio/create-x-project": version
+            "@iosio/create-x-project": "^" + version
         },
         xProjectConfig: {}
     };
