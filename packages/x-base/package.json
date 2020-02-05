@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/x-base",
-	"version": "0.6.0",
+	"version": "0.6.1",
 	"description": "x base component",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -14,10 +14,10 @@
 	],
 	"keywords": [],
 	"dependencies": {
-		"@iosio/util": "^0.6.0"
+		"@iosio/util": "^0.6.1"
 	},
 	"devDependencies": {
-		"@iosio/xact": "^0.6.0",
+		"@iosio/xact": "^0.6.1",
 		"preact": "^10.1.1"
 	},
 	"scripts": {

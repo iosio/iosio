@@ -1,6 +1,6 @@
 {
   "name": "@iosio/preact-router",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "",
   "license": "MIT",
   "main": "lib/index.js",
@@ -14,11 +14,11 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "@iosio/routing": "^0.6.0"
+    "@iosio/routing": "^0.6.1"
   },
   "devDependencies": {
-    "@iosio/obi": "^0.6.0",
-    "@iosio/util": "^0.6.0",
+    "@iosio/obi": "^0.6.1",
+    "@iosio/util": "^0.6.1",
     "preact": "^10.1.1"
   },
   "xProjectConfig": {
