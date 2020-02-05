@@ -1,6 +1,6 @@
 import {rollupWatch} from "@iosio/build-tools/rollup";
 import {DevServer} from "@iosio/build-tools/devServer";
-import {rollupConfig} from "@iosio/rollup-config";
+import {rollupConfig} from "packages/x-project";
 
 import path from "path";
 

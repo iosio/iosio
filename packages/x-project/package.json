@@ -1,0 +1,29 @@
+{
+	"name": "@iosio/x-project",
+	"version": "0.0.1",
+	"description": "",
+	"main": "src/index.js",
+	"module": "src/index.js",
+	"publishConfig": {
+		"access": "public"
+	},
+	"scripts": {
+		"start": "x start",
+		"build": "x build",
+		"build_lib": "x build_lib",
+		"serve_build": "x serve_build",
+		"test": "echo \"No test specified\" && exit 0"
+	},
+	"devDependencies": {},
+	"xProjectConfig": {},
+	"dependencies": {
+		"asyncro": "^3.0.0",
+		"brotli-size": "^4.0.0",
+		"camelcase": "^5.3.1",
+		"esm": "^3.2.25",
+		"gzip-size": "^5.1.1",
+		"kleur": "^3.0.3",
+		"pretty-bytes": "^5.3.0",
+		"tiny-glob": "^0.2.6"
+	}
+}

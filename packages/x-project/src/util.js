@@ -1,6 +1,5 @@
 import path, {basename, dirname, resolve} from 'path';
 import fs from 'fs';
-import { promisify } from 'es6-promisify';
 import gzipSize from "gzip-size";
 import brotliSize from "brotli-size";
 import prettyBytes from "pretty-bytes";
@@ -8,27 +7,23 @@ import {green, red, yellow, white, blue} from 'kleur';
 import camelCase from "camelcase";
 import {map} from "asyncro"
 import glob from 'tiny-glob/sync'
+import {stdout, stderr, isDir, isFile, readFile} from "@iosio/node-util";
 
 
+export const toArray = val => (Array.isArray(val) ? val : val == null ? [] : [val]);
 
-export const stdout = console.log.bind(console);
-export const stderr = console.error.bind(console);
-
-
-// export const writeFile = promisify(fs.writeFile);
-export const stat = promisify(fs.stat);
-
-export const isDir = name =>
-    stat(name)
-        .then(stats => stats.isDirectory())
-        .catch(() => false);
-
-export const isFile = name =>
-    stat(name)
-        .then(stats => stats.isFile())
-        .catch(() => false);
-
-export const readFile = promisify(fs.readFile);
+export const get_input = (inp) => {
+    if (!inp) throw new Error('No input detected');
+    if (typeof inp === 'string') inp = inp.split(',');
+    let files = [];
+    toArray(inp).forEach((file) => {
+        const _files = glob(file, {cwd: options.cwd});
+        files = [...files, ..._files];
+    });
+    files = files.map(f => joinPath(f));
+    if (files.length < 2) files = files[0];
+    return files;
+};
 
 // Extensions to use when resolving modules
 export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'];
@@ -39,7 +34,7 @@ export const parseMappingArgumentAlias = aliasStrings => {
         return {find: key, replacement: value};
     });
 };
-export const toArray = val => (Array.isArray(val) ? val : val == null ? [] : [val]);
+
 // Convert booleans and int define= values to literals.
 // This is more intuitive than `microbundle --define A=1` producing A="1".
 export const toReplacementExpression = (value, name) => {
@@ -295,6 +290,131 @@ export async function getEntries({input, cwd}) {
     return entries;
 }
 
-export const getFile = (file, cwd) => {
-    if (fs.existSync(file)) return require(path.join(cwd, file));
+// export const getFile = (file, cwd) => {
+//     if (fs.existSync(file)) return require(path.join(cwd, file));
+// };
+
+const getFile = (options, entry, format) => {
+
+    function replaceName(filename, name) {
+        return resolve(
+            dirname(filename),
+            name + basename(filename).replace(/^[^.]+/, ''),
+        );
+    }
+
+    let mainNoExtension = options.output;
+    if (options.multipleEntries) {
+        let name = entry.match(/([\\/])index(\.(umd|cjs|es|m))?\.m?js$/)
+            ? mainNoExtension
+            : entry;
+        mainNoExtension = resolve(dirname(mainNoExtension), basename(name));
+    }
+
+    mainNoExtension = mainNoExtension.replace(/(\.(umd|cjs|es|m))?\.m?js$/, '');
+
+    let moduleMain = replaceName(
+        options.pkg.module && !options.pkg.module.match(/src\//)
+            ? options.pkg.module
+            : options.pkg['jsnext:main'] || 'x.esm.js',
+        mainNoExtension,
+    );
+    let modernMain = replaceName(
+        (options.pkg.syntax && options.pkg.syntax.esmodules) || options.pkg.esmodule || 'x.modern.js',
+        mainNoExtension,
+    );
+
+    let cjsMain = replaceName(options.pkg['cjs:main'] || 'x.js', mainNoExtension);
+    let umdMain = replaceName(options.pkg['umd:main'] || 'x.umd.js', mainNoExtension);
+
+    const formats = {
+        modern: modernMain,
+        es: moduleMain,
+        umd: umdMain
+    };
+
+    return formats[format] || cjsMain
 };
+
+
+export const getExternalsAndGlobals = (options, entry) => {
+
+    // ------------ external ---------------
+    let external = [];
+
+    if (options.target !== 'web') {
+        external.concat(['dns', 'fs', 'path', 'url']);
+    }
+    // if (entry) external.concat(options.entries.filter(e => e !== entry));
+
+    const peerDeps = Object.keys(options.pkg.peerDependencies || {});
+
+    if (options.external === 'none') {
+        // bundle everything
+    } else if (options.external.length > 0) external = external.concat(peerDeps);
+    else external = external.concat(peerDeps).concat(Object.keys(options.pkg.dependencies || {}));
+
+    // ------------ globals ----------------
+    let globals = external.reduce((g, name) => {
+        // valid JS identifiers are usually library globals:
+        if (name.match(/^[a-z_$][a-z0-9_$]*$/))  g[name] = name;
+        return g;
+    }, {});
+
+    if (options.globals && options.globals !== 'none') {
+        globals = Object.assign(globals, parseMappingArgument(options.globals));
+    }
+
+    const externalPredicate = new RegExp(`^(${external.join('|')})($|/)`);
+
+    const externalTest = options.external.length === 0
+        ? () => false : id => externalPredicate.test(id);
+
+    return {external, externalTest, globals};
+};
+
+
+/*
+        let outputAliases = {};
+        // since we transform src/index.js, we need to rename imports for it:
+        // if (options.multipleEntries) {
+        //     outputAliases['.'] = './' + basename(options.output);
+        // }
+
+
+        for (let i = 0; i < options.entries.length; i++) {
+            for (let j = 0; j < options.formats.length; j++) {
+
+                const entry = options.entries[i];
+
+                const {globals, externalTest} = getExternalsAndGlobals(options, entry);
+
+                const format = options.formats[j];
+                const file = getFile(options, entry, format);
+
+                builds.push(
+                    rollupConfig({
+                        ...options,
+                        html: false,
+                        htmljs: false,
+                        file,
+                        entry,
+                        format,
+                        writeMeta: i === 0 && j === 0,
+                        outputAliases,
+                        globals,
+                        external: id => {
+                            if (id === 'babel-plugin-transform-async-to-promises/helpers') {
+                                return false;
+                            }
+                            if (options.multipleEntries && id === '.') {
+                                return true;
+                            }
+                            return externalTest(id);
+                        }
+                    })
+                );
+
+
+            }
+        }*/

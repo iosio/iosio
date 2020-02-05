@@ -1,2 +1,4 @@
-console.log("hello world");var o=function(){return Promise.resolve(!0)};export{o as fuckDisIsh};
+console.log("hello world");
+const o = async o => await o, l = "face", t = "butt";
+export {o as dickButt, l as fuck, t as poopoo};
 //# sourceMappingURL=index.modern.js.map

@@ -1,36 +1,32 @@
-// plugins
 import aliasImports from '@rollup/plugin-alias';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
 import copy from 'rollup-plugin-copy'
 import indexHTML from "rollup-plugin-index-html";
 import postcss from "rollup-plugin-postcss";
 import {terser} from 'rollup-plugin-terser';
 import url from "rollup-plugin-url";
-
+import filesize from "rollup-plugin-filesize";
 
 import autoprefixer from "autoprefixer";
 import cssnano from 'cssnano';
-import {customBabel} from "./babel-custom";
-import {
-    isTruthy,
-    getSizeInfo,
-    EXTENSIONS,
-} from "./util";
-import {presets} from "./presets";
 import path from "path";
+import xBabel from '@iosio/rollup-plugin-custom-x-babel';
 
+export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'];
 
-const shebang = {};
-
+export const presets = {
+    start: 'start',
+    build_app: 'build_app',
+    build_lib: 'build_lib'
+};
 
 export const rollupConfig =
     ({
          cwd,
          preset,
-         entry,
+         input,
          format,
          legacy,
          alias,
@@ -59,10 +55,9 @@ export const rollupConfig =
 
         const modern = format === 'modern';
 
-        const config = {
+        return {
             inputOptions: {
-                input: entry,
-
+                input,
                 external,
                 treeshake: {propertyReadSideEffects: false},
                 plugins: [].concat(
@@ -91,57 +86,32 @@ export const rollupConfig =
                         include: /\/node_modules\//,
                     }),
                     json(),
-                    {
-                        // We have to remove shebang so it doesn't end up in the middle of the code somewhere
-                        transform: code => ({
-                            code: code.replace(/^#![^\n]*/, bang => {
-                                shebang[name] = bang;
-                            }),
-                            map: null,
-                        }),
-                    },
-                    (htmljs || html) && indexHTML({
+                    (preset !== presets.build_lib && (htmljs || html)) && indexHTML({
                         indexHTML: (htmljs || html),
                         legacy,
                         multiBuild: multiBuildApp,
-                        polyfills: {
-                            dynamicImport: true,
-                            coreJs: true,
-                            regeneratorRuntime: true,
-                            webcomponents: true,
-                            systemJs: true,
-                            fetch: true
-                        },
+                        ...(polyfills !== false ? {
+                            polyfills: {
+                                dynamicImport: true,
+                                coreJs: true,
+                                regeneratorRuntime: true,
+                                webcomponents: true,
+                                systemJs: true,
+                                fetch: true
+                            }
+                        } : {})
                     }),
-                    // if defines is not set, we shouldn't run babel through node_modules
-                    isTruthy(defines) &&
-                    babel({
-                        babelrc: false,
-                        configFile: false,
-                        compact: false,
-                        include: 'node_modules/**',
-                        plugins: [
-                            [
-                                require.resolve('babel-plugin-transform-replace-expressions'),
-                                {replace: defines},
-                            ],
-                        ],
-                    }),
-                    customBabel({
+                    ...xBabel({
                         extensions: EXTENSIONS,
-                        exclude: 'node_modules/**',
-                        passPerPreset: true, // @see https://babeljs.io/docs/en/options#passperpreset
-                        custom: {
-                            minifyLiterals: true,
-                            legacy,
-                            defines,
-                            modern,
-                            jcss: {browsers: cssBrowsers},
-                            compress: compress !== false,
-                            targets: target === 'node' ? {node: '8'} : browsers,
-                            pragma: jsx || 'h',
-                            pragmaFrag: jsxFragment || 'Fragment',
-                        },
+                        minifyLiterals: true,
+                        legacy,
+                        defines,
+                        modern,
+                        jcss: {browsers: cssBrowsers},
+                        compress: compress !== false,
+                        targets: target === 'node' ? {node: '8'} : browsers,
+                        pragma: jsx || 'h',
+                        pragmaFrag: jsxFragment || 'Fragment',
                     }),
                     copyConfig && copy({
                         targets: copyConfig.map((filePath) => ({
@@ -157,51 +127,21 @@ export const rollupConfig =
                     compress !== false && [
                         terser({
                             sourcemap: true,
-                            compress: Object.assign(
-                                {
-                                    keep_infinity: true,
-                                    pure_getters: true,
-                                    // Ideally we'd just get Terser to respect existing Arrow functions...
-                                    // unsafe_arrows: true,
-                                    passes: 10,
-                                },
-                                {}
-                                // minifyOptions.compress || {},
-                            ),
+                            compress: {
+                                keep_infinity: true,
+                                pure_getters: true,
+                                passes: 10,
+                            },
                             output: {
-                                // By default, Terser wraps function arguments in extra parens to trigger eager parsing.
-                                // Whether this is a good idea is way too specific to guess, so we optimize for size by default:
                                 wrap_func_args: false,
                             },
                             warnings: true,
-                            ecma: modern ? 9 : 5,
+                            ecma: multiBuildApp ? (legacy ? 5 : 9) : modern ? 9 : 5,
                             toplevel: modern || format === 'cjs' || format === 'es',
-                            // mangle: Object.assign({}, minifyOptions.mangle || {}),
-                            // nameCache,
+                            safari10: true
                         }),
-                        // nameCache && {
-                        //     // before hook
-                        //     options: loadNameCache,
-                        //     // after hook
-                        //     writeBundle() {
-                        //         if (writeMeta && nameCache) {
-                        //             fs.writeFile(
-                        //                 getNameCachePath(),
-                        //                 JSON.stringify(nameCache, null, 2),
-                        //             );
-                        //         }
-                        //     },
-                        // },
                     ],
-                    {
-                        writeBundle(bundle) {
-                            config._sizeInfo = Promise.all(
-                                Object.values(bundle).map(({code, fileName}) =>
-                                    code ? getSizeInfo(code, fileName, /*raw*/) : false,
-                                ),
-                            ).then(results => results.filter(Boolean).join('\n'));
-                        },
-                    },
+                    filesize()
                 ).filter(Boolean),
             },
 
@@ -210,34 +150,29 @@ export const rollupConfig =
 
                 ...(preset === presets.build_lib ?
                     {
-                        paths: outputAliases,
                         globals: globals,
-                        // dir: output,
+                        dir: output,
                         strict: strict === true,
                         legacy: true,
                         freeze: false,
                         esModule: false,
                         sourcemap,
-                        get banner() {
-                            return shebang[name];
-                        },
                         format: modern ? 'es' : format,
                         name,
-                        file,
                         chunkFileNames: "[name].js"
                     }
                     : (
                         preset === presets.build_app ?
                             {
                                 dir: path.join(output, legacy ? '/legacy' : ''),
-                                format: legacy ? 'system' : 'esm',
+                                format: legacy ? 'system' : 'es',
                                 dynamicImportFunction: !legacy && 'importShim',
                                 chunkFileNames: "[name].js",
                                 globals,
                                 sourcemap,
 
                             }
-                            :
+                            : // preset.start
                             {
                                 dir: output,
                                 format: modern ? 'es' : format,
@@ -249,8 +184,5 @@ export const rollupConfig =
 
             }
         };
-
-
-        return config;
 
     };

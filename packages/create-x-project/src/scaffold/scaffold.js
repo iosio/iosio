@@ -8,7 +8,9 @@ import {isDirEmpty} from "../util/fileSystem";
 import {safeVariableName} from "../util";
 
 
-const createProject = async ({projectTemplate, packageName, name}) => {
+const createProject = async (options) => {
+
+    const {projectTemplate, packageName, name} = options;
 
     log.out(c => c.cyan('Scaffolding project...'));
 
@@ -48,7 +50,7 @@ export const scaffold = async () => {
 
         const {name} = await inquirer.prompt(questions);
         // if(name !== options.name) log.out(c=>c.blue(`Using "${options.name}" as a safe variable name`));
-      await createProject({
+        await createProject({
             packageName: name,
             name: safeVariableName(name),
             projectTemplate: 'app'

@@ -2,11 +2,8 @@
 	"name": "@iosio/asdf",
 	"version": "0.0.1",
 	"description": "",
-	"source": "src/index.js",
 	"main": "lib/index.js",
-	"umd:main": "lib/index.umd.js",
-	"jsnext:main": "lib/index.modern.js",
-	"module": "lib/index.module.js",
+	"module": "lib/index.js",
 	"private": true,
 	"scripts": {
 		"start": "x start",
@@ -19,7 +16,8 @@
 		"@iosio/create-x-project": "0.5.86"
 	},
 	"xProjectConfig": {
-		"input": "src/*",
+		"entries": "src/index.js",
+		"format": "modern",
 		"project": {
 			"demo": {
 				"input": "demo/*"

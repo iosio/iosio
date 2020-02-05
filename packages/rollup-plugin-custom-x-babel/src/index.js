@@ -1,7 +1,12 @@
 import {createConfigItem} from '@babel/core';
 import babelPlugin from 'rollup-plugin-babel';
 import merge from 'lodash.merge';
-import {isTruthy} from "./util";
+
+
+const isTruthy = obj => {
+    if (!obj) return false;
+    return obj.constructor !== Object || Object.keys(obj).length > 0;
+};
 
 const ESMODULES_TARGET = {
     esmodules: true,
@@ -199,3 +204,50 @@ export const customBabel = babelPlugin.custom(babelCore => {
         },
     };
 });
+
+
+export default ({
+                    defines,
+                    extensions,
+                    minifyLiterals,
+                    legacy,
+                    modern,
+                    jcss,
+                    compress,
+                    targets,
+                    pragma,
+                    pragmaFrag
+                }) => {
+
+
+    return [
+        isTruthy(defines) && babelPlugin({
+            babelrc: false,
+            configFile: false,
+            compact: false,
+            include: 'node_modules/**',
+            plugins: [
+                [
+                    require.resolve('babel-plugin-transform-replace-expressions'),
+                    {replace: defines},
+                ],
+            ],
+        }),
+        customBabel({
+            extensions,
+            exclude: 'node_modules/**',
+            passPerPreset: true, // @see https://babeljs.io/docs/en/options#passperpreset
+            custom: {
+                minifyLiterals,
+                legacy,
+                modern,
+                jcss,
+                compress,
+                targets,
+                pragma,
+                pragmaFrag
+            }
+        })
+
+    ].filter(Boolean)
+}
