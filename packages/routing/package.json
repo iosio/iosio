@@ -17,6 +17,10 @@
 		"@iosio/obi": "^0.6.1",
 		"@iosio/util": "^0.6.1"
 	},
+	"peerDependencies": {
+		"@iosio/obi": "^0.6.1",
+		"@iosio/util": "^0.6.1"
+	},
 	"scripts": {
 		"start": "x start --project demo",
 		"build": "x build_lib",

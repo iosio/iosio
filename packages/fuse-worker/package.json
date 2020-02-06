@@ -23,6 +23,12 @@
     "@iosio/x": "^0.6.1",
     "fuse.js": "^3.4.5"
   },
+  "peerDependencies": {
+    "@iosio/lorem": "^0.6.1",
+    "@iosio/util": "^0.6.1",
+    "@iosio/x": "^0.6.1",
+    "fuse.js": "^3.4.5"
+  },
   "xProjectConfig": {
     "project": {
       "dev": {

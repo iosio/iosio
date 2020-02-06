@@ -66,7 +66,7 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
 
     let htmljs = joinPath(getOption('htmljs') || '/src/html.js');
     const htmljsExists = await isFile(htmljs);
-    options.htmljs = htmljsExists && htmljs;
+    options.htmljs = htmljsExists && require(htmljs).default;
 
     const alias = getOption('alias');
     options.alias = alias ? parseMappingArgumentAlias(alias) : [];
@@ -89,9 +89,9 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
 
     options.context = getOption('context') || (options.target === 'web' ? 'window' : undefined);
 
-    options.browsers = getOption('browsers') || options.pkg.browserlist;
+    options.browsers = getOption('browsers') || options.pkg.browserslist;
 
-    options.cssBrowsers = getOption('cssBrowsers') || options.browsers;
+    options.cssBrowsers = getOption('cssBrowsers');
 
     options.copyConfig = getOption('copyConfig');
 
@@ -103,7 +103,7 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     if (Array.isArray(ext)) ext = ext.length ? ext : undefined;
     options.external = !ext && (options.preset === presets.build_app || options.preset === presets.start) ? 'none' : ext;
 
-    options.globals = getOption('globals') || 'none';
+    options.globals = getOption('globals');
 
     options.devServer = getOption('devServer') || {};
 

@@ -13,11 +13,12 @@ export const xProject = async (inputOptions) => {
         .forEach((key) => process.env[key] = options.envs[key]);
 
     const builds = createBuilds(options);
+
     if (options.preset === 'serve_build') {
         DevServer({baseDir: options.output})();
     } else if (options.preset === presets.start) {
         return await rollupWatch(builds, options, DevServer({cwd: options.cwd, baseDir: options.output, ...options.devServer}))
-    } else {
+    } else  {
         await clearDir(options.output);
         const logout = await nodeRollup({builds});
         return (

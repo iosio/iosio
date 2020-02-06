@@ -1,9 +1,11 @@
 import {getExternalsAndGlobals} from "./util";
 import {rollupConfig, presets} from "@iosio/rollup-config";
+import {log} from "@iosio/node-util";
 
 export const createBuilds = (options) => {
     let builds = [];
-    const {globals, externalTest} = getExternalsAndGlobals(options);
+    const {globals, externalTest, external:externals} = getExternalsAndGlobals(options);
+
     const external = id => {
         if (id === 'babel-plugin-transform-async-to-promises/helpers') return false;
         return externalTest(id);
@@ -26,18 +28,13 @@ export const createBuilds = (options) => {
         ].filter(Boolean);
     } else if (options.preset === presets.start) {
         builds = [
-            options.multiBuildApp && rollupConfig({
-                ...options,
-                legacy: true,
-                globals,
-                format: 'system',
-                external
-            }),
             rollupConfig({
                 ...options,
                 globals,
                 format: 'modern',
-                external
+                external,
+                multiBuildApp: false,
+                sourcemap: true
             })
         ]
     } else if (options.preset === presets.build_lib) {

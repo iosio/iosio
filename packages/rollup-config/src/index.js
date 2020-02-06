@@ -1,28 +1,44 @@
-import aliasImports from '@rollup/plugin-alias';
-import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
-import nodeResolve from '@rollup/plugin-node-resolve';
-import copy from 'rollup-plugin-copy'
-import indexHTML from "rollup-plugin-index-html";
-import postcss from "rollup-plugin-postcss";
-import {terser} from 'rollup-plugin-terser';
-import url from "rollup-plugin-url";
-import filesize from "rollup-plugin-filesize";
+const aliasImports = require('@rollup/plugin-alias');
+const commonjs = require('@rollup/plugin-commonjs');
+const json = require('@rollup/plugin-json');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+const copy = require('rollup-plugin-copy');
+const indexHTML = require("rollup-plugin-index-html");
+const postcss = require("rollup-plugin-postcss");
+const {terser} = require('rollup-plugin-terser');
+const url = require("rollup-plugin-url");
+const filesize = require("rollup-plugin-filesize");
 
-import autoprefixer from "autoprefixer";
-import cssnano from 'cssnano';
-import path from "path";
-import xBabel from '@iosio/rollup-plugin-custom-x-babel';
+const autoprefixer = require("autoprefixer");
+const cssnano = require('cssnano');
+const path = require("path");
+const xBabel = require('@iosio/rollup-plugin-custom-x-babel');
+const babel = require('rollup-plugin-babel');
+const {findSupportedBrowsers} = require("./findSupportedBrowsers");
 
-export const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'];
+const EXTENSIONS = ['.ts', '.tsx', '.js', '.jsx', '.es6', '.es', '.mjs'];
 
-export const presets = {
+
+exports.EXTENSIONS = EXTENSIONS;
+
+const presets = {
     start: 'start',
     build_app: 'build_app',
     build_lib: 'build_lib'
 };
 
-export const rollupConfig =
+exports.presets = presets;
+
+const lastTwoTargets = [
+    'last 2 Chrome major versions',
+    'last 2 ChromeAndroid major versions',
+    'last 2 Firefox major versions',
+    // 'last 2 Edge major versions',
+    'last 2 Safari major versions',
+    'last 2 iOS major versions',
+];
+
+const rollupConfig =
     ({
          cwd,
          preset,
@@ -53,7 +69,15 @@ export const rollupConfig =
          polyfills,
      }) => {
 
+
         const modern = format === 'modern';
+
+        let targets;
+        if (target !== 'node') {
+            targets = multiBuildApp ? (legacy ? ['ie 11'] : (browsers || lastTwoTargets)) : browsers;
+            cssBrowsers = cssBrowsers || targets;
+        }
+
 
         return {
             inputOptions: {
@@ -101,6 +125,7 @@ export const rollupConfig =
                             }
                         } : {})
                     }),
+
                     ...xBabel({
                         extensions: EXTENSIONS,
                         minifyLiterals: true,
@@ -109,7 +134,7 @@ export const rollupConfig =
                         modern,
                         jcss: {browsers: cssBrowsers},
                         compress: compress !== false,
-                        targets: target === 'node' ? {node: '8'} : browsers,
+                        targets: target === 'node' ? {node: '8'} : targets,
                         pragma: jsx || 'h',
                         pragmaFrag: jsxFragment || 'Fragment',
                     }),
@@ -136,10 +161,11 @@ export const rollupConfig =
                                 wrap_func_args: false,
                             },
                             warnings: true,
-                            ecma: multiBuildApp ? (legacy ? 5 : 9) : modern ? 9 : 5,
-                            toplevel: modern || format === 'cjs' || format === 'es',
+                            ecma: multiBuildApp ? (legacy ? 5 : 9) : (modern ? 9 : 5),
+                            toplevel: modern || format === 'cjs' || format === 'esm',
                             safari10: true
                         }),
+                        terser()
                     ],
                     preset !== presets.start && filesize()
                 ).filter(Boolean),
@@ -165,9 +191,12 @@ export const rollupConfig =
                         preset === presets.build_app ?
                             {
                                 dir: path.join(output, legacy ? '/legacy' : ''),
-                                format: legacy ? 'system' : 'es',
-                                dynamicImportFunction: !legacy && 'importShim',
-                                chunkFileNames: "[name].js",
+                                format: modern ? 'esm' : format,
+                                ...(multiBuildApp ? {
+                                    dynamicImportFunction: !legacy && 'importShim'
+                                } : {}),
+                                entryFileNames: '[name]-[hash].js',
+                                chunkFileNames: "[name]-[hash].js",
                                 globals,
                                 sourcemap,
 
@@ -175,7 +204,7 @@ export const rollupConfig =
                             : // preset.start
                             {
                                 dir: output,
-                                format: modern ? 'es' : format,
+                                format: modern ? 'esm' : format,
                                 sourcemap,
                                 globals,
                                 chunkFileNames: "chunk-[name].js"
@@ -186,3 +215,43 @@ export const rollupConfig =
         };
 
     };
+
+exports.rollupConfig = rollupConfig;
+
+/*
+
+                babel({
+                        extensions: EXTENSIONS,
+                        babelrc: false,
+                        configFile: false,
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: targets,
+                                    useBuiltIns: false,
+                                    modules: false,
+                                    exclude: [
+                                        'transform-async-to-generator',
+                                        'transform-regenerator',
+                                        !legacy && '@babel/plugin-transform-template-literals'
+                                    ].filter(Boolean)
+                                },
+                            ]
+                        ],
+                        plugins: [
+                            ['@iosio/babel-plugin-jcss', {browsers: cssBrowsers}],
+                            ['@iosio/babel-plugin-minify-literals'],
+                            "transform-inline-environment-variables",
+                            ['@babel/plugin-proposal-nullish-coalescing-operator', {loose: true}],
+                            ['@babel/plugin-proposal-optional-chaining', {loose: true}],
+                            '@babel/plugin-syntax-dynamic-import',
+                            '@babel/plugin-syntax-import-meta',
+                            ['bundled-import-meta', {importStyle: 'baseURI'}],
+                            ["@babel/plugin-transform-react-jsx", {pragma: 'h', pragmaFrag: "Fragment"}],
+                            ["@babel/plugin-proposal-class-properties", {"loose": true}],
+                            '@babel/plugin-transform-flow-strip-types',
+                            'macros'
+                        ]
+                    }),
+ */

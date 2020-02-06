@@ -353,7 +353,7 @@ export const getExternalsAndGlobals = (options, entry) => {
 
     if (options.external === 'none') {
         // bundle everything
-    } else if (options.external) external = external.concat(peerDeps);
+    } else if (options.external) external = external.concat(peerDeps).concat(options.external);
     else external = external.concat(peerDeps).concat(Object.keys(options.pkg.dependencies || {}));
 
     // ------------ globals ----------------

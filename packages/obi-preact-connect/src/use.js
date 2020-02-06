@@ -6,7 +6,6 @@ export const useForceUpdate = () => {
     return useCallback(() => set(newObj()), [set]);
 };
 
-
 export const useObi = (obis)=> {
     let fu = useForceUpdate();
     useEffect(() => {

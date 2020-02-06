@@ -29,6 +29,11 @@
   "devDependencies": {
     "@iosio/todos": "^0.6.1"
   },
+  "peerDependencies": {
+    "@iosio/x-base": "^0.6.1",
+    "@iosio/xact": "^0.6.1",
+    "preact": "^10.1.1"
+  },
   "scripts": {
     "start": "x start --project demo",
     "build": "x build_lib",

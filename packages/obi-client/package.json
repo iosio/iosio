@@ -21,6 +21,9 @@
 	"dependencies": {
 		"@iosio/obi": "^0.6.1"
 	},
+	"peerDependencies": {
+		"@iosio/obi": "^0.6.1"
+	},
 	"xProjectConfig": {
 		"project": {
 			"dev": {

@@ -1,5 +1,5 @@
 import {Component, h} from "preact";
-import {getArgs, newObj} from "./util";
+import {newObj} from "./util";
 
 export const connectObi = (obis) => {
 

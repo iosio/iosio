@@ -1,6 +1,6 @@
-import {createConfigItem} from '@babel/core';
-import babelPlugin from 'rollup-plugin-babel';
-import merge from 'lodash.merge';
+const {createConfigItem} = require('@babel/core');
+const babelPlugin = require('rollup-plugin-babel');
+const merge = require('lodash.merge');
 
 
 const isTruthy = obj => {
@@ -48,7 +48,7 @@ const createConfigItems = (type, items) => {
 };
 const presetEnvRegex = RegExp(/@babel\/(preset-)?env/);
 
-export const customBabel = babelPlugin.custom(babelCore => {
+const customBabel = babelPlugin.custom(babelCore => {
     return {
         // Passed the plugin options.
         options({custom: customOptions, ...pluginOptions}) {
@@ -206,18 +206,18 @@ export const customBabel = babelPlugin.custom(babelCore => {
 });
 
 
-export default ({
-                    defines,
-                    extensions,
-                    minifyLiterals,
-                    legacy,
-                    modern,
-                    jcss,
-                    compress,
-                    targets,
-                    pragma,
-                    pragmaFrag
-                }) => [
+module.exports = ({
+                      defines,
+                      extensions,
+                      minifyLiterals,
+                      legacy,
+                      modern,
+                      jcss,
+                      compress,
+                      targets,
+                      pragma,
+                      pragmaFrag
+                  }) => [
     isTruthy(defines) && babelPlugin({
         babelrc: false,
         configFile: false,

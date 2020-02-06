@@ -13,7 +13,6 @@ Features:
 - post css loader
 - minifies and autoprefixes css template tag literals with keyword 'jcss'.
 - minifies tag template literals using keyword 'minify'
-- multi project configurations
 - ..and more
 
 
@@ -102,13 +101,22 @@ export default {
     output: /*default*/ '/build', // will output to /lib by default when the command build_lib is used
     
     //browserlist target browsers
-    browsers: /*default*/ undefined, // looks for browserlist in package.json if none provided
+    browsers: /*default*/    
+      [ // looks for browserlist in package.json if none provided, else defaults to these for multiBuildApp
+        "last 2 Chrome major versions",
+        "last 2 ChromeAndroid major versions",
+        "last 2 Firefox major versions",
+        "last 2 Edge major versions",
+        "last 2 Safari major versions",
+        "last 2 iOS major versions"
+      ], 
     
     //browserlist specific to css auto prefixer in case it differs from js
     cssBrowsers: /*default*/ browsers, //uses the browsers option if none provided
     
-    //if true, creates an additional legacy build that is conditionally loaded for older browsers  
-    multiBuildApp: /*default*/ undefined,
+    //if true, creates an additional legacy build
+    // @TODO: needs work  
+    // multiBuildApp: /*default*/ undefined,
     
     //set to false to disable conditional polyfills 
     polyfills: /*default*/true,
