@@ -1,6 +1,6 @@
 {
   "name": "@iosio/rollup-plugin-custom-x-babel",
-  "version": "0.6.1",
+  "version": "0.6.4",
   "description": "inspired by developit/microbundle babel-custom file",
   "main": "src/index.js",
   "module": "src/index.js",

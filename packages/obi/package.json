@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi",
-	"version": "0.6.1",
+	"version": "0.6.4",
 	"description": "mini observable",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -19,7 +19,7 @@
 		"test": "echo \"No test specified\" && exit 0"
 	},
 	"dependencies": {
-		"@iosio/util": "^0.6.1"
+		"@iosio/util": "^0.6.4"
 	},
 	"peerDependencies": {
 		"@iosio/util": "^0.6.1"

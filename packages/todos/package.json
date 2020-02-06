@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/todos",
-	"version": "0.6.1",
+	"version": "0.6.4",
 	"description": "todos boilerplate logic for quick todo apps",
 	"main": "lib/index.js",
 	"module": "lib/index.js",
@@ -15,8 +15,8 @@
 	"keywords": [],
 	"dependencies": {
 		"@iosio/lorem": "^0.6.1",
-		"@iosio/obi": "^0.6.1",
-		"@iosio/util": "^0.6.1",
+		"@iosio/obi": "^0.6.4",
+		"@iosio/util": "^0.6.4",
 		"greenlet": "^1.1.0"
 	},
 	"peerDependencies": {

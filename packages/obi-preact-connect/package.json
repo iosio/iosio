@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi-preact-connect",
-	"version": "0.6.1",
+	"version": "0.6.4",
 	"description": "",
 	"license": "MIT",
 	"main": "lib/index.js",
@@ -18,7 +18,7 @@
 		"test": "exit 0"
 	},
 	"devDependencies": {
-		"@iosio/obi": "^0.6.1",
+		"@iosio/obi": "^0.6.4",
 		"preact": "^10.1.1"
 	},
 	"peerDependencies": {

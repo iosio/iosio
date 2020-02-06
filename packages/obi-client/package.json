@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi-client",
-	"version": "0.6.1",
+	"version": "0.6.4",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -19,7 +19,7 @@
 		"test": "exit 0"
 	},
 	"dependencies": {
-		"@iosio/obi": "^0.6.1"
+		"@iosio/obi": "^0.6.4"
 	},
 	"peerDependencies": {
 		"@iosio/obi": "^0.6.1"
