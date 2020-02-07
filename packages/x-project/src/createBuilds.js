@@ -23,7 +23,7 @@ export const createBuilds = (options) => {
                 ...options,
                 globals,
                 format: 'modern',
-                external
+                external,
             })
         ].filter(Boolean);
     } else if (options.preset === presets.start) {
@@ -34,7 +34,7 @@ export const createBuilds = (options) => {
                 format: 'modern',
                 external,
                 multiBuildApp: false,
-                sourcemap: true
+                compress: false
             })
         ]
     } else if (options.preset === presets.build_lib) {

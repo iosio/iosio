@@ -1,0 +1,4 @@
+- check that envs are being applied
+- add context property to config 
+- suppress warnings
+- 

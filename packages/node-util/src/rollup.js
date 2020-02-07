@@ -3,14 +3,15 @@ import {rollup, watch} from "rollup";
 import {log} from "./logging";
 import {clearDir} from "./fileSystem";
 
+
 let cache;
-export const nodeRollup = async function ({builds = [], afterBuildAsync}) {
+export const nodeRollup = async function ({builds = [], afterBuildAsync, useCache}) {
     return await series(
         builds.map(config => async () => {
             const {inputOptions, outputOptions} = config;
-            inputOptions.cache = cache;
+            if(useCache) inputOptions.cache = cache;
             let bundle = await rollup(inputOptions);
-            cache = bundle;
+            if(useCache) cache = bundle.cache;
             await bundle.write(outputOptions);
             if (afterBuildAsync) {
                 return await afterBuildAsync(config);

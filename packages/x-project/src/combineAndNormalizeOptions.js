@@ -6,34 +6,36 @@ import {
 } from "./util";
 import {isFile} from "@iosio/node-util";
 import {presets} from "@iosio/rollup-config";
+import {log} from "@iosio/node-util";
 
 export const combineAndNormalizeOptions = async (inputOptions) => {
     // --- provided by cli: cwd, app_env, project, preset, configName
+
+
     let options = {...inputOptions};
 
     options.cwd = path.resolve(process.cwd(), options.cwd || '.');
 
-    const joinPath = (pathname) => path.join(options.cwd, pathname);
+    let joinPath = (pathname) => path.join(options.cwd, pathname);
 
-    const {hasPackageJson, pkg} = await getConfigFromPkgJson(options.cwd);
+    let {hasPackageJson, pkg} = await getConfigFromPkgJson(options.cwd);
     options.pkg = pkg;
 
     options.configName = options.configName || 'xProject';
     let possibleJsConfig = joinPath(options.configName + '.js');
-    const jsConfigExists = await isFile(possibleJsConfig);
+    let jsConfigExists = await isFile(possibleJsConfig);
     let conf = jsConfigExists
         ? require(possibleJsConfig)
         : (options.pkg[options.configName]
             || (options.pkg[options.configName] = {}, options.pkg[options.configName]));
 
-    const getOption = (key) =>
-        // prioritize input options
-        options[key] ||
-        // if a project namespace is provided and exists on the config, then pull from it
-        (options.project && conf.project && conf.project[options.project] && conf.project[options.project][key])
-            ? conf.project[options.project][key]
-            // otherwise pull from the config
-            : conf[key];
+    let getOption = (key) => {
+        if (options[key]) return options[key];
+        if (options.project && conf.project && conf.project[options.project] && conf.project[options.project][key]) {
+            return conf.project[options.project][key]
+        }
+        return conf[key];
+    };
 
     const {finalName, pkgName} = getName({
         cwd: options.cwd,
@@ -57,7 +59,7 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
 
     options.compress = typeof compress !== 'boolean' ? compress !== 'false' && compress !== '0' : compress;
 
-    options.envs = (getOption('envs') || {})[getOption('app_env')];
+    options.envsToSet = (getOption('envs') || {})[getOption('app_env')];
 
     let html = joinPath(getOption('html') || '/src/index.html');
 

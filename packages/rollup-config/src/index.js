@@ -33,7 +33,7 @@ const lastTwoTargets = [
     'last 2 Chrome major versions',
     'last 2 ChromeAndroid major versions',
     'last 2 Firefox major versions',
-    // 'last 2 Edge major versions',
+    'last 2 Edge major versions',
     'last 2 Safari major versions',
     'last 2 iOS major versions',
 ];
@@ -50,6 +50,7 @@ const rollupConfig =
          external,
          sourcemap,
          globals,
+         context,
          browsers,
          cssBrowsers,
          writeMeta = true,
@@ -74,7 +75,8 @@ const rollupConfig =
 
         let targets;
         if (target !== 'node') {
-            targets = multiBuildApp ? (legacy ? ['ie 11'] : (browsers || lastTwoTargets)) : browsers;
+            targets = multiBuildApp ? (legacy ? ['ie 11'] : (browsers || lastTwoTargets))
+                : browsers;
             cssBrowsers = cssBrowsers || targets;
         }
 
@@ -83,6 +85,13 @@ const rollupConfig =
             inputOptions: {
                 input,
                 external,
+                context,
+                onwarn(message, warn) {
+                    if (message.code === 'CIRCULAR_DEPENDENCY') {
+                        return;
+                    }
+                    warn(message)
+                },
                 treeshake: {propertyReadSideEffects: false},
                 plugins: [].concat(
                     alias.length > 0 && aliasImports({

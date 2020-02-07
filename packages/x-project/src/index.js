@@ -9,8 +9,8 @@ export const xProject = async (inputOptions) => {
 
     const options = await combineAndNormalizeOptions(inputOptions);
 
-    options.envs && Object.keys(options.envs)
-        .forEach((key) => process.env[key] = options.envs[key]);
+    options.envsToSet && Object.keys(options.envsToSet)
+        .forEach((key) => process.env[key] = options.envsToSet[key]);
 
     const builds = createBuilds(options);
 
