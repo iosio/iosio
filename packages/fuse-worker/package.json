@@ -1,6 +1,6 @@
 {
   "name": "@iosio/fuse-worker",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -20,7 +20,7 @@
   "devDependencies": {
     "@iosio/lorem": "^0.6.1",
     "@iosio/util": "^0.6.4",
-    "@iosio/x": "^0.6.4",
+    "@iosio/x": "^0.6.5",
     "fuse.js": "^3.4.5"
   },
   "peerDependencies": {
