@@ -197,7 +197,7 @@ const rollupConfig =
                         chunkFileNames: "[name].js"
                     }
                     : (
-                        preset === presets.build_app ?
+                        // preset === presets.build_app ?
                             {
                                 dir: path.join(output, legacy ? '/legacy' : ''),
                                 format: modern ? 'esm' : format,
@@ -210,14 +210,14 @@ const rollupConfig =
                                 sourcemap,
 
                             }
-                            : // preset.start
-                            {
-                                dir: output,
-                                format: modern ? 'esm' : format,
-                                sourcemap,
-                                globals,
-                                chunkFileNames: "chunk-[name].js"
-                            }
+                            // : // preset.start
+                            // {
+                            //     dir: output,
+                            //     format: modern ? 'esm' : format,
+                            //     sourcemap,
+                            //     globals,
+                            //     chunkFileNames: "chunk-[name].js"
+                            // }
                     ))
 
             }

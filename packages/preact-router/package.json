@@ -21,12 +21,6 @@
     "@iosio/util": "^0.6.4",
     "preact": "^10.3.1"
   },
-  "peerDependencies": {
-    "@iosio/obi": "^0.6.1",
-    "@iosio/routing": "^0.6.1",
-    "@iosio/util": "^0.6.1",
-    "preact": "^10.3.1"
-  },
   "xProjectConfig": {
     "project": {
       "dev": {

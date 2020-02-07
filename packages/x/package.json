@@ -25,10 +25,6 @@
     "@iosio/x-base": "^0.6.5",
     "@iosio/xact": "^0.6.4"
   },
-  "peerDependencies": {
-    "@iosio/x-base": "^0.6.1",
-    "@iosio/xact": "^0.6.1"
-  },
   "devDependencies": {
     "@iosio/todos": "^0.6.4"
   },

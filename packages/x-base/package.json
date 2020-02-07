@@ -16,10 +16,6 @@
 	"dependencies": {
 		"@iosio/util": "^0.6.4"
 	},
-	"peerDependencies": {
-		"@iosio/util": "^0.6.1",
-		"preact": "^10.3.1"
-	},
 	"devDependencies": {
 		"@iosio/xact": "^0.6.4",
 		"preact": "^10.3.1"

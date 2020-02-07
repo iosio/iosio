@@ -22,10 +22,6 @@
 		"@iosio/routing": "^0.6.4",
 		"@iosio/util": "^0.6.4"
 	},
-	"peerDependencies": {
-		"@iosio/routing": "^0.6.1",
-		"@iosio/util": "^0.6.1"
-	},
 	"xProjectConfig": {
 		"input": "src/index.js",
 		"project": {

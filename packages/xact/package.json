@@ -23,9 +23,6 @@
   "dependencies": {
     "@iosio/util": "^0.6.4"
   },
-  "peerDependencies": {
-    "@iosio/util": "^0.6.1"
-  },
   "scripts": {
     "start": "x start --project demo",
     "build": "x build_lib",

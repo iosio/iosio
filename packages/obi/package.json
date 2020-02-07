@@ -21,9 +21,6 @@
 	"dependencies": {
 		"@iosio/util": "^0.6.4"
 	},
-	"peerDependencies": {
-		"@iosio/util": "^0.6.1"
-	},
 	"xProjectConfig": {
 		"project": {
 			"dev": {

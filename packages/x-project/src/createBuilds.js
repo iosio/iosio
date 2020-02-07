@@ -22,19 +22,22 @@ export const createBuilds = (options) => {
             rollupConfig({
                 ...options,
                 globals,
-                format: 'modern',
                 external,
             })
         ].filter(Boolean);
     } else if (options.preset === presets.start) {
         builds = [
+            options.multiBuildApp && rollupConfig({
+                ...options,
+                legacy: true,
+                globals,
+                format: 'system',
+                external
+            }),
             rollupConfig({
                 ...options,
                 globals,
-                format: 'modern',
                 external,
-                multiBuildApp: false,
-                compress: false
             })
         ]
     } else if (options.preset === presets.build_lib) {
