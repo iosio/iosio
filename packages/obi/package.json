@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/obi",
-	"version": "0.6.4",
+	"version": "0.6.6",
 	"description": "mini observable",
 	"main": "lib/index.js",
 	"module": "src/index.js",
