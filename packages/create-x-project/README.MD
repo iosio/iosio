@@ -156,7 +156,19 @@ export default {
             
     //alias imported dependencies
     alias: /*default*/ undefined, //ex: 'react=preact/compat',
-
+    
+    //specify extensions to files you'd like to import as strings (such as markdown and html files)
+    importAsString: /*default*/ undefined,
+    /*
+        //rollup-plugin-string options
+        {
+               // Required to be specified
+                  include: "**/*.html",
+            
+                  // Undefined by default
+                  exclude: ["**/index.html"]
+        }    
+    */
     //live reloading dev server. see https://browsersync.io/docs/options for more info.
     devServer: /*default*/ undefined, 
     /*
@@ -248,7 +260,7 @@ The options under the specified project will be prioritized over the other prope
     "input": "src/*"
 }
 ```
-Running the following in the command line will build an app to 'demo/build'
+Running the following in the command line will build an app from 'demo/src/index.js' to 'demo/build'
 ```sh
 x build_app --project demo
 ```

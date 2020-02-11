@@ -29,6 +29,8 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
         : (options.pkg[options.configName]
             || (options.pkg[options.configName] = {}, options.pkg[options.configName]));
 
+    if(conf && conf.default) conf = conf.default;
+
     let getOption = (key) => {
         if (options[key]) return options[key];
         if (options.project && conf.project && conf.project[options.project] && conf.project[options.project][key]) {
@@ -71,6 +73,7 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     options.htmljs = htmljsExists && require(htmljs).default;
 
     const alias = getOption('alias');
+
     options.alias = alias ? parseMappingArgumentAlias(alias) : [];
 
     options.format = getOption('format') || "modern";
@@ -108,6 +111,10 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     options.globals = getOption('globals');
 
     options.devServer = getOption('devServer') || {};
+
+    options.configOverride = getOption('configOverride');
+
+    options.importAsString = getOption('importAsString');
 
     return options;
 };

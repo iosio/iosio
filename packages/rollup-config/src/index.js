@@ -2,11 +2,12 @@ const aliasImports = require('@rollup/plugin-alias');
 const commonjs = require('@rollup/plugin-commonjs');
 const json = require('@rollup/plugin-json');
 const nodeResolve = require('@rollup/plugin-node-resolve');
+const url = require("@rollup/plugin-url");
+const {string} = require("rollup-plugin-string");
 const copy = require('rollup-plugin-copy');
 const indexHTML = require("rollup-plugin-index-html");
 const postcss = require("rollup-plugin-postcss");
 const {terser} = require('rollup-plugin-terser');
-const url = require("rollup-plugin-url");
 const filesize = require("rollup-plugin-filesize");
 
 const autoprefixer = require("autoprefixer");
@@ -68,6 +69,7 @@ const rollupConfig =
          multiBuildApp,
          file,
          polyfills,
+         importAsString
      }) => {
 
 
@@ -79,7 +81,6 @@ const rollupConfig =
                 : browsers;
             cssBrowsers = cssBrowsers || targets;
         }
-
 
         return {
             inputOptions: {
@@ -154,10 +155,12 @@ const rollupConfig =
                             dest: output
                         }))
                     }),
+                    importAsString && string(importAsString),
                     url({
                         limit: 0,
                         fileName: (legacy ? '../' : '') + "[dirname][name][extname]"
                     }),
+
                     compress !== false && [
                         terser({
                             sourcemap: true,
@@ -174,7 +177,6 @@ const rollupConfig =
                             toplevel: modern || format === 'cjs' || format === 'esm',
                             safari10: true
                         }),
-                        terser()
                     ],
                     preset !== presets.start && filesize()
                 ).filter(Boolean),
@@ -198,26 +200,25 @@ const rollupConfig =
                     }
                     : (
                         // preset === presets.build_app ?
-                            {
-                                dir: path.join(output, legacy ? '/legacy' : ''),
-                                format: modern ? 'esm' : format,
-                                ...(multiBuildApp ? {
-                                    dynamicImportFunction: !legacy && 'importShim'
-                                } : {}),
-                                entryFileNames: '[name]-[hash].js',
-                                chunkFileNames: "[name]-[hash].js",
-                                globals,
-                                sourcemap,
-
-                            }
-                            // : // preset.start
-                            // {
-                            //     dir: output,
-                            //     format: modern ? 'esm' : format,
-                            //     sourcemap,
-                            //     globals,
-                            //     chunkFileNames: "chunk-[name].js"
-                            // }
+                        {
+                            dir: path.join(output, legacy ? '/legacy' : ''),
+                            format: modern ? 'esm' : format,
+                            ...(multiBuildApp ? {
+                                dynamicImportFunction: !legacy && 'importShim'
+                            } : {}),
+                            entryFileNames: '[name]-[hash].js',
+                            chunkFileNames: "[name]-[hash].js",
+                            globals,
+                            sourcemap,
+                        }
+                        // : // preset.start
+                        // {
+                        //     dir: output,
+                        //     format: modern ? 'esm' : format,
+                        //     sourcemap,
+                        //     globals,
+                        //     chunkFileNames: "chunk-[name].js"
+                        // }
                     ))
 
             }

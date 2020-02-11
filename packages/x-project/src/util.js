@@ -13,7 +13,6 @@ import {stdout, stderr, isDir, isFile, readFile} from "@iosio/node-util";
 export const toArray = val => (Array.isArray(val) ? val : val == null ? [] : [val]);
 
 
-
 export const get_input = (inp, options) => {
     if (!inp) throw new Error('No input detected');
     if (typeof inp === 'string') inp = inp.split(',');
@@ -340,7 +339,6 @@ const getFile = (options, entry, format) => {
 
 
 export const getExternalsAndGlobals = (options, entry) => {
-
     // ------------ external ---------------
     let external = [];
 
@@ -351,10 +349,15 @@ export const getExternalsAndGlobals = (options, entry) => {
 
     const peerDeps = Object.keys(options.pkg.peerDependencies || {});
 
+
     if (options.external === 'none') {
         // bundle everything
     } else if (options.external) external = external.concat(peerDeps).concat(options.external);
     else external = external.concat(peerDeps).concat(Object.keys(options.pkg.dependencies || {}));
+
+    const externalPredicate = new RegExp(`^(${external.join('|')})($|/)`);
+
+    const externalTest = external.length === 0 ? () => false : id => externalPredicate.test(id);
 
     // ------------ globals ----------------
     let globals = external.reduce((g, name) => {
@@ -367,10 +370,8 @@ export const getExternalsAndGlobals = (options, entry) => {
         globals = Object.assign(globals, parseMappingArgument(options.globals));
     }
 
-    const externalPredicate = new RegExp(`^(${external.join('|')})($|/)`);
 
-    const externalTest = options.external && options.external.length === 0
-        ? () => false : id => externalPredicate.test(id);
+
 
     return {external, externalTest, globals};
 };

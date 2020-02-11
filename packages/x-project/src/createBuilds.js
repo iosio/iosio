@@ -4,11 +4,13 @@ import {log} from "@iosio/node-util";
 
 export const createBuilds = (options) => {
     let builds = [];
-    const {globals, externalTest, external:externals} = getExternalsAndGlobals(options);
+    const {globals, externalTest, external: externals} = getExternalsAndGlobals(options);
 
     const external = id => {
         if (id === 'babel-plugin-transform-async-to-promises/helpers') return false;
-        return externalTest(id);
+        if (externalTest) {
+            return externalTest(id);
+        }
     };
     if (options.preset === presets.build_app) {
         builds = [
@@ -44,6 +46,13 @@ export const createBuilds = (options) => {
                 external
             })
         );
+    }
+
+    if(typeof options.configOverride === 'function'){
+        builds = builds.map(conf=>{
+            const overridden = options.configOverride({...conf}, options);
+            return overridden || conf;
+        })
     }
     return builds;
 };
