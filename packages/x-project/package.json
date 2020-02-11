@@ -16,6 +16,7 @@
 		"test": "exit 0"
 	},
 	"xProjectConfig": {},
+
 	"dependencies": {
 		"@iosio/node-util": "^0.6.5",
 		"@iosio/rollup-config": "^0.6.7",
