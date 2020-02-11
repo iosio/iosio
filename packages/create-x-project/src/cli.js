@@ -63,6 +63,7 @@ export const program = handler => {
 
 export const cli = async function (rawArgs) {
 
+    log.out(c=>c.green(`create-x-project version: ${version}`))
     let hasArgs = rawArgs.slice(2).length > 0;
 
     const emptyProject = await isDirEmpty(process.cwd());
