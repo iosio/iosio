@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/routing",
-	"version": "0.6.6",
+	"version": "0.7.0",
 	"description": "super slim history routing",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -14,8 +14,8 @@
 	],
 	"keywords": [],
 	"dependencies": {
-		"@iosio/obi": "^0.6.6",
-		"@iosio/util": "^0.6.4"
+		"@iosio/obi": "^0.7.0",
+		"@iosio/util": "^0.7.0"
 	},
 	"scripts": {
 		"start": "x start --project demo",
