@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/rollup-config",
-	"version": "0.6.6",
+	"version": "0.6.7",
 	"description": "rollup config used for @iosio/create-x-project",
 	"main": "src/index.js",
 	"module": "src/index.js",
