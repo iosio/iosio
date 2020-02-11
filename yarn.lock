@@ -1695,6 +1695,17 @@
     postcss-flexbugs-fixes "^4.1.0"
     postcss-preset-env "^6.7.0"
 
+"@iosio/babel-plugin-jcss@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@iosio/babel-plugin-jcss/-/babel-plugin-jcss-0.6.1.tgz#27fc375ad617dca301810a31e9e80ffe97eb275d"
+  integrity sha512-wjbbWIA7QRrJq7ZQImjkm7mwfIdNgw4b8gT6lR/Xs+cJHnx0vUh36/+biH7Yh7w0ofezidkv3y0R3lHpTQl6+A==
+  dependencies:
+    autoprefixer "^9.6.1"
+    clean-css "^4.2.1"
+    postcss "^7.0.17"
+    postcss-flexbugs-fixes "^4.1.0"
+    postcss-preset-env "^6.7.0"
+
 "@iosio/babel-plugin-minify-html-literals@^0.5.81":
   version "0.5.81"
   resolved "https://registry.yarnpkg.com/@iosio/babel-plugin-minify-html-literals/-/babel-plugin-minify-html-literals-0.5.81.tgz#6fe903a6283448c5ea1e03f0b3047c420f2ed23c"
@@ -1702,10 +1713,22 @@
   dependencies:
     html-minifier "^4.0.0"
 
+"@iosio/babel-plugin-minify-html-literals@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@iosio/babel-plugin-minify-html-literals/-/babel-plugin-minify-html-literals-0.6.1.tgz#00c493a033915cfdc7e08549da6349b4854792b1"
+  integrity sha512-9egcbbc9w5N0ZTRXLsDbb6MzquhO6SqX4WL5KGBxIMTed1pbfqkNSl2N2hqA8nd9i5Z/D17ohUtYJvjE6t2IFQ==
+  dependencies:
+    html-minifier "^4.0.0"
+
 "@iosio/babel-plugin-minify-literals@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@iosio/babel-plugin-minify-literals/-/babel-plugin-minify-literals-0.0.1.tgz#a7b2c9785b88f414f2256cb9115b70b2b21178dc"
   integrity sha512-C8BOaqccJZ6aODzXLhFHzDvhet+RU6bbyQh4inZU0WKp0lQ2vCUwG2gipb6yW2rRmO9JDAy9h4ZLsP+LLF+8nQ==
+
+"@iosio/babel-plugin-minify-literals@^0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@iosio/babel-plugin-minify-literals/-/babel-plugin-minify-literals-0.6.5.tgz#1d9b9ef6516d40df92b07f0a87cec25965d03c24"
+  integrity sha512-KqDYZt8yvb4TLAExfk9dBGOZXsM0RZz2NGtSRQ3JQRXckysMF7KNdlGOEFv36gkGDHJfPW9P6nBSUygzpnZvZg==
 
 "@iosio/create-x-project@^0.5.86":
   version "0.5.86"
@@ -1750,10 +1773,160 @@
     rollup-plugin-terser "^5.1.1"
     rollup-plugin-url "^3.0.0"
 
+"@iosio/create-x-project@^0.6.6", "@iosio/create-x-project@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@iosio/create-x-project/-/create-x-project-0.6.7.tgz#2fc51d21041889fe6d2cc72838e70e4af0ca5163"
+  integrity sha512-z0VqDRl7PMIyOgNJ/m1arxY0gKjVNMCwfOc0+vaAqgryb96f5DbSY+LL6p6QGjT8mtigZGF3YzXlp+5H0Y4U5Q==
+  dependencies:
+    "@iosio/node-util" "^0.6.5"
+    "@iosio/x-project" "^0.6.7"
+    arg "^4.1.0"
+    asyncro "^3.0.0"
+    camelcase "^5.3.1"
+    chalk "^2.4.2"
+    es6-promisify "^6.0.2"
+    esm "^3.2.25"
+    execa "^1.0.0"
+    fs-extra "^8.1.0"
+    inquirer "^6.2.2"
+    kleur "^3.0.3"
+    rimraf "^2.6.3"
+    sade "^1.7.0"
+    tiny-glob "^0.2.6"
+
+"@iosio/elemental@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@iosio/elemental/-/elemental-0.6.6.tgz#6ff52019370225ec3cea523a5ed44fc789f63e8b"
+  integrity sha512-xHY+43rH/BaeXhV+Vnw7Mn5whLMLGnAgV1G+pHwNWdQ36E1kuAvvRuDVkhCXGnSBpbCMcHDZHMIWSEkU4UD3BQ==
+  dependencies:
+    "@iosio/util" "^0.6.4"
+
+"@iosio/node-util@^0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@iosio/node-util/-/node-util-0.6.5.tgz#d49342db790d7c3ec724fc5adc92ff78bdd98d1a"
+  integrity sha512-Fl1I+dOpPxWl/ho80fGtxYkX8i210t0Ye8lXV7Y8t7dvzhgaaXaqlOKRmfU3nez/EgwuxUoz+FkIgJBH727ftQ==
+  dependencies:
+    asyncro "^3.0.0"
+    brotli-size "^4.0.0"
+    browser-sync "^2.26.7"
+    camelcase "^5.3.1"
+    connect-history-api-fallback "^1.6.0"
+    es6-promisify "^6.0.2"
+    gzip-size "^5.1.1"
+    kleur "^3.0.3"
+    pretty-bytes "^5.3.0"
+    rimraf "^3.0.1"
+    rollup "^1.31.0"
+    tiny-glob "^0.2.6"
+
+"@iosio/obi-preact-connect@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@iosio/obi-preact-connect/-/obi-preact-connect-0.6.6.tgz#9a613f346827af851e9e3491274c9face4073f75"
+  integrity sha512-UfqhLimQ1yYNtV8pA0OuGLVmzg2CRUfBJyaq+PrbttXM6pA7WTo7nK1I7H01/v5un4TLTftshJ0gh7cXCsow9Q==
+  dependencies:
+    "@iosio/obi" "^0.6.6"
+    preact "^10.3.1"
+
+"@iosio/obi@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@iosio/obi/-/obi-0.6.6.tgz#2bbdc78679308780854c22ca367da9f71cfda369"
+  integrity sha512-PO496eR9dUexgb6SYm0fjc5exuhrxMgWJI44ijOsyyfOR909M4Xm51/sLDFb1rZtve5N8Z2+nCNEivK3EeHG7g==
+  dependencies:
+    "@iosio/util" "^0.6.4"
+
+"@iosio/preact-router@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@iosio/preact-router/-/preact-router-0.6.6.tgz#0954654c626495555060caf86b508fdf42ba3cd1"
+  integrity sha512-0WXvsH6rmTqo6NB1BzQ2yrAOPnQd6gdGjw2yJWdZC6VX0YkdNuAgwGwjK2nQkpJSymkhxHRjA+l72mnpR7+Agw==
+  dependencies:
+    "@iosio/routing" "^0.6.6"
+
+"@iosio/rollup-config@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@iosio/rollup-config/-/rollup-config-0.6.7.tgz#117dd9b4d65781e1222f1219b5f252e743c6facd"
+  integrity sha512-/hJk1OlVFbyI90HNcKNAdJNugEQ09Lc84RppSxPjDXGWXpb3qQylXoJb6DxFf7rZXwiuVA9l+hEi+/Shx+Fxzg==
+  dependencies:
+    "@iosio/rollup-plugin-custom-x-babel" "^0.6.5"
+    "@rollup/plugin-alias" "^3.0.0"
+    "@rollup/plugin-commonjs" "^11.0.1"
+    "@rollup/plugin-json" "^4.0.1"
+    "@rollup/plugin-node-resolve" "^7.0.0"
+    "@rollup/plugin-url" "^4.0.2"
+    autoprefixer "^9.7.4"
+    browserslist "^4.8.6"
+    cssnano "^4.1.10"
+    postcss-flexbugs-fixes "^4.1.0"
+    rollup-plugin-babel "^4.3.3"
+    rollup-plugin-bundle-size "^1.0.3"
+    rollup-plugin-copy "^3.3.0"
+    rollup-plugin-filesize "^6.2.1"
+    rollup-plugin-index-html "^1.7.5"
+    rollup-plugin-postcss "^2.0.5"
+    rollup-plugin-string "^3.0.0"
+    rollup-plugin-terser "^5.2.0"
+    rollup-plugin-workbox "^4.0.0"
+
+"@iosio/rollup-plugin-custom-x-babel@^0.6.5":
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/@iosio/rollup-plugin-custom-x-babel/-/rollup-plugin-custom-x-babel-0.6.5.tgz#822a66cdfc324bc22db3d13219d2df451de802de"
+  integrity sha512-+ihioMahYJ7HK2dIQdRE/bJM1KYky9CTgJ0v3/Q/LoKPr+rIlUoiTUlfkaHxI3jc0nO8OM6tr65zLwBMsmlOrw==
+  dependencies:
+    "@babel/core" "^7.7.7"
+    "@babel/plugin-proposal-class-properties" "7.7.4"
+    "@babel/plugin-proposal-nullish-coalescing-operator" "^7.8.3"
+    "@babel/plugin-proposal-optional-chaining" "^7.8.3"
+    "@babel/plugin-syntax-dynamic-import" "^7.8.3"
+    "@babel/plugin-syntax-import-meta" "^7.8.3"
+    "@babel/plugin-syntax-jsx" "^7.7.4"
+    "@babel/plugin-transform-flow-strip-types" "^7.7.4"
+    "@babel/plugin-transform-react-jsx" "^7.7.7"
+    "@babel/preset-env" "^7.7.7"
+    "@babel/preset-flow" "^7.7.4"
+    "@babel/preset-modules" "^0.1.2"
+    "@iosio/babel-plugin-jcss" "^0.6.1"
+    "@iosio/babel-plugin-minify-html-literals" "^0.6.1"
+    "@iosio/babel-plugin-minify-literals" "^0.6.5"
+    babel-plugin-bundled-import-meta "^0.3.2"
+    babel-plugin-macros "^2.8.0"
+    babel-plugin-transform-async-to-promises "^0.8.15"
+    babel-plugin-transform-inline-environment-variables "^0.4.3"
+    babel-plugin-transform-replace-expressions "^0.2.0"
+    lodash.merge "^4.6.2"
+    rollup-plugin-babel "^4.3.3"
+
+"@iosio/routing@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@iosio/routing/-/routing-0.6.6.tgz#e53c85a5e41dd0cce0ed84389003594782e35a2d"
+  integrity sha512-40qleYtdLq9opQLyxQ0tYAN9nsTGREy8m3AWvBWHfmXnDAxXrT0il/iKTHndPl7TkBkInWF/a/mqlotCMNrbJg==
+  dependencies:
+    "@iosio/obi" "^0.6.6"
+    "@iosio/util" "^0.6.4"
+
 "@iosio/util@^0.5.75":
   version "0.5.81"
   resolved "https://registry.yarnpkg.com/@iosio/util/-/util-0.5.81.tgz#4c4a3b9abc9990071f62297a3742c81c73dd2157"
   integrity sha512-uD+Dys5H7WckA11Yodv0SIuUZkeQfCyuKBJQ++wtORccuRp6KfPA+PNgV63QoT7xaJvDpcYGjbQUH8xpO97NyQ==
+
+"@iosio/util@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@iosio/util/-/util-0.6.4.tgz#ba4629379db42948b86dcdd94d53d8e83e016f78"
+  integrity sha512-VeTwvaDQy66l7wvN9EiiNFvEkT70h6xYNNZGKTv9MqgyhcxLKy5fyFkMA+LladwgrA4RmrD4D1F1vGsQBbKV6g==
+
+"@iosio/x-project@^0.6.7":
+  version "0.6.7"
+  resolved "https://registry.yarnpkg.com/@iosio/x-project/-/x-project-0.6.7.tgz#7385fc40f772d5f49fa4c9aafc61700b24428e8c"
+  integrity sha512-DhznOvNdItmj/BPN0TVQ72EnTgtgHSG9DnEX+YWMT5IvxheLgg6drC1+dPeF+EJMlQ8njImEvEAxQLJKKMUhWA==
+  dependencies:
+    "@iosio/node-util" "^0.6.5"
+    "@iosio/rollup-config" "^0.6.7"
+    asyncro "^3.0.0"
+    brotli-size "^4.0.0"
+    camelcase "^5.3.1"
+    esm "^3.2.25"
+    gzip-size "^5.1.1"
+    kleur "^3.0.3"
+    pretty-bytes "^5.3.0"
+    tiny-glob "^0.2.6"
 
 "@lerna/add@3.18.0":
   version "3.18.0"
