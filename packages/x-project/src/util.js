@@ -373,7 +373,9 @@ export const getExternalsAndGlobals = (options, entry) => {
     }
 
 
-    console.log(external, globals)
+    stdout('external', external);
+    stdout('globals', globals);
+
 
 
     return {external, externalTest, globals};
