@@ -8,7 +8,7 @@ export const createBuilds = (options) => {
 
     const external = id => {
         if (id === 'babel-plugin-transform-async-to-promises/helpers') return false;
-        if (externalTest && externals.length > 0 ) {
+        if (externalTest && externals.length > 0 && !options.noExternals) {
             return externalTest(id);
         }
     };
