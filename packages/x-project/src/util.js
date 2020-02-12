@@ -342,6 +342,8 @@ export const getExternalsAndGlobals = (options, entry) => {
     // ------------ external ---------------
     let external = [];
 
+
+
     if (options.target !== 'web') {
         external.concat(['dns', 'fs', 'path', 'url']);
     }
@@ -371,6 +373,7 @@ export const getExternalsAndGlobals = (options, entry) => {
     }
 
 
+    console.log(external, globals)
 
 
     return {external, externalTest, globals};

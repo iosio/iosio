@@ -8,7 +8,7 @@ export const createBuilds = (options) => {
 
     const external = id => {
         if (id === 'babel-plugin-transform-async-to-promises/helpers') return false;
-        if (externalTest && externals.length > 0 || externalTest && !options.noExternals) {
+        if (externalTest && externals.length > 0 ) {
             return externalTest(id);
         }
     };
@@ -18,8 +18,8 @@ export const createBuilds = (options) => {
             options.multiBuildApp && rollupConfig({
                 ...options,
                 legacy: true,
-                globals,
                 format: 'system',
+                globals,
                 external
             }),
             rollupConfig({
