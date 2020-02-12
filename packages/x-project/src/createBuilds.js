@@ -8,11 +8,12 @@ export const createBuilds = (options) => {
 
     const external = id => {
         if (id === 'babel-plugin-transform-async-to-promises/helpers') return false;
-        if (externalTest) {
+        if (externalTest && !options.noExternals) {
             return externalTest(id);
         }
     };
     if (options.preset === presets.build_app) {
+
         builds = [
             options.multiBuildApp && rollupConfig({
                 ...options,
@@ -24,7 +25,7 @@ export const createBuilds = (options) => {
             rollupConfig({
                 ...options,
                 globals,
-                external,
+                external
             })
         ].filter(Boolean);
     } else if (options.preset === presets.start) {

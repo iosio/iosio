@@ -116,6 +116,8 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
 
     options.importAsString = getOption('importAsString');
 
+    options.noExternals = getOption('noExternals');
+
     return options;
 };
 
