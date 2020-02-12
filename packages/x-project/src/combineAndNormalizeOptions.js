@@ -32,8 +32,8 @@ export const combineAndNormalizeOptions = async (inputOptions) => {
     if(conf && conf.default) conf = conf.default;
 
     let getOption = (key) => {
-        if (options[key]) return options[key];
-        if (options.project && conf.project && conf.project[options.project] && conf.project[options.project][key]) {
+        if (options.hasOwnProperty(key)) return options[key];
+        if (options.project && conf.project && conf.project[options.project] && conf.project[options.project].hasOwnProperty(key)) {
             return conf.project[options.project][key]
         }
         return conf[key];
