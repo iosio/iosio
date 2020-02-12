@@ -8,7 +8,7 @@ export const createBuilds = (options) => {
 
     const external = id => {
         if (id === 'babel-plugin-transform-async-to-promises/helpers') return false;
-        if (externalTest && !options.noExternals) {
+        if (externalTest && externals.length > 0 || externalTest && !options.noExternals) {
             return externalTest(id);
         }
     };
@@ -49,8 +49,8 @@ export const createBuilds = (options) => {
         );
     }
 
-    if(typeof options.configOverride === 'function'){
-        builds = builds.map(conf=>{
+    if (typeof options.configOverride === 'function') {
+        builds = builds.map(conf => {
             const overridden = options.configOverride({...conf}, options);
             return overridden || conf;
         })
