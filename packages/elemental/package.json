@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/elemental",
-	"version": "0.7.0",
+	"version": "0.7.8",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -18,9 +18,9 @@
 		"lib"
 	],
 	"dependencies": {
-		"@iosio/obi": "^0.7.0",
-		"@iosio/util": "^0.7.0",
-		"@iosio/xact": "^0.7.0"
+		"@iosio/obi": "^0.7.8",
+		"@iosio/util": "^0.7.8",
+		"@iosio/xact": "^0.7.8"
 	},
 	"xProjectConfig": {
 		"project": {

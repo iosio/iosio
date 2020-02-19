@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/babel-plugin-minify-html-literals",
-	"version": "0.7.0",
+	"version": "0.7.8",
 	"description": "custom babel plugin for minifying html template strings in javascript",
 	"main": "lib/index.js",
 	"module": "index.js",
