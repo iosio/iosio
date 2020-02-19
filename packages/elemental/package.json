@@ -10,14 +10,24 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "x build_lib",
-		"test": "exit 0"
+		"test": "exit 0",
+		"start": "x start --project dev"
 	},
 	"files": [
 		"src",
 		"lib"
 	],
 	"dependencies": {
-		"@iosio/util": "^0.7.0"
+		"@iosio/obi": "^0.7.0",
+		"@iosio/util": "^0.7.0",
+		"@iosio/xact": "^0.7.0"
 	},
-	"xProjectConfig": {}
+	"xProjectConfig": {
+		"project": {
+			"dev": {
+				"input": "dev/index.js",
+				"html": "dev/index.html"
+			}
+		}
+	}
 }

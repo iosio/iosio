@@ -74,7 +74,9 @@ const customBabel = babelPlugin.custom(babelCore => {
                     customOptions.minifyLiterals && {
                         name: '@iosio/babel-plugin-minify-literals'
                     },
-
+                    customOptions.minifyHtmlLiterals && {
+                        name: '@iosio/babel-plugin-minify-html-literals'
+                    },
                     {
                         name: '@babel/plugin-syntax-dynamic-import',
                     },

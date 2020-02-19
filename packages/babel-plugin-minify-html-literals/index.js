@@ -2,19 +2,8 @@
 
 /* inspired by: https://github.com/art-bazhin/babel-plugin-postcss-template-literals */
 
-var minify = require('html-minifier').minify;
 
 const regex = /____EXPR_ID_(\d+)____/g;
-
-// function handlePlugin(pluginArg) {
-//     if (Array.isArray(pluginArg)) {
-//         return require(pluginArg[0]).apply(null, pluginArg.slice(1));
-//     } else if (typeof pluginArg === 'string') {
-//         return require(pluginArg);
-//     } else {
-//         return pluginArg;
-//     }
-// }
 
 function buildQuasisAst(t, quasis) {
     return quasis.map((quasi, i) => {
@@ -58,7 +47,7 @@ function getExprId(i) {
 
 const DEFAULT_OPTIONS = {
     tag: 'html',
-    replace: ''
+    replace: 'html'
 };
 
 module.exports = function ({types: t}) {
@@ -66,10 +55,6 @@ module.exports = function ({types: t}) {
         visitor: {
             TaggedTemplateExpression(path, {opts, file}) {
                 opts = Object.assign({}, DEFAULT_OPTIONS, opts);
-                let htmlOpts = Object.assign(
-                    {},
-                    opts.htmlOpts
-                );
 
                 if (path.node.tag.name !== opts.tag) return;
                 if (opts.replace) {
@@ -79,24 +64,12 @@ module.exports = function ({types: t}) {
                 let quasis = path.node.quasi.quasis;
                 let exprs = path.node.quasi.expressions;
 
-                let html = quasis.reduce((acc, quasi, i) => {
+                let string = quasis.reduce((acc, quasi, i) => {
                     let expr = exprs[i] ? getExprId(i) : '';
                     return acc + quasi.value.raw + expr;
                 }, '');
 
-                // console.log('*************** html *************');
-                // console.log(html);
-                let processed = html.split('\n').join(' ').replace(/  +/g, ' ');
-                // console.log('*************** processed *************');
-                // console.log(processed);
-                //     minify(html, {
-                //     collapseWhitespace: true,
-                //     caseSensitive: true,
-                //     minifyCSS: true,
-                //     removeComments: true,
-                //     ...htmlOpts
-                // });
-
+                let processed = string.split('\n').join(' ').replace(/  +/g, ' ');
 
                 let split = splitExpressions(processed);
                 let quasisAst = buildQuasisAst(t, split.quasis);

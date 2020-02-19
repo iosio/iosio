@@ -1773,7 +1773,7 @@
     rollup-plugin-terser "^5.1.1"
     rollup-plugin-url "^3.0.0"
 
-"@iosio/create-x-project@^0.6.6", "@iosio/create-x-project@^0.6.7":
+"@iosio/create-x-project@^0.6.6":
   version "0.6.7"
   resolved "https://registry.yarnpkg.com/@iosio/create-x-project/-/create-x-project-0.6.7.tgz#2fc51d21041889fe6d2cc72838e70e4af0ca5163"
   integrity sha512-z0VqDRl7PMIyOgNJ/m1arxY0gKjVNMCwfOc0+vaAqgryb96f5DbSY+LL6p6QGjT8mtigZGF3YzXlp+5H0Y4U5Q==
@@ -6783,7 +6783,7 @@ lit-element@^2.0.1:
   dependencies:
     lit-html "^1.0.0"
 
-lit-html@^1.0.0:
+lit-html@^1.0.0, lit-html@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.1.2.tgz#2e3560a7075210243649c888ad738eaf0daa8374"
   integrity sha512-FFlUMKHKi+qG1x1iHNZ1hrtc/zHmfYTyrSvs3/wBTvaNtpZjOZGWzU7efGYVpgp6KvWeKF6ql9/KsCq6Z/mEDA==
@@ -8754,6 +8754,11 @@ preact@^10.3.1:
   version "10.3.1"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.3.1.tgz#70a2cc5484ca727c992216dfc528907d240e0a05"
   integrity sha512-CaKtEY235GtuypRRvaMxM3PNy44OzQj8BO7plXbPwF+iJzNnUufgHtqRA6NbjeWnfy+cN1dP1MFTAGxJmCiPqQ==
+
+preact@^10.3.2:
+  version "10.3.2"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.3.2.tgz#1dabd1747b54de4e6820c7d2eadbb8bc4c2e3047"
+  integrity sha512-yIx4i7gp45enhzX4SLkvvR20UZ+YOUbMdj2KEscU/dC70MHv/L6dpTcsP+4sXrU9SRbA3GjJQQCPfFa5sE17dQ==
 
 pretty-bytes@^3.0.0:
   version "3.0.1"

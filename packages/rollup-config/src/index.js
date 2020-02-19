@@ -77,8 +77,7 @@ const rollupConfig =
 
         let targets;
         if (target !== 'node') {
-            targets = multiBuildApp ? (legacy ? ['ie 11'] : (browsers || lastTwoTargets))
-                : browsers;
+            targets = multiBuildApp ? (legacy ? ['ie 11'] : (browsers || lastTwoTargets)) : browsers;
             cssBrowsers = cssBrowsers || targets;
         }
 
@@ -116,8 +115,7 @@ const rollupConfig =
                         browser: target !== 'node',
                     }),
                     commonjs({
-                        // use a regex to make sure to include eventual hoisted packages
-                        include: /\/node_modules\//,
+                        include: /\/node_modules\//,// use a regex to make sure to include eventual hoisted packages
                     }),
                     json(),
                     (preset !== presets.build_lib && (htmljs || html)) && indexHTML({
@@ -160,7 +158,6 @@ const rollupConfig =
                         limit: 0,
                         fileName: (legacy ? '../' : '') + "[dirname][name][extname]"
                     }),
-
                     compress !== false && [
                         terser({
                             sourcemap: true,
@@ -206,8 +203,8 @@ const rollupConfig =
                             ...(multiBuildApp ? {
                                 dynamicImportFunction: !legacy && 'importShim'
                             } : {}),
-                            entryFileNames: '[name]-[hash].js',
-                            chunkFileNames: "[name]-[hash].js",
+                            entryFileNames: preset === presets.start ? '[name].js':'[name]-[hash].js',
+                            chunkFileNames: preset === presets.start ? '[name].js':'[name]-[hash].js',
                             globals,
                             sourcemap,
                         }

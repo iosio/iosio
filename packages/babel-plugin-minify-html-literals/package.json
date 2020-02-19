@@ -27,8 +27,5 @@
 		"input": "index.js",
 		"target": "node",
 		"sourcemap": false
-	},
-	"dependencies": {
-		"html-minifier": "^4.0.0"
 	}
 }

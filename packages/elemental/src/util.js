@@ -14,7 +14,7 @@ export const CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE = "adoptedStyleSheets" in docu
  */
 export const headStyleTag = (id, mount) => {
     let style = document.createElement('style');
-    if(id) style.id = id;
+    if (id) style.id = id;
     style.appendChild(document.createTextNode(""));
     (mount || document.head).appendChild(style);
     return (css) => (style.appendChild(document.createTextNode(css)), style);
@@ -77,7 +77,6 @@ export const createRefs = (element, refs, selector) => {
 };
 
 
-
 export const createRefsFromIDs = (element, refs) => createRefs(element, refs, '#');
 
 const tagTemplateCache = {};
@@ -95,7 +94,6 @@ export const appendTemplate = (tag, element, templateStr) => {
 };
 
 
-
 export const templateToHost = (host, html) => {
     let temp = document.createElement('template');
     temp.innerHTML = html;
@@ -104,10 +102,10 @@ export const templateToHost = (host, html) => {
 };
 
 
-export const TemplateMapFactory = () =>{
+export const TemplateMapFactory = () => {
     const cache = {};
-    return (id, content)=>{
-        if(!cache[id]){
+    return (id, content) => {
+        if (!cache[id]) {
             const temp = document.createElement('template');
             temp.innerHTML = content;
             cache[id] = temp
@@ -159,3 +157,9 @@ export const formatType = (value, type) => {
     };
     return {value, error: true};
 };
+
+export const compose = (...mixins) => base =>
+    mixins.reduce((acc, curr) => {
+        acc = curr(acc);
+        return acc;
+    }, base);

@@ -31,9 +31,7 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
 
     coerceToVNode = (possibleVNode) => {
         if (possibleVNode == null || isBool(possibleVNode)) return null;
-        if (isString(possibleVNode) || isNum(possibleVNode)) {
-            return createVNode(null, possibleVNode, null, null);
-        }
+        if (isString(possibleVNode) || isNum(possibleVNode)) return createVNode(null, possibleVNode, null, null);
         if (possibleVNode._dom != null || possibleVNode._component != null) {
             let vnode = createVNode(possibleVNode.type, possibleVNode.props, possibleVNode.key, null);
             vnode._dom = possibleVNode._dom;
@@ -259,4 +257,8 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
         );
     };
 
-export {Fragment, createElement as h, render, toChildArray, setProperty};
+export {
+    Fragment,
+    createElement as h,
+    render, toChildArray, setProperty
+};

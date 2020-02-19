@@ -20,8 +20,7 @@
   "devDependencies": {
     "@iosio/lorem": "^0.7.0",
     "@iosio/util": "^0.7.0",
-    "@iosio/x": "^0.7.0",
-    "fuse.js": "^3.4.5"
+    "@iosio/x": "^0.7.0"
   },
   "xProjectConfig": {
     "project": {

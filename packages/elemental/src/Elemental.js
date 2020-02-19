@@ -12,11 +12,6 @@ import {
 
 const IGNORE_ATTR = Symbol();
 
-/*
-    @TODO
-    - cache refs
-    -
- */
 
 export class Elemental extends HTMLElement {
     constructor() {
@@ -67,6 +62,7 @@ export class Elemental extends HTMLElement {
         shadow && render();
         const initialUpdate = () => {
             !shadow && render();
+            this.renderer && this.renderer(root, this.props, this.prevProps, this.changedProps);
             this.didMount && this.didMount(this.props, this.prevProps, this.changedProps);
             this.hasMounted = true;
             if (this.propLogic) {
@@ -78,6 +74,7 @@ export class Elemental extends HTMLElement {
         };
 
         const subsequentUpdate = () => {
+            this.renderer && this.renderer(root, this.props, this.prevProps, this.changedProps);
             this.didUpdate && this.didUpdate(this.props, this.prevProps, this.changedProps);
             if (this.propLogic) {
                 const logic = this.propLogic();
@@ -95,6 +92,7 @@ export class Elemental extends HTMLElement {
         };
 
         let length = initAttrs.length;
+
         while (length--) initAttrs[length](this);
 
         this.update();
@@ -164,11 +162,6 @@ export class Elemental extends HTMLElement {
         });
     }
 
-    didMount() {
-    }
-
-    didUpdate() {
-    }
 
     willUnmount() {
 

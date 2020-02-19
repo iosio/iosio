@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../src/index.js"],"sourcesContent":["import {createMediaMatch} from \"./createMediaMatch\";\n\nconst {mediaMatch, getStyles, screenSizes} = createMediaMatch();\n\nexport {mediaMatch, getStyles, screenSizes};"],"names":["mediaMatch","getStyles","screenSizes","createMediaMatch"],"mappings":"kFAEMA,WAACA,EAADC,UAAaA,EAAbC,YAAwBA,GAAeC"}
