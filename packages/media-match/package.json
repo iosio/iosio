@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/media-match",
-	"version": "0.7.8",
+	"version": "0.7.9",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -12,7 +12,7 @@
 		"test": "exit 0"
 	},
 	"dependencies": {
-		"@iosio/obi": "^0.7.8"
+		"@iosio/obi": "^0.7.9"
 	},
 	"xProjectConfig": {
 		"input": "src/*"
