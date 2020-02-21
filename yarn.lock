@@ -1794,13 +1794,6 @@
     sade "^1.7.0"
     tiny-glob "^0.2.6"
 
-"@iosio/elemental@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@iosio/elemental/-/elemental-0.6.6.tgz#6ff52019370225ec3cea523a5ed44fc789f63e8b"
-  integrity sha512-xHY+43rH/BaeXhV+Vnw7Mn5whLMLGnAgV1G+pHwNWdQ36E1kuAvvRuDVkhCXGnSBpbCMcHDZHMIWSEkU4UD3BQ==
-  dependencies:
-    "@iosio/util" "^0.6.4"
-
 "@iosio/node-util@^0.6.5":
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/@iosio/node-util/-/node-util-0.6.5.tgz#d49342db790d7c3ec724fc5adc92ff78bdd98d1a"
@@ -1818,28 +1811,6 @@
     rimraf "^3.0.1"
     rollup "^1.31.0"
     tiny-glob "^0.2.6"
-
-"@iosio/obi-preact-connect@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@iosio/obi-preact-connect/-/obi-preact-connect-0.6.6.tgz#9a613f346827af851e9e3491274c9face4073f75"
-  integrity sha512-UfqhLimQ1yYNtV8pA0OuGLVmzg2CRUfBJyaq+PrbttXM6pA7WTo7nK1I7H01/v5un4TLTftshJ0gh7cXCsow9Q==
-  dependencies:
-    "@iosio/obi" "^0.6.6"
-    preact "^10.3.1"
-
-"@iosio/obi@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@iosio/obi/-/obi-0.6.6.tgz#2bbdc78679308780854c22ca367da9f71cfda369"
-  integrity sha512-PO496eR9dUexgb6SYm0fjc5exuhrxMgWJI44ijOsyyfOR909M4Xm51/sLDFb1rZtve5N8Z2+nCNEivK3EeHG7g==
-  dependencies:
-    "@iosio/util" "^0.6.4"
-
-"@iosio/preact-router@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@iosio/preact-router/-/preact-router-0.6.6.tgz#0954654c626495555060caf86b508fdf42ba3cd1"
-  integrity sha512-0WXvsH6rmTqo6NB1BzQ2yrAOPnQd6gdGjw2yJWdZC6VX0YkdNuAgwGwjK2nQkpJSymkhxHRjA+l72mnpR7+Agw==
-  dependencies:
-    "@iosio/routing" "^0.6.6"
 
 "@iosio/rollup-config@^0.6.7":
   version "0.6.7"
@@ -1894,23 +1865,17 @@
     lodash.merge "^4.6.2"
     rollup-plugin-babel "^4.3.3"
 
-"@iosio/routing@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@iosio/routing/-/routing-0.6.6.tgz#e53c85a5e41dd0cce0ed84389003594782e35a2d"
-  integrity sha512-40qleYtdLq9opQLyxQ0tYAN9nsTGREy8m3AWvBWHfmXnDAxXrT0il/iKTHndPl7TkBkInWF/a/mqlotCMNrbJg==
-  dependencies:
-    "@iosio/obi" "^0.6.6"
-    "@iosio/util" "^0.6.4"
-
 "@iosio/util@^0.5.75":
   version "0.5.81"
   resolved "https://registry.yarnpkg.com/@iosio/util/-/util-0.5.81.tgz#4c4a3b9abc9990071f62297a3742c81c73dd2157"
   integrity sha512-uD+Dys5H7WckA11Yodv0SIuUZkeQfCyuKBJQ++wtORccuRp6KfPA+PNgV63QoT7xaJvDpcYGjbQUH8xpO97NyQ==
 
-"@iosio/util@^0.6.4":
-  version "0.6.4"
-  resolved "https://registry.yarnpkg.com/@iosio/util/-/util-0.6.4.tgz#ba4629379db42948b86dcdd94d53d8e83e016f78"
-  integrity sha512-VeTwvaDQy66l7wvN9EiiNFvEkT70h6xYNNZGKTv9MqgyhcxLKy5fyFkMA+LladwgrA4RmrD4D1F1vGsQBbKV6g==
+"@iosio/x-base@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@iosio/x-base/-/x-base-0.7.0.tgz#bedc780e4eb5700022e1995ea15bd589d1037ad3"
+  integrity sha512-NYPq2MSxZfn4vLdb35u5I9s5k7Wv8xlaq1BP92wVsg0ahXY2aC0sgL+xU7zbb8U36DOw3FJjwdKOqpB/sSQMGQ==
+  dependencies:
+    "@iosio/util" "^0.7.0"
 
 "@iosio/x-project@^0.6.7":
   version "0.6.7"
@@ -1927,6 +1892,14 @@
     kleur "^3.0.3"
     pretty-bytes "^5.3.0"
     tiny-glob "^0.2.6"
+
+"@iosio/x@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@iosio/x/-/x-0.7.0.tgz#63bb85329fe6487772be764674391a61b28bf86b"
+  integrity sha512-yD7vgqg3fYRXfV8o+Fk82HliQhTm2k9ymi9Ra+4dIs48P2ZKDJsDkdtjPeI4xl2ckuFK/AGiTJvU0lz7Kct6BQ==
+  dependencies:
+    "@iosio/x-base" "^0.7.0"
+    "@iosio/xact" "^0.7.0"
 
 "@lerna/add@3.18.0":
   version "3.18.0"
@@ -5486,11 +5459,6 @@ function-bind@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
-
-fuse.js@^3.4.5:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.4.5.tgz#8954fb43f9729bd5dbcb8c08f251db552595a7a6"
-  integrity sha512-s9PGTaQIkT69HaeoTVjwGsLfb8V8ScJLx5XGFcKHg0MqLUH/UZ4EKOtqtXX9k7AFqCGxD1aJmYb8Q5VYDibVRQ==
 
 gauge@~2.7.3:
   version "2.7.4"

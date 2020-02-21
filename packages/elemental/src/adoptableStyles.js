@@ -46,7 +46,7 @@ export const adoptableStyles = base => class extends base {
     }
 
     connectedCallback() {
-        !this.shadowRoot && this._adoptify();
         if (super.connectedCallback) super.connectedCallback();
+        !this.shadowRoot && this._adoptify();
     }
 };

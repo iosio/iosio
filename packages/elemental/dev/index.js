@@ -4,7 +4,6 @@ import {reactiveState} from "../src/reactiveState";
 import {vdom, h, render, Fragment} from "../src/vdom";
 import {reactiveProps} from "../src/reactiveProps";
 import {staticTemplate} from "../src/staticTemplate";
-import {shadowElement} from "../src/shadowElement";
 import {adoptableStyles} from "../src/adoptableStyles";
 import {proxyRefs} from "../src/proxyRefs";
 import {propLogic} from "../src/propLogic";

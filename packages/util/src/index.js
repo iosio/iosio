@@ -398,6 +398,8 @@ export const extend = (obj, props) => {
     return obj
 };
 
+export const assign = (obj, props) => extend(obj, props);
+
 
 export function debounce(func, wait, immediate) {
     var timeout;

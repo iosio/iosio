@@ -1,10 +1,9 @@
 const tagTemplateCache = new Map();
-
 export const appendTemplate = (element, templateStr) => {
     if (!element || !templateStr) return;
-    let el = element.shadowRoot || element;
-    let signature = element.constructor.tag || element.constructor;
-    let temp = tagTemplateCache.get(signature);
+    let el = element.shadowRoot || element,
+        signature = element.constructor,
+        temp = tagTemplateCache.get(signature);
     if (!temp) {
         temp = document.createElement('template');
         temp.innerHTML = templateStr;
@@ -17,12 +16,13 @@ export const appendTemplate = (element, templateStr) => {
 export const staticTemplate = base => class extends base {
     constructor() {
         super();
-        this._templify = () => appendTemplate(this, this.constructor.template);
+        const temp = this.constructor.template;
+        this._templify = () => temp && appendTemplate(this, temp);
         this.shadowRoot && this._templify();
     }
 
     connectedCallback() {
-        !this.shadowRoot && this._templify();
         if (super.connectedCallback) super.connectedCallback();
+        !this.shadowRoot && this._templify();
     }
 };

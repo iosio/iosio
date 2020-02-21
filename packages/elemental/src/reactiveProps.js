@@ -1,8 +1,45 @@
-import {attrToProp, formatType, propToAttr, updateAttribute} from "./util";
+import {isArray, isObj} from "@iosio/util";
+
+export const propToAttr = (prop) => prop.replace(/([A-Z])/g, "-$1").toLowerCase();
+export const attrToProp = (attr) => attr.replace(/-(\w)/g, (all, letter) => letter.toUpperCase());
+export const isCustomElement = (el, isAttr) => {
+    if (!el.getAttribute || !el.localName) return false;
+    isAttr = el.getAttribute('is');
+    return el.localName.includes('-') || isAttr && isAttr.includes('-');
+};
+export const updateAttribute = (node, attr, value) => {
+    (value === null || value === false || value === 'null' || value === 'false')
+        ? node.removeAttribute(attr)
+        : node.setAttribute(attr, isCustomElement(node) && (isObj(value) || isArray(value)) ? JSON.stringify(value) : value);
+};
+
+/**
+ * for parsing the incoming attributes into consumable props
+ * @param value
+ * @param type
+ * @returns {{error: boolean, value: *}}
+ */
+export const formatType = (value, type) => {
+    type = type || String;
+    if (type == Boolean) value = [true, 1, "", "1", "true"].includes(value);
+    else if (typeof value == "string") {
+        value = type == Number
+            ? Number(value) : type == Object || type == Array
+                ? JSON.parse(value) : value;
+    }
+    if (type === 'any') return {value, error: false};
+    if ({}.toString.call(value) == `[object ${type.name}]`) return {
+        value,
+        error: type == Number && Number.isNaN(value)
+    };
+    return {value, error: true};
+};
+
 
 const IGNORE_ATTR = Symbol();
-
 export const reactiveProps = base => class extends base {
+    static __reactivePropsMixin = true;
+
     constructor() {
         super();
         const {initAttrs} = this.constructor;
@@ -31,8 +68,11 @@ export const reactiveProps = base => class extends base {
         return this.processing;
     }
 
+    beforeInitialUpdate() {
+    }
 
     _initialUpdate() {
+        this.beforeInitialUpdate(this.props, this.prevProps, this.changedProps);
         this.initialUpdate();
         this.didMount && this.didMount(this.props, this.prevProps, this.changedProps);
         this.hasMounted = true;
@@ -60,6 +100,11 @@ export const reactiveProps = base => class extends base {
         if (super.attributeChangedCallback) super.attributeChangedCallback(attr, oldValue, newValue);
         if (this[IGNORE_ATTR] === attr || oldValue === newValue) return;
         this[attrToProp(attr)] = newValue;
+    }
+
+    disconnectedCallback() {
+        if (this.isConnected) return;
+        this.willUnmount && this.willUnmount();
     }
 
     static get observedAttributes() {
