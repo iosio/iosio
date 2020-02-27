@@ -1563,6 +1563,11 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@boulevard/vampire@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@boulevard/vampire/-/vampire-1.0.0-beta.2.tgz#55cb5275ebffeda36f957e764edee646124a1f03"
+  integrity sha512-x+Udj2iTPZ4wlQsceOFacqRlgaqHcdbtNNLteBOECUVgr1q/5Ygz0S0S6EOBT9k/fINIBKmIeExDWB9l61A7jw==
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -5825,6 +5830,11 @@ hsla-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/hsla-regex/-/hsla-regex-1.0.0.tgz#c1ce7a3168c8c6614033a4b5f7877f3b225f9c38"
   integrity sha1-wc56MWjIxmFAM6S194d/OyJfnDg=
+
+htm@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/htm/-/htm-3.0.3.tgz#376163975363b3101dc9154046b1200f87790fcc"
+  integrity sha512-+LZu7FSZJNo/mGhF5zOgyLdcYTQ8brOqwJFXwP/F/Q9IyvBp3HcYT1tk5A6rf67NEW0VEV+2Y8O4pMGmBIci/w==
 
 html-comment-regex@^1.1.0:
   version "1.1.2"
@@ -10255,6 +10265,11 @@ stylehacks@^4.0.0:
     browserslist "^4.0.0"
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
+
+superfine@^6:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/superfine/-/superfine-6.0.1.tgz#a7b63a910bd5995f3e199d7484b6dccc3543289f"
+  integrity sha512-dd6XBZi5kpCn/QomQqT1M9NNWgeTsWs0TB0J+Z0/ccmrtfp8fpsldLc7xSKEf2DSEeq+u4kTCf8AdurVJ7Blfg==
 
 supports-color@^2.0.0:
   version "2.0.0"

@@ -59,6 +59,7 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
             sibling = vnode._children[childIndex];
             if (sibling != null && sibling._dom != null) return sibling._dom;
         }
+
         return isFunc(vnode.type) ? getDomSibling(vnode) : null;
     },
 
@@ -85,6 +86,7 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
         if (r = vnode._children) for (let i = 0; i < r.length; i++) if (r[i]) unmount(r[i], parentVNode, skipRemove);
         if (dom != null) dom.remove();
     },
+
     diffChildren = (parentDom, newParentVNode, oldParentVNode, context, isSvg, excessDomChildren, oldDom) => {
         let i, j, oldVNode, newDom, sibDom, firstChildDom, refs;
         let oldChildren = oldParentVNode && oldParentVNode._children || EMPTY_ARR;
@@ -102,8 +104,11 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
                 childVNode._parent = newParentVNode;
                 childVNode._depth = newParentVNode._depth + 1;
                 oldVNode = oldChildren[i];
+
                 if (oldVNode === null || oldVNode && childVNode.key == oldVNode.key && childVNode.type === oldVNode.type) {
+
                     oldChildren[i] = undefined;
+
                 } else {
                     for (j = 0; j < oldChildrenLength; j++) {
                         oldVNode = oldChildren[j];
@@ -120,10 +125,15 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
                 if ((j = childVNode.ref) && oldVNode.ref != j) (refs || (refs = [])).push(j, newDom, childVNode);
 
                 if (newDom != null) {
+
                     if (firstChildDom == null) firstChildDom = newDom;
+
                     if (childVNode._lastDomChild != null) {
+
                         newDom = childVNode._lastDomChild;
+
                         childVNode._lastDomChild = null;
+
                     } else if (excessDomChildren == oldVNode || newDom != oldDom || newDom.parentNode == null) {
 
                         outer: if (oldDom == null || oldDom.parentNode !== parentDom) {
@@ -136,12 +146,17 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
                             }
                             parentDom.insertBefore(newDom, oldDom);
                         }
+
                         if (newParentVNode.type == 'option') parentDom.value = '';
+
                     }
+
                     oldDom = newDom.nextSibling;
+
                     if (isFunc(newParentVNode.type)) newParentVNode._lastDomChild = newDom;
                 }
             }
+
             i++;
             return childVNode;
         });
@@ -157,16 +172,34 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
         if (refs) for (i = 0; i < refs.length; i++) applyRef(refs[i], refs[++i], refs[++i]);
     },
 
+//     let oldHtml = oldVProps.dangerouslySetInnerHTML,
+//     newHtml = newVProps.dangerouslySetInnerHTML;
+//
+// if (newHtml || oldHtml) {
+//     if (!newHtml || !oldHtml || newHtml.__html != oldHtml.__html) {
+//         console.log('setting inner html')
+//         node.innerHTML = (newHtml && newHtml.__html) || '';
+//     }
+//     if (newHtml) {
+//         console.log('skipping diff')
+//         return (newVNode.node = node)
+//     }
+// }
 
     diffElementNodes = (dom, newVNode, oldVNode, context, isSvg, excessDomChildren) => {
+
         let i,
             oldProps = oldVNode.props,
             newProps = newVNode.props,
             newVNodeType = newVNode.type;
+
         isSvg = newVNodeType === 'svg' || isSvg;
+
         if (dom == null && excessDomChildren != null) {
             for (i = 0; i < excessDomChildren.length; i++) {
+
                 const child = excessDomChildren[i];
+
                 if (child != null && (newVNodeType === null ? child.nodeType === 3 : child.localName === newVNodeType)) {
                     dom = child;
                     excessDomChildren[i] = null;
@@ -174,20 +207,28 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
                 }
             }
         }
+
         if (dom == null) {
             if (newVNodeType === null) return d.createTextNode(newProps);
             dom = isSvg
                 ? d.createElementNS('http://www.w3.org/2000/svg', newVNodeType)
                 : d.createElement(newVNodeType);
+
             excessDomChildren = null;
         }
 
         if (newVNodeType === null) {
+
             if (excessDomChildren != null) excessDomChildren[excessDomChildren.indexOf(dom)] = null;
+
             if (oldProps !== newProps) dom.data = newProps;
+
         } else if (newVNode !== oldVNode) {
+
             if (excessDomChildren != null) excessDomChildren = EMPTY_ARR.slice.call(dom.childNodes);
+
             oldProps = oldVNode.props || EMPTY_OBJ;
+
             let oldHtml = oldProps.dangerouslySetInnerHTML, newHtml = newProps.dangerouslySetInnerHTML;
 
             if (oldProps === EMPTY_OBJ) {
@@ -199,15 +240,26 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
             }
 
             diffProps(dom, newProps, oldProps, isSvg);
+
             newVNode._children = newVNode.props.children;
+
             if (!newHtml) {
                 diffChildren(
-                    dom, newVNode, oldVNode, context, newVNode.type === 'foreignObject' ? false : isSvg,
-                    excessDomChildren, EMPTY_OBJ
+                    dom,
+                    newVNode,
+                    oldVNode,
+                    context,
+                    newVNode.type === 'foreignObject' ? false : isSvg,
+                    excessDomChildren,
+                    EMPTY_OBJ
                 );
             }
-            if ('value' in newProps && newProps.value !== undefined && newProps.value !== dom.value) dom.value = newProps.value == null ? '' : newProps.value;
-            if ('checked' in newProps && newProps.checked !== undefined && newProps.checked !== dom.checked) dom.checked = newProps.checked;
+            if ('value' in newProps && newProps.value !== undefined && newProps.value !== dom.value){
+                dom.value = newProps.value == null ? '' : newProps.value;
+            }
+            if ('checked' in newProps && newProps.checked !== undefined && newProps.checked !== dom.checked){
+                dom.checked = newProps.checked;
+            }
 
         }
         return dom;
@@ -222,9 +274,24 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
             tmp = newType(newProps);
             let isTopLevelFragment = tmp != null && tmp.type == Fragment && tmp.key == null;
             newVNode._children = toChildArray(isTopLevelFragment ? tmp.props.children : tmp);
-            diffChildren(parentDom, newVNode, oldVNode, context, isSvg, excessDomChildren, oldDom);
+            diffChildren(
+                parentDom,
+                newVNode,
+                oldVNode,
+                context,
+                isSvg,
+                excessDomChildren,
+                oldDom
+            );
         } else {
-            newVNode._dom = diffElementNodes(oldVNode._dom, newVNode, oldVNode, context, isSvg, excessDomChildren);
+            newVNode._dom = diffElementNodes(
+                oldVNode._dom,
+                newVNode,
+                oldVNode,
+                context,
+                isSvg,
+                excessDomChildren
+            );
         }
         return newVNode._dom;
     },
@@ -244,16 +311,19 @@ const applyRef = (ref, value) => isFunc(ref) ? ref(value) : (ref.current = value
     },
 
     render = (vnode, parentDom) => {
+
         let oldVNode = parentDom._children;
+
         vnode = createElement(Fragment, null, [vnode]);
+
         diff(
-            parentDom,
-            parentDom._children = vnode,
-            oldVNode || EMPTY_OBJ,
-            EMPTY_OBJ,
-            parentDom.ownerSVGElement !== undefined,
-            oldVNode ? null : EMPTY_ARR.slice.call(parentDom.childNodes),
-            EMPTY_OBJ,
+            parentDom, // parentDom
+            parentDom._children = vnode, // newVNode
+            oldVNode || EMPTY_OBJ, // oldVNode
+            EMPTY_OBJ, // context
+            parentDom.ownerSVGElement !== undefined, // isSvg
+            oldVNode ? null : EMPTY_ARR.slice.call(parentDom.childNodes), //excessDomChildren
+            EMPTY_OBJ, //oldDom
         );
     };
 

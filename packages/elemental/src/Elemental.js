@@ -1,34 +1,43 @@
-import {compose} from "./util";
-import {BaseElement} from "./BaseElement";
-import {adoptableStyles} from "./adoptableStyles";
-import {propLogic} from "./propLogic";
-import {proxyRefs} from "./proxyRefs";
-import {reactiveProps} from "./reactiveProps";
-import {reactiveState} from "./reactiveState";
-import {staticTemplate} from "./staticTemplate";
-import {updatableStyles} from "./updatableStyles";
+import {template as appendTemplate} from "./template";
+import {styles as adoptStyles} from "./styles";
 import {events} from "./events";
+import {propLogic} from "./propLogic";
+import {refs} from "./refs";
+import {state} from "./state"
 
-export const Elemental = compose(
-    reactiveProps,
-    reactiveState,
-    adoptableStyles,
-    staticTemplate,
-    updatableStyles,
-    proxyRefs,
-    propLogic,
-    events
-)(class extends HTMLElement {
+export class Elemental extends Base {
     constructor() {
         super();
-        const {shadow} = this.constructor;
-        shadow && this.attachShadow({mode: 'open'});
+        const {styles, template, refOptions} = this.constructor;
+        styles && adoptStyles(styles)(this);
+        template && appendTemplate(template)(this);
+        state(this.state)(this);
+        events()(this);
+        refs(refOptions)(this);
+        this.logic = (this.propLogic ? propLogic(this.propLogic) : NOOP)(this);
     }
-});
 
-Elemental.define = (...elements) => {
-    elements.forEach((e) => {
-        if (!e.tag) return console.error('The Elemental base class requires a tag name on the static "tag" property', e);
-        customElements.define(e.tag, e);
-    })
-};
+    initialUpdate() {
+        this.beforeInitialUpdate(...this.getArgs());
+        this.unmount = this.didMount(...this.getArgs()) || NOOP();
+        this.logic[0] && this.logic[0]();
+    }
+
+    subsequentUpdate() {
+        this.didUpdate(...this.getArgs());
+        this.logic[1] && this.logic[1]();
+    }
+
+    beforeInitialUpdate() {
+    }
+
+    didMount() {
+    }
+
+    onStateChange() {
+    }
+
+    didUpdate() {
+    }
+}
+

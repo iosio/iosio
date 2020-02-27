@@ -28,6 +28,10 @@
 				"input": "dev/index.js",
 				"html": "dev/index.html"
 			}
-		}
+		},
+		"input": "src/Component.js"
+	},
+	"devDependencies": {
+		"asyncro": "^3.0.0"
 	}
 }

@@ -176,38 +176,42 @@ export const Subie = () => {
             subs = out;
         };
     return {
-        unsub,
-        sub: sub => (subs.push(sub), () => unsub(sub)),
-        notify: (...data) => subs.forEach(s => s && s(...data))
+        subs, unsub, sub: sub => (subs.push(sub), () => unsub(sub)),
+        notify: (...data) => {
+            for (let s = 0; s < subs.length; s++) subs[s] && subs[s](...data);
+        }
     }
 };
 
+
 //synthetic events
+export const Eve = (all) => {
+    all = all || Object.create(null);
+    let off = (event, handler) => all[event] && all[event].splice(all[event].indexOf(handler) >>> 0, 1),
+        on = (event, handler) => ((all[event] || (all[event] = [])).push(handler), () => off(event, handler));
+    return {
+        on, off, destroy: (event) => delete all[event],
+        emit: (event, ...data) => {
+            (all[event] || []).slice().map(fn => fn(...data));
+            (all['*'] || []).slice().map(fn => fn(event, ...data));
+        }
+    };
+};
 export const Eventer = (all) => {
     all = all || Object.create(null);
-    const on = (event, handler) => (all[event] || (all[event] = [])).push(handler);
-    const off = (event, handler) => all[event] && all[event].splice(all[event].indexOf(handler) >>> 0, 1);
-    let counter = 0;
-    const once = (event, handler) => {
-        const func = {};
-        const ename = event + '_' + (counter++) + '_';
-        const oneTimeCall = ename + 'only_called_once';
-        const unregister = () => off(event, func[oneTimeCall]);
-        func[oneTimeCall] = () => {
-            handler && handler();
-            unregister();
+    let on = (event, handler) => (all[event] || (all[event] = [])).push(handler),
+        off = (event, handler) => all[event] && all[event].splice(all[event].indexOf(handler) >>> 0, 1),
+        counter = 0, once = (event, handler) => {
+            const func = {}, oneTimeCall = (counter++) + '', unregister = () => off(event, func[oneTimeCall]);
+            func[oneTimeCall] = (...data) => (handler(...data), unregister());
+            on(event, func[oneTimeCall]);
+            return unregister;
         };
-        on(event, func[oneTimeCall]);
-        return unregister;
-    };
     return {
-        on,
-        off,
-        once,
-        destroy: (event) => delete all[event],
-        emit: function emit(event, data) {
-            (all[event] || []).slice().map((fn) => fn(data));
-            (all['*'] || []).slice().map((fn) => fn(event, data));
+        on, off, once, destroy: (event) => delete all[event],
+        emit: (event, ...data) => {
+            (all[event] || []).slice().map(fn => fn(...data));
+            (all['*'] || []).slice().map(fn => fn(event, ...data));
         }
 
     };

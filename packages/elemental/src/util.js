@@ -1,22 +1,3 @@
-import {eventListener} from "@iosio/util";
-import {isString} from "@iosio/util";
-
-export {eventListener}
-
-export const createDom = ({type, tag, value, attrs = {}, props = {}, children = []}) => {
-    let dom = type === 'fragment'
-        ? document.createDocumentFragment()
-        : (type === 'text' ? document.createTextNode(value) : document.createElement(tag));
-    for (let a in attrs) dom.setAttribute(a, attrs[a]);
-    for (let p in props) {
-        if (p === 'ref') props[p](dom);
-        else if (p === 'style' && isString(p)) dom.style.cssText = props[p];
-        else dom[p] = props[p];
-    }
-    children.forEach(child => dom.appendChild(createDom(child)));
-    return dom;
-};
-
 /*------------------ STYLES -------------------------- */
 
 /**
@@ -33,29 +14,13 @@ export const headStyleTag = (id, mount) => {
     return (css) => (style.appendChild(document.createTextNode(css)), style);
 };
 
-
-export const getShadowParent = elmnt => {
-    while (elmnt.parentNode && (elmnt = elmnt.parentNode)) if (elmnt instanceof ShadowRoot) return elmnt;
-    return document;
-};
-
-
-export const createStyleTag = (css) => {
-    let style = document.createElement('style');
-    style.appendChild(document.createTextNode(css));
-    return {
-        element: style,
-        update: (css) => style.textContent = css
-    };
-};
-
 /*------------------ TEMPLATES -------------------------- */
 
-const createTemplate = html => {
+export const createTemplate = html => {
     let temp = document.createElement('template');
     temp.innerHTML = html;
     return temp;
-}
+};
 
 export const templateToHost = (host, html) => {
     let temp = createTemplate(html);
@@ -78,9 +43,16 @@ export const TemplateMapFactory = () => {
 
 export const compose = (...mixins) => base => mixins.reduce((acc, curr) => (acc = curr(acc), acc), base);
 
+export const isCustomElement = (el, isAttr) => {
+    if (!el.getAttribute || !el.localName) return false;
+    isAttr = el.getAttribute('is');
+    return el.localName.includes('-') || isAttr && isAttr.includes('-');
+};
+
 /*------------------ MISC HELPERS -------------------------- */
 
 export const booleanAttr = (ref, attr, bool) => ref[!!bool ? 'setAttribute' : 'removeAttribute'](attr, '');
 
 
 
+export let NOOP = () => [];

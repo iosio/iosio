@@ -35,8 +35,9 @@ export const setProperty = (dom, name, value, oldValue, isSvg) => {
         dom[name] = value == null ? '' : value;
     } else if (!isFunc(value) && name !== 'dangerouslySetInnerHTML') {
         if (name !== (name = name.replace(/^xlink:?/, ''))) {
-            if (value == null || value === false) dom.removeAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase());
-            else dom.setAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase(), value);
+            if (value == null || value === false){
+                dom.removeAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase());
+            } else dom.setAttributeNS('http://www.w3.org/1999/xlink', name.toLowerCase(), value);
         } else if (value == null || value === false) dom.removeAttribute(name);
         else dom.setAttribute(name, value);
     }

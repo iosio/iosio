@@ -1,7 +1,16 @@
-import {
-    createStyleTag,
-    getShadowParent
-} from "./util";
+export const createStyleTag = (css) => {
+    let style = document.createElement('style');
+    style.appendChild(document.createTextNode(css));
+    return {
+        element: style,
+        update: (css) => style.textContent = css
+    };
+};
+
+export const getShadowParent = elmnt => {
+    while (elmnt.parentNode && (elmnt = elmnt.parentNode)) if (elmnt instanceof ShadowRoot) return elmnt;
+    return document;
+};
 
 export const CONSTRUCTABLE_STYLE_SHEETS_AVAILABLE = "adoptedStyleSheets" in document;
 export const DEFAULT_SHADOWROOT_HOST_CSS_RESETS = `:host, *, *::before, *::after {box-sizing: border-box;} `;
@@ -10,9 +19,10 @@ const constructableStyleCache = new Map();
 const constructableStyleTagFallbackCache = new Map();
 
 export const adoptStyles = (element, cssString, options = {}) => {
-    const {async, useStyleTag, noDefaultResets} = options;
+    const {async, getStringOnFallback, useStyleTag, noDefaultResets} = options;
 
-    cssString = (element.shadowRoot && !noDefaultResets ? DEFAULT_SHADOWROOT_HOST_CSS_RESETS : '') + (cssString || options.cssString || '');
+    cssString = (element.shadowRoot && !noDefaultResets ? DEFAULT_SHADOWROOT_HOST_CSS_RESETS : '')
+        + (cssString || options.cssString || '');
 
     const signature = element.constructor.tag || element.constructor;
 
@@ -28,6 +38,7 @@ export const adoptStyles = (element, cssString, options = {}) => {
             adopter.adoptedStyleSheets = [...adopter.adoptedStyleSheets, constructable];
         }
     } else {
+        if (getStringOnFallback) return cssString;
         let style = constructableStyleTagFallbackCache.get(signature);
         if (!style) {
             style = createStyleTag(cssString).element;
@@ -37,16 +48,7 @@ export const adoptStyles = (element, cssString, options = {}) => {
     }
 };
 
-
-export const adoptableStyles = base => class extends base {
-    constructor() {
-        super();
-        this._adoptify = () => adoptStyles(this, this.constructor.styles, this.constructor.adoptableStyles);
-        this.shadowRoot && this._adoptify();
-    }
-
-    connectedCallback() {
-        if (super.connectedCallback) super.connectedCallback();
-        !this.shadowRoot && this._adoptify();
-    }
+export const styles = (cssString, options = {}) => (self) => {
+    let adopt = () => (self.fallbackCssString = adoptStyles(self, cssString, {getStringOnFallback: self.hasRenderer, ...options}));
+    self.shadowRoot ? adopt() : self.mounted.then(adopt);
 };

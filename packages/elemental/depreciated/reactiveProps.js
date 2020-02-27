@@ -55,8 +55,14 @@ export const reactiveProps = base => {
         }
 
         connectedCallback() {
-            if (super.connectedCallback) super.connectedCallback();
-            if (!this.hasMounted) this._mount();
+            if (!this.hasMounted){
+                if (super.connectedCallback) this.mounted.then(_ =>{
+                    console.log('reactive props connected')
+                    super.connectedCallback()
+                    this.hasMounted = true;
+                });
+                this._mount();
+            }
         }
 
 
@@ -76,7 +82,6 @@ export const reactiveProps = base => {
             this.beforeInitialUpdate(this.props, this.prevProps, this.changedProps);
             this.initialUpdate();
             this.didMount && this.didMount(this.props, this.prevProps, this.changedProps);
-            this.hasMounted = true;
         }
 
         initialUpdate() {
@@ -143,6 +148,7 @@ export const reactiveProps = base => {
             });
         }
     }
+
     ReactiveProps.__reactivePropsMixin = true;
     return ReactiveProps;
-}
+};

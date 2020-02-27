@@ -12,17 +12,4 @@ export const appendTemplate = (element, templateStr) => {
     el.appendChild(temp.content.cloneNode(true));
 };
 
-
-export const staticTemplate = base => class extends base {
-    constructor() {
-        super();
-        const temp = this.constructor.template;
-        this._templify = () => temp && appendTemplate(this, temp);
-        this.shadowRoot && this._templify();
-    }
-
-    connectedCallback() {
-        if (super.connectedCallback) super.connectedCallback();
-        !this.shadowRoot && this._templify();
-    }
-};
+export const template = string => self => self.mounted.then(() => appendTemplate(self, string));

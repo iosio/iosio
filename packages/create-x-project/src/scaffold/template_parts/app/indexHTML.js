@@ -1,4 +1,4 @@
-export default ({name,htmljs}) => {
+export default ({name, htmljs}) => {
 
     let html = `\
 <!doctype html>
@@ -10,15 +10,33 @@ export default ({name,htmljs}) => {
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <base href="/">
         <title>${name || ''}</title>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:500,700&display=swap&text=1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz%20"
-              rel="stylesheet">
+        <style>
+            html, body {
+                font-family: 'Montserrat', BlinkMacSystemFont, -apple-system, Roboto, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                background: var(--x-bg1, #fff);
+                -webkit-overflow-scrolling: touch;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                flex: 1 0 auto;
+                align-items: flex-start;
+                overflow-x: hidden;
+            }
+            *, *::before,
+            *::after {
+                box-sizing: border-box;
+             }
+        </style>
 </head>
 <body>
 </body>
 </html>`;
 
 
-    if(htmljs){
+    if (htmljs) {
         html = `\
 export default () => \`
 ${html}

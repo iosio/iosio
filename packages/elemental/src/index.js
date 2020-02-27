@@ -1,17 +1,12 @@
-// export * from './Elemental';
-export * from './util';
+export {element} from "./el";
+export * from "./events";
+export * from "./propLogic";
+export * from "./propTypes";
+export * from "./refs";
+export * from "./renderer";
+export * from "./state";
+export * from "./styles";
+export * from "./template";
+export * from "./util";
 
-export {Elemental} from "./Elemental";
-
-export {adoptableStyles} from "./adoptableStyles";
-export {BaseElement} from "./BaseElement";
-export {propLogic} from "./propLogic";
-export {proxyRefs} from "./proxyRefs";
-export {reactiveProps} from "./reactiveProps";
-export {reactiveState} from "./reactiveState";
-export {staticTemplate} from "./staticTemplate";
-export {updatableStyles} from "./updatableStyles";
-export {ShadowElement} from "./ShadowElement";
-export {events} from "./events";
-
-export {vdom} from "./vdom";
+const supportsCustomElementsV1 = 'customElements' in window;
