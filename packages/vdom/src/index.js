@@ -43,7 +43,6 @@ const RECYCLED_NODE = 1,
                 if (!value || !oldValue || value.__html != oldValue.__html) {
                     dom.innerHTML = (value && value.__html) || '';
                 }
-                value && console.log('setting dangerouslySetInnerHTML');
                 if (value) return true
             }
         } else if (!(['list', 'tagName', 'form', 'type', 'size'].includes(name)) && !isSvg && name in dom) {

@@ -1,4 +1,8 @@
-export {element} from "./el";
+export * from "./Base";
+export * from "./Component";
+export * from "./el";
+export * from "./Element"
+export * from "./Elemental"
 export * from "./events";
 export * from "./propLogic";
 export * from "./propTypes";
@@ -8,5 +12,3 @@ export * from "./state";
 export * from "./styles";
 export * from "./template";
 export * from "./util";
-
-const supportsCustomElementsV1 = 'customElements' in window;

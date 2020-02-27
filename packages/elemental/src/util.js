@@ -53,6 +53,6 @@ export const isCustomElement = (el, isAttr) => {
 
 export const booleanAttr = (ref, attr, bool) => ref[!!bool ? 'setAttribute' : 'removeAttribute'](attr, '');
 
-
+export const supportsCustomElementsV1 = 'customElements' in window;
 
 export let NOOP = () => [];
