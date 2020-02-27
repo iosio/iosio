@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/create-x-project",
-	"version": "0.7.8",
+	"version": "0.7.12",
 	"description": "cli for generating, developing and bundling modern web apps and libraries",
 	"license": "MIT",
 	"author": "iosio",
@@ -26,8 +26,8 @@
 		"boilerplate"
 	],
 	"dependencies": {
-		"@iosio/node-util": "^0.7.8",
-		"@iosio/x-project": "^0.7.8",
+		"@iosio/node-util": "^0.7.12",
+		"@iosio/x-project": "^0.7.12",
 		"arg": "^4.1.0",
 		"asyncro": "^3.0.0",
 		"camelcase": "^5.3.1",

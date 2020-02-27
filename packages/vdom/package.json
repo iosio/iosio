@@ -1,6 +1,6 @@
 {
 	"name": "@iosio/vdom",
-	"version": "0.0.1",
+	"version": "0.7.12",
 	"description": "",
 	"main": "lib/index.js",
 	"module": "src/index.js",
@@ -13,7 +13,7 @@
 		"test": "exit 0"
 	},
 	"devDependencies": {
-		"@iosio/create-x-project": "^0.7.8"
+		"@iosio/create-x-project": "^0.7.12"
 	},
 	"xProjectConfig": {
 		"project": {
@@ -25,6 +25,6 @@
 		}
 	},
 	"dependencies": {
-		"@iosio/util": "^0.7.9"
+		"@iosio/util": "^0.7.12"
 	}
 }
