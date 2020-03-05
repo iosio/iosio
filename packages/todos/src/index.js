@@ -85,14 +85,24 @@ export const todos = obi({
     setSearchValue,
     addTodo(e) {
         e && e.preventDefault();
-        todos.list.push({
-            name: todos.todoName,
-            id: count++,
-            completed: false
-        });
+        todos.list.push();
         clearCache();
-        todos.displayList = todos.list = [...todos.list];
-        todos.searchValue = todos.todoName = '';
+        let newList = [
+            ...todos.list,
+            {
+                name: todos.todoName,
+                id: count++,
+                completed: false
+            }
+        ];
+        // todos.displayList = todos.list = [...todos.list];
+        // todos.searchValue = todos.todoName = '';
+        todos.$merge({
+            displayList: newList,
+            list: newList,
+            searchValue: '',
+            todoName: ''
+        })
     },
     captureEnter(e) {
         if (((e.keyCode || e.which) === 13)) todos.addTodo(e);

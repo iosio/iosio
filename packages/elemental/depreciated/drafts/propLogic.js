@@ -1,14 +1,16 @@
-export const propLogic = function (propLogic) {
+export const propLogic = (propLogic) =>{
     return (self) => [
         () => {
             const logic = propLogic(true);
-            Object.keys(self.props).forEach(prop => {
+            logic && Object.keys(self.props).forEach(prop => {
                 logic[prop] && logic[prop](self.props[prop], self.refs, self);
             });
         },
         () => {
             const logic = propLogic();
-            self.changedProps.forEach(prop => logic[prop] && logic[prop](self.props[prop], self.refs, self))
+            logic && self.changedProps.forEach(prop => logic[prop] && logic[prop](self.props[prop], self.refs, self))
         }
     ];
 };
+
+

@@ -1,1 +1,0 @@
-import {CustomElementsRouter} from "../../src";

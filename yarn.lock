@@ -1563,11 +1563,6 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@boulevard/vampire@^1.0.0-beta.2":
-  version "1.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@boulevard/vampire/-/vampire-1.0.0-beta.2.tgz#55cb5275ebffeda36f957e764edee646124a1f03"
-  integrity sha512-x+Udj2iTPZ4wlQsceOFacqRlgaqHcdbtNNLteBOECUVgr1q/5Ygz0S0S6EOBT9k/fINIBKmIeExDWB9l61A7jw==
-
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"

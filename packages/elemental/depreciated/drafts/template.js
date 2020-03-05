@@ -12,4 +12,8 @@ export const appendTemplate = (element, templateStr) => {
     el.appendChild(temp.content.cloneNode(true));
 };
 
-export const template = string => self => self.mounted.then(() => appendTemplate(self, string));
+export const template = string => self => {
+    // let append = () => appendTemplate(self, string);
+    // self.shadowRoot ? append() : self.initialized.then(append);
+    appendTemplate(self, string);
+};

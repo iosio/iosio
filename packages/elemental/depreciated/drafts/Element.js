@@ -6,8 +6,10 @@ export class Element extends HTMLElement {
         super();
         const {styles, shadow, template} = this.constructor;
         shadow && this.attachShadow({mode: 'open'});
+        this.initialized = new Promise(mount => (this.init = mount));
         this.mounted = new Promise(mount => (this.mount = mount));
         this.mounted.then(this.didMount);
+        this.initialized.then(this.mount);
         styles && adoptStyles(styles)(this);
         template && appendTemplate(template)(this);
     }
@@ -15,7 +17,7 @@ export class Element extends HTMLElement {
     connectedCallback() {
         if (this.isMounted) return;
         this.isMounted = true;
-        this.mount();
+        this.init();
     }
 
     disconnectedCallback() {

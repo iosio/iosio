@@ -9,6 +9,7 @@ import {proxyRefs} from "../src/proxyRefs";
 import {propLogic} from "../src/propLogic";
 import {BaseElement} from "../src/BaseElement";
 import {compose} from "../src";
+import {some} from "asyncro";
 
 // const Element = vdom(reactiveState(reactiveProps(HTMLElement)));
 //
@@ -45,6 +46,8 @@ import {compose} from "../src";
 //
 // class ReactiveElement extends reactiveProps()(HTMLElement) {
 // }
+
+
 
 customElements.define('static-template',
     class extends compose(

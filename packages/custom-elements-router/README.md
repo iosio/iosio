@@ -1,12 +1,12 @@
 
     
-# @iosio/routing
+# @iosio/custom-elements-router
 
 > super slim history routing
 
 ## Installation 
 ```sh
-npm install @iosio/routing --save
+npm install @iosio/custom-elements-router --save
 ```
 ### License
 

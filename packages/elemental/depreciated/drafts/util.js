@@ -56,3 +56,7 @@ export const booleanAttr = (ref, attr, bool) => ref[!!bool ? 'setAttribute' : 'r
 export const supportsCustomElementsV1 = 'customElements' in window;
 
 export let NOOP = () => [];
+
+
+let promise = new Promise(resolve => (resolve()));
+export const defer = (fn) => promise.then(fn);

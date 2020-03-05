@@ -1,10 +1,12 @@
-
 export const propTypes = (propTypes) => (Class_or_self, define) => {
     if (!define) {
         initializeAttrs(Class_or_self);
         return;
     }
-    Class_or_self.prototype.attributeChangedCallback = propTypesAttributeFn;
+    Class_or_self.prototype.attributeChangedCallback = function(a,o,n){
+        propTypesAttributeFn(a, o, n, this)
+    };
+
     Object.defineProperty(Class_or_self, 'observedAttributes', {
         get() {
             return makePropTypes(this, propTypes);
@@ -12,20 +14,20 @@ export const propTypes = (propTypes) => (Class_or_self, define) => {
     });
 };
 
-export const initializeAttrs = self =>{
+export const initializeAttrs = self => {
     let initAttrs = self.constructor.initAttrs, length;
     if (initAttrs) {
         length = initAttrs.length;
-        while (length--) initAttrs[length](Class);
+        while (length--) initAttrs[length](self);
     }
 };
 
 
-export function propTypesAttributeFn(a, o, n) {
-    if (this[IGNORE_ATTR] === a || o === n) return;
-    this[attrToProp(a)] = n;
+export function propTypesAttributeFn(a, o, n, self) {
+    if (self[IGNORE_ATTR] === a || o === n) return;
+    self[attrToProp(a)] = n;
 }
-
+let count = 0;
 export const makePropTypes = (self, propTypes_) => {
     let {prototype, propTypes} = self;
     propTypes = propTypes || propTypes_;
@@ -57,11 +59,13 @@ export const makePropTypes = (self, propTypes_) => {
                     }
                     this.prevProps[prop] = this.props[prop];
                     this.props[prop] = value;
-                    this.update()
+                    this.update();
                 }
             });
         }
-        schema.value && self.initAttrs.push(self => (self[prop] = schema.value));
+        schema.value && self.initAttrs.push(self =>{
+            self[prop] =  schema.value
+        });
         return attr;
     });
 };
@@ -72,8 +76,12 @@ export const attrToProp = (attr) => attr.replace(/-(\w)/g, (all, letter) => lett
 export const updateAttribute = (node, attr, value) => {
     (value === null || value === false || value === 'null' || value === 'false')
         ? node.removeAttribute(attr)
-        : node.setAttribute(attr, value);
+        : node.setAttribute(
+        attr,
+        typeof value == "object" ? JSON.stringify(value) : value
+        );
 };
+
 export const formatType = (value, type) => {
     if (type === 'any') return {value, error: false};
     type = type || String;
@@ -85,6 +93,7 @@ export const formatType = (value, type) => {
         value,
         error: type == Number && Number.isNaN(value)
     };
+
     return {value, error: true};
 };
 

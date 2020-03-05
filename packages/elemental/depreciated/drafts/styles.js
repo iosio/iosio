@@ -49,6 +49,7 @@ export const adoptStyles = (element, cssString, options = {}) => {
 };
 
 export const styles = (cssString, options = {}) => (self) => {
-    let adopt = () => (self.fallbackCssString = adoptStyles(self, cssString, {getStringOnFallback: self.hasRenderer, ...options}));
-    self.shadowRoot ? adopt() : self.mounted.then(adopt);
+    // let adopt = () => ();
+    // self.shadowRoot ? adopt() : self.initialized.then(adopt);
+    self.fallbackCssString = adoptStyles(self, cssString, {getStringOnFallback: self.hasRenderer, ...options})
 };

@@ -86,6 +86,26 @@ export const arrayIncludesItemFromArray = (arr1, arr2) => {
 const validEmailRegexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const isValidEmail = email => validEmailRegexp.test(email);
 
+/**
+ * compare 2 array
+ * @param {array} before
+ * @param {array} after
+ * @example
+ * isEqualArray([1,2,3,4],[1,2,3,4]) // true
+ * isEqualArray([1,2,3,4],[1,2,3])   // false
+ * isEqualArray([5,1,2,3],[1,2,3,5]) // false
+ * isEqualArray([],[]) // true
+ * @returns {boolean}
+ */
+export function isEqualArray(before, after) {
+    let length = before.length;
+    if (length !== after.length) return false;
+    for (let i = 0; i < length; i++) {
+        if (before[i] !== after[i]) return false;
+    }
+    return true;
+}
+
 /*------------------ SORTING / FILTERS -------------------------- */
 
 export const sortOrderOfObjArr = (arr, objProp, descend) => {
@@ -423,4 +443,17 @@ export function debounce(func, wait, immediate) {
 
 export const def = (obj, prop, handlers) => Object.defineProperty(obj, prop, handlers);
 
+
+
+export const toHash = str =>
+    "css" +
+    str.split("").reduce((out, i) => (10 * out + i.charCodeAt(0)) >>> 0, 0);
+
+export const supportsCustomElementsV1 = 'customElements' in window;
+
+export const isCustomElement = (el, isAttr) => {
+    if (!el.getAttribute || !el.localName) return false;
+    isAttr = el.getAttribute('is');
+    return el.localName.includes('-') || isAttr && isAttr.includes('-');
+};
 
