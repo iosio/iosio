@@ -20,9 +20,9 @@ export const appendChild = (node, child) => node.appendChild(child);
 export const createTextNode = (text) => d.createTextNode(text);
 export const toLowerCase = (toLower) => toLower.toLowerCase();
 export const toUpperCase = (toUpper) => toUpper.toUpperCase();
+
 export const addListener = (to, ev, cb) => to.addEventListener(ev, cb);
 export const removeListener = (from, ev, cb) => from.removeEventListener(ev, cb);
-
 export const eventListener = (to, ev, cb, opts) => {
     if (!isArray(to)) return addListener(to, ev, cb, opts), () => removeListener(to, ev, cb);
     let unListenAll = [];

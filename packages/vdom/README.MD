@@ -1,6 +1,6 @@
 # @iosio/vdom
 
-> super small vdom inspired by:
+> vdom experiments
 
 
 

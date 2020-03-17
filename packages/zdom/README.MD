@@ -5,27 +5,25 @@
 Fixed a few things, using display:contents as a fragment, works in modern browsers.
 
 I find that this is all that I need, the ability to independently update instances as well as the ability 
-to subscribe and unsubscribe from stores.
+to subscribe and unsubscribe from stores when the node is removed.
 
 
 
 ```js
-import {h, render, Fragment, Host} from '@iosio/x';
-import {someSubscription} from './someSubscription';
+import {h, render, Fragment, Host} from 'zdom';
+import {someSubscription, anotherSub} from './store';
 
 
-const Counter = (props, {count}, update) => {
-    return( // hook-like functionality
-            <Host lifeCycle={() => { //once per instance.
+const CounterAndSubscriber = (props, {count = 0}, update) => {
+
+    return( // in order to achieve hook-like functionality 
+            // you can tie into 
+            <Host lifeCycle={() => { //
 
                 // call update to rerender this component
                 let unsub = someSubscription(update); 
-                return () => unsub();   //unsubscribes when unmounted
-                /*
-                  or  <Host lifeCycle={() => someSubscription(update)}> ...
-                  or an array of subscriptions may be passed
-                    <Host lifeCycle={() => [ sub1(update), sub2(update) ]}>...                     
-                */
+
+                return () => unsub();   //unsubscribes when unmounted*/
             }}>
     
                 <h1>
@@ -40,14 +38,31 @@ const Counter = (props, {count}, update) => {
         )   
 }
 
+const Subscriber = (props, state, update) => (
+    <Host lifeCycle={() => [someSubcription(update), anotherSub(update)]}>
+        <h1>
+            {someSubscription.latestValue}
+        </h1>
+    </Host>
+)
+
+const Counter = (props, {count = 0}, update) => (
+    <button onClick={() => update({count: count + 1})}>
+        Counter count: {count}
+    </button>
+)
+ 
+
 
 const App = (props, {show = false}, update) => {
     
     return (
         <Fragment>
+            
+            <Subscriber/>
 
             <button onClick={() => update({show: !show})}>
-                toggle
+                toggle counter
             </button>
 
             {
@@ -55,7 +70,7 @@ const App = (props, {show = false}, update) => {
             }   
 
             {/* another counter*/}
-            <Counter/>
+            <CounterAndSubscriber/>
 
         </Fragment>
     )

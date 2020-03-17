@@ -9,12 +9,12 @@
 	},
 	"scripts": {
 		"build": "x build_lib",
+		"start": "x start",
 		"test": "exit 0"
 	},
 	"dependencies": {
 		"@iosio/obi": "^0.7.12"
 	},
 	"xProjectConfig": {
-		"input": "src/*"
 	}
 }

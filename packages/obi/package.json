@@ -14,7 +14,7 @@
 	],
 	"keywords": [],
 	"scripts": {
-		"start": "x start",
+		"start": "x start --project dev",
 		"build": "x build_lib",
 		"test": "echo \"No test specified\" && exit 0"
 	},

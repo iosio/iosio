@@ -60,6 +60,30 @@ const customBabel = babelPlugin.custom(babelCore => {
                 pluginOptions,
             };
         },
+        /*
+            "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "7.7.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
+    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-syntax-import-meta": "^7.8.3",
+    "@babel/plugin-syntax-jsx": "^7.7.4",
+    "@babel/plugin-transform-flow-strip-types": "^7.7.4",
+    "@babel/plugin-transform-react-jsx": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-flow": "^7.7.4",
+    "@babel/preset-modules": "^0.1.2",
+    "@iosio/babel-plugin-jcss": "^0.7.12",
+    "@iosio/babel-plugin-minify-html-literals": "^0.7.12",
+    "@iosio/babel-plugin-minify-literals": "^0.7.12",
+    "babel-plugin-bundled-import-meta": "^0.3.2",
+    "babel-plugin-macros": "^2.8.0",
+    "babel-plugin-transform-async-to-promises": "^0.8.15",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "babel-plugin-transform-replace-expressions": "^0.2.0",
+    "lodash.merge": "^4.6.2",
+    "rollup-plugin-babel": "^4.3.3"
+         */
 
         config(config, {customOptions}) {
             const defaultPlugins = createConfigItems(

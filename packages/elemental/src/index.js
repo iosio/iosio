@@ -1,8 +1,6 @@
-import {obi} from "@iosio/obi";
-import {eventListener, isObj} from "@iosio/util";
-import {h, render, Fragment, Host} from "@iosio/vdom";
 
-export {h, render, Fragment, Host};
+import  {render, h, Fragment, Host} from "@iosio/vdom";
+export {render, h, Fragment, Host} from "@iosio/vdom";
 
 export class Elemental extends HTMLElement {
     constructor(props) {
@@ -27,6 +25,8 @@ export class Elemental extends HTMLElement {
         Object.assign(this, {
             unsubs: [],
             refs: proxyRefs ? refs(proxyRefs)(this) : {},
+            prevState:{},
+            state:{},
             props: {},
             prevProps: {},
             changedProps: [],
@@ -35,7 +35,7 @@ export class Elemental extends HTMLElement {
             update: () => {
                 if (!this.processing) {
                     this.processing = this.mounted.then(_ => {
-                        this.render && this.renderer();
+                        this.render && this.renderer && this.renderer();
                         if (initial) {
                             this.unmount = this.didMount(...this[GET_ARGS]()) || NOOP;
                             const logic = this.propLogic && this.propLogic(true);
@@ -64,13 +64,8 @@ export class Elemental extends HTMLElement {
         shadow && statics();
         this.initialized.then(() => {
             !shadow && statics();
-            if (this.state) {
-                this.unsubs.push((this.state = obi(this.state)).$onChange((s, paths) =>
-                    defer(() => this.onStateChange(s, paths))
-                ));
-            }
-            if(this.observe){
-                [].concat(this.observe).forEach(o=>{
+            if (this.observe) {
+                [].concat(this.observe).forEach(o => {
                     isObj(o) && o.$onChange && this.unsubs.push(o.$onChange(this.update));
                 })
             }
@@ -84,6 +79,12 @@ export class Elemental extends HTMLElement {
 
     };
 
+    setState = newState => {
+        this.prevState = {...this.state};
+        Object.assign(this.state, newState);
+        this.onStateChange(this.state, this.prevState);
+    };
+
     [GET_ARGS] = () => [this.props, this.prevProps, this.changedProps];
 
     emit = (event, detail, opts = {}, from = this) => from.dispatchEvent(
@@ -93,7 +94,7 @@ export class Elemental extends HTMLElement {
     eventListener = (to, ev, cb, opts) => this.unsubs.push(eventListener(to, ev, cb, opts));
 
     renderer = () => {
-        render(this.render(this.props, this.state, this), this.shadowRoot || this);
+        render(this.render(this.props, this.state, this.setState, this), this.shadowRoot || this);
     };
 
     connectedCallback() {
@@ -143,12 +144,18 @@ export class Elemental extends HTMLElement {
         });
     }
 
+    unsubSubs = () => {
+        let {unsubs: un} = this;
+        for (let i = un.length; i--;) un[i] && un[i]();
+        this.unsubs = [];
+    };
+
     disconnectedCallback() {
-        let {isConnected, unmount, willUnmount, unsubs: un} = this;
+        let {isConnected, unmount, willUnmount} = this;
         if (isConnected) return;
         typeof unmount === 'function' && unmount();
         willUnmount();
-        for (let i = un.length; i--;) un[i] && un[i]();
+        this.unsubSubs()
     }
 
     onStateChange = () => {
@@ -171,6 +178,23 @@ export class Elemental extends HTMLElement {
     }
 }
 
+export const isString = (thing) => typeof thing === 'string';
+export const isObj = (thing) => Object.prototype.toString.call(thing) === '[object Object]';
+export const isArray = Array.isArray;
+
+export const addListener = (to, ev, cb) => to.addEventListener(ev, cb);
+export const removeListener = (from, ev, cb) => from.removeEventListener(ev, cb);
+export const eventListener = (to, ev, cb, opts) => {
+    if (!isArray(to)) return addListener(to, ev, cb, opts), () => removeListener(to, ev, cb);
+    let unListenAll = [];
+    to.forEach(l => {
+        addListener(l[0], l[1], l[2], l[3]);
+        unListenAll.push(() => removeListener(l[0], l[1], l[2]));
+    });
+    return () => unListenAll.forEach(f => f());
+};
+
+
 const IGNORE_ATTR = Symbol(),
     INIT_ATTRS = Symbol(),
     IS_MOUNTED = Symbol(),
@@ -178,6 +202,7 @@ const IGNORE_ATTR = Symbol(),
 
 let NOOP = () => {
 };
+export const isNum = (thing) => !isNaN(parseFloat(thing)) && !isNaN(thing - 0);
 export const propToAttr = (prop) => prop.replace(/([A-Z])/g, "-$1").toLowerCase();
 export const attrToProp = (attr) => attr.replace(/-(\w)/g, (all, letter) => letter.toUpperCase());
 export const updateAttribute = (node, attr, value) => {
@@ -202,8 +227,10 @@ export const formatType = (value, type) => {
     return {value, error: true};
 };
 
+export const createElem = tag => document.createElement(tag);
+
 export const createStyleTag = (css) => {
-    let style = document.createElement('style');
+    let style = createElem('style');
     style.appendChild(document.createTextNode(css));
     return {element: style, update: (css) => style.textContent = css};
 };
@@ -248,7 +275,7 @@ export const adoptStyles = (element, cssString, options = {}) => {
 
 const globalStyleTagCache = new Map();
 export const headStyleTag = (id, mount) => {
-    let style = document.createElement('style');
+    let style = createElem('style');
     if (id) style.id = id;
     style.appendChild(document.createTextNode(""));
     (mount || document.head).appendChild(style);
@@ -275,7 +302,7 @@ export const appendTemplate = (element, templateStr) => {
         signature = element.constructor,
         temp = tagTemplateCache.get(signature);
     if (!temp) {
-        temp = document.createElement('template');
+        temp = createElem('template');
         temp.innerHTML = templateStr;
         tagTemplateCache.set(signature, temp);
     }
@@ -288,7 +315,7 @@ export const defer = (fn) => promise.then(fn);
 export const booleanAttr = (ref, attr, bool) => ref[!!bool ? 'setAttribute' : 'removeAttribute'](attr, '');
 
 export const createTemplate = html => {
-    let temp = document.createElement('template');
+    let temp = createElem('template');
     temp.innerHTML = html;
     return temp;
 };

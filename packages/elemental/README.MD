@@ -1,8 +1,8 @@
 # @iosio/elemental
 
 > Web Component Essentials with built-in adoptable styleSheets (including fallback),
-> static template caching, 
-> a 1.5kb vdom, and more...
+> static template caching, and more...
+
 
 ## Installation
 ```sh 
@@ -188,10 +188,25 @@ export class MyComponent extends Elemental{
         // this both initializes and updates the checkbox when the prop changes
         checked: (checked, {checkbox}) => checkbox.checked = checked
     });
-
-    render(props, state){
+    
+    // if you'd like to use jsx / preact / lit-html
+    // you can hook into the render cycle here. 
+    // this.render is called passing the following arguments
+    //     (this.props, this.state, this.setState, this)
+    // results from render are passed here, including the shadowRoot (if available) or the host element
+    // as the second argument
+    renderer = (resultsFromRender, shadowRootOrHost /* this.shadowRoot || this */)=>{
+        // renderer provides an extra layer of control if you'd like to create
+        // an abstracted layer on top of elemental,
+        // thus, having the results from render here provides a prehook before
+        // anything actually gets rendered
+    
+        //example with preact render
+        render(resultsFromRender, shadowRootOrHost)
+    };   
+    
+    render(props, state, setState, self /* self = this */){
         
-        // JSX syntax is just like Preact pretty much, (refs are always functions)
         return (
             <Fragment>
                 <h1 ref={r => this.my_ref = r} style={{color: 'red', fontSize: 50 /*no need for pixel vaue*/}}>
