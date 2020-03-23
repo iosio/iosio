@@ -1,6 +1,6 @@
 {
 	"name": "babel-plugin-jcss",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "custom babel plugin for template string css autoprefixing and minifying",
 	"main": "index.js",
 	"publishConfig": {
