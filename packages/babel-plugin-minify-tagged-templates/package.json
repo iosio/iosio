@@ -3,7 +3,6 @@
 	"version": "1.0.0",
 	"description": "custom babel plugin for minifying tagged template strings",
 	"main": "index.js",
-	"module": "index.js",
 	"publishConfig": {
 		"access": "public"
 	},
