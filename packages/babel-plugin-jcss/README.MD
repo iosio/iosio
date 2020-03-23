@@ -45,5 +45,12 @@ Results will look something like this
 export const styles = `:host{display:flex;align-items:center;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}`;
 ```
 
+If you need a mock, you can this. It simply returns the combined template result as a single string.
+```js
+function taggedTemplate(strings, ...values) {
+    return strings.map((string, index) => `${string}${values[index] || ''}`).join('');
+}
+```
+
 
 
