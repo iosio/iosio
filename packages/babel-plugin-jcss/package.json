@@ -1,15 +1,13 @@
 {
 	"name": "babel-plugin-jcss",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "custom babel plugin for template string css autoprefixing and minifying",
-	"main": "lib/index.js",
-	"module": "index.js",
+	"main": "index.js",
 	"publishConfig": {
 		"access": "public"
 	},
 	"license": "MIT",
 	"files": [
-		"lib",
 		"index.js"
 	],
 	"keywords": [
@@ -20,13 +18,7 @@
 		"autoprefix"
 	],
 	"scripts": {
-		"test": "exit 0",
-		"build": "x build_lib"
-	},
-	"xProjectConfig": {
-		"input": "index.js",
-		"target": "node",
-		"sourcemap": false
+		"test": "exit 0"
 	},
 	"dependencies": {
 		"autoprefixer": "^9.6.1",
