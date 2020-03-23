@@ -7,7 +7,7 @@
 ## Installation 
 
 ```sh
-npm install @iosio/babel-plugin-jcss --save-dev
+npm install babel-plugin-jcss --save-dev
 ```
 ## Usage
 
